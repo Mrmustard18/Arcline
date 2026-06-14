@@ -15,28 +15,36 @@
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Sora:wght@400;500;600&display=swap');
 
   :root {
-    /* Tactical dossier — warm ink on aged dark, desaturated ember */
-    --bg: #16110c;
-    --bg2: #1d1711;
-    --surface: #211a13;
-    --surface2: #2a2219;
-    --border: #3b3024;
-    --border-bright: #54442f;
-    --accent: #d6783a;
-    --accent-deep: #b85e28;
-    --accent-dim: rgba(214, 120, 58, 0.10);
-    --accent-glow: rgba(214, 120, 58, 0.22);
-    --ink: #e8dcc4;
-    --ink-soft: #c4b69a;
-    --muted: #8a7a62;
-    --faint: #5f5341;
-    --danger: #c0492f;
-    --radius: 4px;
-    --strength: #cf6b43;
-    --nutrition: #c2a13e;
-    --discipline: #d6783a;
-    --recovery: #7fa05a;
-    --mind: #8b7cc4;
+    /* Premium dark — near black with cool undertone, not warm brown */
+    --bg: #0e0e12;
+    --bg2: #13131a;
+    --surface: #1a1a24;
+    --surface2: #21212e;
+    --border: #2a2a3a;
+    --border-bright: #3d3d54;
+    --accent: #e8854a;
+    --accent-deep: #c4692e;
+    --accent-dim: rgba(232, 133, 74, 0.12);
+    --accent-glow: rgba(232, 133, 74, 0.30);
+    --ink: #f0eadc;
+    --ink-soft: #b8b0a0;
+    --muted: #6b6878;
+    --faint: #3e3c4a;
+    --danger: #e05252;
+    --radius: 10px;
+    --radius-sm: 6px;
+
+    /* Skill colors — vivid, distinct, each feels unique */
+    --strength:    #ff5e5e;
+    --strength-glow: rgba(255, 94, 94, 0.25);
+    --nutrition:   #f5c842;
+    --nutrition-glow: rgba(245, 200, 66, 0.25);
+    --discipline:  #e8854a;
+    --discipline-glow: rgba(232, 133, 74, 0.25);
+    --recovery:    #4ecb8d;
+    --recovery-glow: rgba(78, 203, 141, 0.25);
+    --mind:        #a78bfa;
+    --mind-glow:   rgba(167, 139, 250, 0.25);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -44,12 +52,11 @@
   body {
     background: var(--bg);
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(214,120,58,0.05), transparent),
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.012) 2px, rgba(0,0,0,0.012) 3px);
+      radial-gradient(ellipse 120% 60% at 50% 0%, rgba(232,133,74,0.06), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(167,139,250,0.04), transparent 60%);
     color: var(--ink);
     font-family: 'Sora', sans-serif;
     min-height: 100vh;
-    /* Pixel 10: 1080x2424 @ ~2.625dpr ≈ 412dp wide. Fill edge-to-edge. */
     max-width: 412px;
     margin: 0 auto;
     padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
@@ -60,62 +67,58 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(50, 18, 0, 0.12);
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: multiply;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.018) 3px, rgba(0,0,0,0.018) 4px);
+    mix-blend-mode: overlay;
   }
-
-  /* shared mono label treatment */
-  .mono { font-family: 'Space Mono', monospace; }
 
   /* HEADER */
   header {
-    padding: calc(14px + env(safe-area-inset-top, 34px)) 18px 12px;
+    padding: calc(14px + env(safe-area-inset-top, 34px)) 20px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background: linear-gradient(180deg, var(--bg) 70%, transparent);
+    background: linear-gradient(180deg, var(--bg) 60%, transparent);
     z-index: 100;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .logo-wrap { display: flex; align-items: center; gap: 9px; }
 
-  .logo-mark {
-    width: 26px; height: 26px;
-    flex-shrink: 0;
-  }
+  .logo-mark { width: 26px; height: 26px; flex-shrink: 0; }
 
   .logo {
     font-family: 'Oswald', sans-serif;
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: 5px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 6px;
     color: var(--ink);
     text-transform: uppercase;
-    padding-left: 2px;
   }
 
   .header-right { text-align: right; }
 
   .header-level {
     font-family: 'Space Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--accent);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
   }
 
   .header-date {
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-top: 1px;
+    margin-top: 2px;
   }
 
   /* NAV */
@@ -126,44 +129,48 @@
     transform: translateX(-50%);
     width: 100%;
     max-width: 412px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
+    background: rgba(13,13,18,0.92);
+    border-top: 1px solid rgba(255,255,255,0.06);
     display: flex;
     z-index: 100;
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
   nav button {
     flex: 1;
-    padding: 11px 6px 14px;
+    padding: 12px 6px 14px;
     background: none;
     border: none;
     color: var(--muted);
     font-family: 'Space Mono', monospace;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     transition: color 0.15s;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    min-height: 56px;
+    min-height: 58px;
+    will-change: color;
   }
 
   nav button.active { color: var(--accent); }
-  nav button.active svg { filter: drop-shadow(0 0 4px var(--accent-glow)); }
-  nav button svg { width: 20px; height: 20px; }
+  nav button.active svg { filter: drop-shadow(0 0 6px var(--accent-glow)); }
+  nav button svg { width: 20px; height: 20px; stroke-width: 1.8; }
   nav button .nav-tick {
-    width: 4px; height: 4px; border-radius: 50%;
+    width: 3px; height: 3px; border-radius: 50%;
     background: var(--accent);
-    margin-top: 2px;
     opacity: 0;
-    transition: opacity 0.15s;
+    transition: opacity 0.2s;
+    box-shadow: 0 0 6px var(--accent);
   }
   nav button.active .nav-tick { opacity: 1; }
+
 
   /* PAGES */
   .page { display: none; padding: 16px 14px 24px; }
@@ -310,78 +317,96 @@
   .skills-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
   .skill-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 13px 13px 12px;
+    padding: 14px;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
+  .skill-card:active { transform: scale(0.97); }
 
-  /* left status bar on each tile */
-  .skill-card { border-left: 2px solid var(--border); }
-  .skill-card.strength { border-left-color: var(--strength); }
-  .skill-card.nutrition { border-left-color: var(--nutrition); }
-  .skill-card.discipline { border-left-color: var(--discipline); }
-  .skill-card.recovery { border-left-color: var(--recovery); }
-  .skill-card.mind { border-left-color: var(--mind); }
+  /* Glowing top border per skill */
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .skill-card.strength { box-shadow: 0 0 0 1px rgba(255,94,94,0.15), 0 4px 20px rgba(255,94,94,0.08); }
+  .skill-card.strength::before { background: var(--strength); box-shadow: 0 0 12px var(--strength); }
+  .skill-card.nutrition { box-shadow: 0 0 0 1px rgba(245,200,66,0.15), 0 4px 20px rgba(245,200,66,0.08); }
+  .skill-card.nutrition::before { background: var(--nutrition); box-shadow: 0 0 12px var(--nutrition); }
+  .skill-card.discipline { box-shadow: 0 0 0 1px rgba(232,133,74,0.15), 0 4px 20px rgba(232,133,74,0.08); }
+  .skill-card.discipline::before { background: var(--discipline); box-shadow: 0 0 12px var(--discipline); }
+  .skill-card.recovery { box-shadow: 0 0 0 1px rgba(78,203,141,0.15), 0 4px 20px rgba(78,203,141,0.08); }
+  .skill-card.recovery::before { background: var(--recovery); box-shadow: 0 0 12px var(--recovery); }
+  .skill-card.mind { box-shadow: 0 0 0 1px rgba(167,139,250,0.15), 0 4px 20px rgba(167,139,250,0.08); }
+  .skill-card.mind::before { background: var(--mind); box-shadow: 0 0 12px var(--mind); }
 
   .skill-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 9px;
+    margin-bottom: 10px;
   }
 
   .skill-name {
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     color: var(--muted);
     font-weight: 700;
   }
 
-  .skill-icon { font-size: 15px; opacity: 0.85; }
+  .skill-icon { font-size: 16px; }
 
   .skill-rank {
     font-family: 'Oswald', sans-serif;
-    font-size: 19px;
-    font-weight: 600;
-    margin-bottom: 9px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 3px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--ink);
+    line-height: 1;
   }
 
   .skill-bar-track {
-    height: 3px;
-    background: var(--bg);
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
     overflow: hidden;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
+    margin-top: 8px;
   }
 
   .skill-bar-fill {
     height: 100%;
+    border-radius: 2px;
     transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
   }
 
-  .skill-card.strength .skill-bar-fill { background: var(--strength); }
-  .skill-card.nutrition .skill-bar-fill { background: var(--nutrition); }
-  .skill-card.discipline .skill-bar-fill { background: var(--discipline); }
-  .skill-card.recovery .skill-bar-fill { background: var(--recovery); }
-  .skill-card.mind .skill-bar-fill { background: var(--mind); }
+  .skill-card.strength .skill-bar-fill { background: var(--strength); box-shadow: 0 0 8px var(--strength); }
+  .skill-card.nutrition .skill-bar-fill { background: var(--nutrition); box-shadow: 0 0 8px var(--nutrition); }
+  .skill-card.discipline .skill-bar-fill { background: var(--discipline); box-shadow: 0 0 8px var(--discipline); }
+  .skill-card.recovery .skill-bar-fill { background: var(--recovery); box-shadow: 0 0 8px var(--recovery); }
+  .skill-card.mind .skill-bar-fill { background: var(--mind); box-shadow: 0 0 8px var(--mind); }
 
   .skill-xp {
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--faint);
-    letter-spacing: 0.5px;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
   }
 
   /* STATS ROW — instrument readouts */
@@ -1087,82 +1112,93 @@
   .skill-mind .skill-indicator { background: var(--skill-mind); }
 
 
-  .today-head { margin-bottom: 18px; }
-  .today-date { font-size: 11px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; }
+  .today-head { margin-bottom: 22px; }
+  .today-date { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
   .today-title {
     font-family: 'Oswald', sans-serif;
-    font-size: 34px;
+    font-size: 42px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--ink);
     margin-top: 2px;
+    line-height: 1;
   }
 
   .task {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
     border-radius: var(--radius);
-    padding: 16px 15px;
+    padding: 16px;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 14px;
     cursor: pointer;
-    transition: all 0.18s;
+    transition: transform 0.15s, box-shadow 0.15s;
     position: relative;
     overflow: hidden;
+    will-change: transform, opacity;
   }
-  .task:active { transform: scale(0.99); }
-  .task.workout-task { border-left-color: var(--strength); }
-  .task.meal-task { border-left-color: var(--nutrition); }
-  .task.habit-task { border-left-color: var(--mind); }
+  .task:active { transform: scale(0.98); }
+  .task::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1.5px;
+    opacity: 0.6;
+  }
+  .task.workout-task { border-color: rgba(255,94,94,0.2); }
+  .task.workout-task::after { background: var(--strength); }
+  .task.workout-task:active { box-shadow: 0 0 20px rgba(255,94,94,0.12); }
+  .task.meal-task { border-color: rgba(245,200,66,0.2); }
+  .task.meal-task::after { background: var(--nutrition); }
+  .task.meal-task:active { box-shadow: 0 0 20px rgba(245,200,66,0.12); }
+  .task.habit-task { border-color: rgba(167,139,250,0.2); }
+  .task.habit-task::after { background: var(--mind); }
+  .task.habit-task:active { box-shadow: 0 0 20px rgba(167,139,250,0.12); }
 
   .task-check {
-    width: 26px; height: 26px;
-    border: 2px solid var(--border-bright);
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--border-bright);
     border-radius: 50%;
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.18s;
+    background: transparent;
   }
-  .task.completing .task-check { background: var(--accent); border-color: var(--accent); }
-  .task-check svg { width: 14px; height: 14px; opacity: 0; transition: opacity 0.18s; stroke: #1a120a; }
+  .task.completing .task-check { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+  .task-check svg { width: 14px; height: 14px; opacity: 0; transition: opacity 0.18s; stroke: #fff; }
   .task.completing .task-check svg { opacity: 1; }
 
   .task-body { flex: 1; min-width: 0; }
-  .task-kicker { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
-  .task-title { font-family: 'Oswald', sans-serif; font-size: 19px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; color: var(--ink); line-height: 1.1; margin-top: 2px; }
-  .task-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .task-kicker { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .task-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--ink); line-height: 1.1; margin-top: 3px; }
+  .task-sub { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 5px; }
   .task-arrow { color: var(--faint); flex-shrink: 0; }
 
-  .task.removing { opacity: 0; transform: translateX(40px); max-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; border-width: 0; }
+  .task.removing { opacity: 0; transform: translateX(40px); max-height: 0; margin: 0; padding: 0; border-width: 0; transition: all 0.25s ease-in; }
 
-  .today-empty { text-align: center; padding: 48px 20px; }
+  .today-empty { text-align: center; padding: 60px 20px; }
   .today-empty-mark {
-    width: 56px; height: 56px; margin: 0 auto 14px;
-    border: 2px solid var(--accent); border-radius: 50%;
+    width: 68px; height: 68px; margin: 0 auto 18px;
+    border: 1.5px solid var(--accent); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 26px; color: var(--accent);
+    font-size: 30px; color: var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow);
   }
-  .today-empty-title { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; text-transform: uppercase; color: var(--ink); }
-  .today-empty-sub { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .today-empty-title { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; text-transform: uppercase; color: var(--ink); }
+  .today-empty-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 8px; line-height: 1.7; }
 
   .setup-link {
-    display: block;
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    background: none;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius);
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: 1px;
-    cursor: pointer;
+    display: block; width: 100%; margin-top: 20px; padding: 14px;
+    background: none; border: 1px dashed var(--border);
+    border-radius: var(--radius); color: var(--muted);
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 1px; cursor: pointer; transition: all 0.15s;
   }
   .setup-link:active { border-color: var(--accent); color: var(--accent); }
+
 
   .coach-note {
     background: var(--accent-dim);
@@ -1230,6 +1266,85 @@
   }
   .sched-day-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); }
   .sched-day-focus { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
+
+  /* ===================== SKILL DETAIL ===================== */
+  .skill-card { cursor: pointer; transition: transform 0.15s, border-color 0.15s; }
+  .skill-card:active { transform: scale(0.97); }
+
+  .skill-detail {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 5000;
+    overflow-y: auto;
+    padding: calc(14px + env(safe-area-inset-top, 34px)) 16px calc(100px + env(safe-area-inset-bottom, 0px));
+    animation: fadeIn 0.2s ease-out;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .sd-back {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: none; color: var(--muted);
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; padding: 0; margin-bottom: 20px;
+  }
+  .sd-back:active { color: var(--accent); }
+
+  .sd-header { margin-bottom: 20px; }
+  .sd-skill-name {
+    font-family: 'Oswald', sans-serif; font-size: 36px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .sd-rank { font-family: 'Space Mono', monospace; font-size: 11px; margin-top: 2px; }
+  .sd-xp-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  .sd-xp-num { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; }
+  .sd-xp-needed { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .sd-bar-track { height: 8px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+  .sd-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease-out; }
+
+  .sd-next-unlock {
+    background: var(--surface); border: 1px solid var(--border-bright);
+    border-radius: var(--radius); padding: 12px 14px; margin: 16px 0;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sd-next-icon { font-size: 22px; }
+  .sd-next-title { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .sd-next-name { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; color: var(--ink); }
+  .sd-next-lvl { font-family: 'Space Mono', monospace; font-size: 10px; margin-top: 2px; }
+
+  .sd-actions-title { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+
+  .sd-action {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px;
+    margin-bottom: 8px; display: flex; align-items: center;
+    justify-content: space-between; cursor: pointer;
+    transition: all 0.15s; position: relative; overflow: hidden;
+  }
+  .sd-action:active { border-color: var(--accent); transform: scale(0.98); }
+  .sd-action.done { border-color: var(--accent); opacity: 0.6; }
+  .sd-action.done::after { content: '✓'; position: absolute; right: 14px; color: var(--accent); font-weight: 900; font-size: 18px; }
+  .sd-action-left {}
+  .sd-action-label { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
+  .sd-action-note { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 3px; }
+  .sd-action-xp { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; }
+
+  .sd-unlocks-title { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin: 20px 0 10px; }
+
+  .sd-unlock-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .sd-unlock-level {
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 700;
+    min-width: 32px; color: var(--muted);
+  }
+  .sd-unlock-level.earned { color: var(--accent); }
+  .sd-unlock-name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; text-transform: uppercase; }
+  .sd-unlock-name.earned { color: var(--accent); }
+  .sd-unlock-desc { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .sd-lock-icon { margin-left: auto; font-size: 14px; color: var(--border-bright); flex-shrink: 0; }
 
   /* TOAST */
   .toast {
@@ -1544,37 +1659,43 @@
 
   <div class="section-label">Skill Readout</div>
   <div class="skills-grid">
-    <div class="skill-card strength">
+    <div class="skill-card strength" onclick="showSkillDetail('strength')">
       <div class="skill-top"><span class="skill-name">Strength</span><span class="skill-icon">⚔</span></div>
-      <div class="skill-rank" id="strengthRank">Recruit</div>
+      <div class="skill-rank" id="strengthRank">Rookie</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="strengthBar" style="width:0%"></div></div>
       <div class="skill-xp" id="strengthXP">0 XP</div>
     </div>
-    <div class="skill-card nutrition">
+    <div class="skill-card nutrition" onclick="showSkillDetail('nutrition')">
       <div class="skill-top"><span class="skill-name">Nutrition</span><span class="skill-icon">🥗</span></div>
-      <div class="skill-rank" id="nutritionRank">Recruit</div>
+      <div class="skill-rank" id="nutritionRank">Rookie</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="nutritionBar" style="width:0%"></div></div>
       <div class="skill-xp" id="nutritionXP">0 XP</div>
     </div>
-    <div class="skill-card discipline">
-      <div class="skill-top"><span class="skill-name">Discipline</span><span class="skill-icon">⊟</span></div>
-      <div class="skill-rank" id="disciplineRank">Recruit</div>
+    <div class="skill-card discipline" onclick="showSkillDetail('discipline')">
+      <div class="skill-top"><span class="skill-name">Discipline</span><span class="skill-icon">🎯</span></div>
+      <div class="skill-rank" id="disciplineRank">Rookie</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="disciplineBar" style="width:0%"></div></div>
       <div class="skill-xp" id="disciplineXP">0 XP</div>
     </div>
-    <div class="skill-card recovery">
+    <div class="skill-card recovery" onclick="showSkillDetail('recovery')">
       <div class="skill-top"><span class="skill-name">Recovery</span><span class="skill-icon">🌙</span></div>
-      <div class="skill-rank" id="recoveryRank">Recruit</div>
+      <div class="skill-rank" id="recoveryRank">Rookie</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="recoveryBar" style="width:0%"></div></div>
       <div class="skill-xp" id="recoveryXP">0 XP</div>
     </div>
-    <div class="skill-card mind" style="grid-column: span 2;">
+    <div class="skill-card mind" style="grid-column: span 2;" onclick="showSkillDetail('mind')">
       <div class="skill-top"><span class="skill-name">Mind</span><span class="skill-icon">🧠</span></div>
-      <div class="skill-rank" id="mindRank">Recruit</div>
+      <div class="skill-rank" id="mindRank">Rookie</div>
       <div class="skill-bar-track" style="max-width:200px"><div class="skill-bar-fill" id="mindBar" style="width:0%"></div></div>
       <div class="skill-xp" id="mindXP">0 XP</div>
     </div>
   </div>
+
+  <!-- SKILL DETAIL OVERLAY -->
+  <div class="skill-detail" id="skillDetail" style="display:none">
+    <div id="skillDetailInner"></div>
+  </div>
+
 
   <div class="undo-zone">
     <div class="undo-zone-label">— Correction —</div>
@@ -1945,8 +2066,138 @@ const SKILL_COLORS = {
   mind: 'rgb(120,100,200)'
 };
 
-const RANKS = ['Recruit', 'Soldier', 'Veteran', 'Elite', 'Legend'];
-const XP_PER_LEVEL = [100, 250, 500, 1000, 2000];
+// ===================== 50-LEVEL XP CURVE =====================
+// Every level costs more than the last — true Skyblock-style exponential
+// Base 75 XP × 1.14^(level-1) — smooth, never jumps in tiers
+// L1=75 ... L10=243 ... L20=904 ... L30=3351 ... L40=12426 ... L50=46067
+// Total XP to max: ~375,000
+const XP_PER_LEVEL = [75,85,97,111,126,144,164,187,213,243,278,316,361,411,469,535,610,695,793,904,1030,1175,1339,1527,1740,1984,2262,2579,2940,3351,3821,4356,4966,5661,6453,7357,8387,9561,10900,12426,14166,16149,18410,20987,23926,27275,31094,35447,40410,46067];
+
+const RANKS = [
+  // Tier 1: Levels 1-10
+  'Rookie','Grinder','Consistent','Focused','Dedicated',
+  'Driven','Committed','Disciplined','Hardened','Iron',
+  // Tier 2: Levels 11-20
+  'Steel','Bronze','Silver','Gold','Platinum',
+  'Diamond','Crystal','Obsidian','Shadow','Phantom',
+  // Tier 3: Levels 21-30
+  'Elite','Elite I','Elite II','Elite III','Master',
+  'Master I','Master II','Master III','Grandmaster','Grandmaster I',
+  // Tier 4: Levels 31-40
+  'Legend','Legend I','Legend II','Legend III','Mythic',
+  'Mythic I','Mythic II','Mythic III','Ancient','Ancient I',
+  // Tier 5: Levels 41-50
+  'Divine','Divine I','Divine II','Divine III','Transcendent',
+  'Transcendent I','Transcendent II','Transcendent III','Godlike','MAX'
+];
+
+// ===================== SKILL UNLOCK TREES =====================
+const SKILL_TREES = {
+  strength: {
+    color: 'var(--skill-strength)',
+    icon: '⚔',
+    actions: [
+      { id: 'workout', label: 'Complete a Workout', xp: 20, skill: 'discipline', note: 'Logs to Discipline + PRs give Strength XP' },
+      { id: 'pr', label: 'Set a Personal Record', xp: 50, skill: 'strength', note: 'Auto-detected when you save a workout' },
+    ],
+    unlocks: {
+      5:  { name: 'Iron Grip', desc: 'Unlock the Legs template', feature: 'template_legs' },
+      10: { name: 'Steel Core', desc: 'PR bonus XP increased to +75', feature: 'pr_bonus_75' },
+      15: { name: 'Titan', desc: 'Unlock Power Hour template', feature: 'template_power' },
+      20: { name: 'Iron Will', desc: 'Unlock custom workout builder', feature: 'custom_builder' },
+      25: { name: 'Apex', desc: 'PR bonus XP increased to +100', feature: 'pr_bonus_100' },
+      30: { name: 'Warlord', desc: 'Unlock The Gauntlet template', feature: 'template_gauntlet' },
+      40: { name: 'Juggernaut', desc: 'All workout XP doubled', feature: 'workout_xp_2x' },
+      50: { name: 'GODLIKE', desc: 'Strength maxed. You are built different.', feature: 'strength_max' },
+    }
+  },
+  nutrition: {
+    color: 'var(--skill-nutrition)',
+    icon: '🥗',
+    actions: [
+      { id: 'lunch_default', label: 'Default Lunch', xp: 15, skill: 'nutrition' },
+      { id: 'dinner_home', label: 'Home Dinner', xp: 18, skill: 'nutrition' },
+      { id: 'chipotle', label: 'Chipotle Bowl', xp: 15, skill: 'nutrition' },
+      { id: 'skip_lunch', label: 'Skipped Meal (tracked)', xp: 5, skill: 'nutrition', note: 'Still counts for tracking' },
+    ],
+    unlocks: {
+      5:  { name: 'Fueled', desc: 'Chipotle cheat auto-schedules', feature: 'cheat_auto' },
+      10: { name: 'Balanced', desc: 'Meal XP increased to +20', feature: 'meal_xp_20' },
+      15: { name: 'Dialed In', desc: 'Unlock nutrition streak tracker', feature: 'nutrition_streak' },
+      20: { name: 'Optimized', desc: 'Dinner XP increased to +25', feature: 'dinner_xp_25' },
+      30: { name: 'Fueling Machine', desc: 'All nutrition XP doubled', feature: 'nutrition_xp_2x' },
+      50: { name: 'PEAK NUTRITION', desc: 'Nutrition maxed. Every meal is a weapon.', feature: 'nutrition_max' },
+    }
+  },
+  discipline: {
+    color: 'var(--skill-discipline)',
+    icon: '🎯',
+    actions: [
+      { id: 'hydrate', label: 'Hydrate Today', xp: 10, skill: 'discipline' },
+      { id: 'cold_shower', label: 'Cold Shower', xp: 25, skill: 'discipline', note: '+15 Recovery too' },
+      { id: 'no_shorts', label: 'No YouTube Shorts', xp: 20, skill: 'mind', note: 'Logs to Mind' },
+      { id: 'lock_in', label: 'Activate Lock In Mode', xp: 5, skill: 'discipline' },
+    ],
+    unlocks: {
+      5:  { name: 'Focused', desc: 'Unlock cold shower tracker', feature: 'cold_shower_track' },
+      10: { name: 'Locked In', desc: 'Lock In mode gives +10 XP instead of +5', feature: 'lockin_bonus' },
+      15: { name: 'Relentless', desc: 'Hydration XP increased to +15', feature: 'hydrate_xp_15' },
+      20: { name: 'Iron Mind', desc: 'Unlock weekly discipline report', feature: 'discipline_report' },
+      30: { name: 'Unstoppable', desc: 'All discipline XP doubled', feature: 'discipline_xp_2x' },
+      50: { name: 'ABSOLUTE', desc: 'Discipline maxed. Nothing stops you.', feature: 'discipline_max' },
+    }
+  },
+  recovery: {
+    color: 'var(--skill-recovery)',
+    icon: '🌙',
+    actions: [
+      { id: 'sleep', label: 'Log Sleep', xp: 80, skill: 'recovery', note: 'Max XP for bed by 11pm' },
+      { id: 'cold_shower_rec', label: 'Cold Shower', xp: 15, skill: 'recovery', note: '+25 Discipline too' },
+    ],
+    unlocks: {
+      5:  { name: 'Rested', desc: 'Sleep XP floor raised from 10 to 20', feature: 'sleep_floor_20' },
+      10: { name: 'Recovered', desc: 'Unlock sleep streak tracker', feature: 'sleep_streak' },
+      15: { name: 'Rejuvenated', desc: 'Cold shower Recovery XP to +25', feature: 'cold_rec_xp_25' },
+      20: { name: 'Regenerating', desc: 'Max sleep XP raised to 100', feature: 'sleep_max_100' },
+      30: { name: 'Invincible', desc: 'All recovery XP doubled', feature: 'recovery_xp_2x' },
+      50: { name: 'ETERNAL', desc: 'Recovery maxed. You never break down.', feature: 'recovery_max' },
+    }
+  },
+  mind: {
+    color: 'var(--skill-mind)',
+    icon: '🧠',
+    actions: [
+      { id: 'read', label: 'Read a Chapter', xp: 25, skill: 'mind' },
+      { id: 'no_shorts_mind', label: 'No YouTube Shorts', xp: 20, skill: 'mind' },
+      { id: 'game_limit', label: 'Respect Game Limit', xp: 15, skill: 'mind' },
+    ],
+    unlocks: {
+      5:  { name: 'Awakened', desc: 'Unlock reading streak tracker', feature: 'read_streak' },
+      10: { name: 'Enlightened', desc: 'Chapter XP increased to +35', feature: 'chapter_xp_35' },
+      15: { name: 'Ascended', desc: 'Unlock focus timer in app', feature: 'focus_timer' },
+      20: { name: 'Transcendent', desc: 'Unlock daily mental challenge', feature: 'mental_challenge' },
+      30: { name: 'Oracle', desc: 'All mind XP doubled', feature: 'mind_xp_2x' },
+      50: { name: 'ENLIGHTENED', desc: 'Mind maxed. Pure mental fortitude.', feature: 'mind_max' },
+    }
+  }
+};
+
+// Check which features are unlocked
+function hasFeature(feature) {
+  const unlocked = state.unlockedSkills || {};
+  return Object.values(SKILL_TREES).some(tree =>
+    Object.entries(tree.unlocks).some(([lvl, u]) =>
+      u.feature === feature && unlocked[`${Object.keys(SKILL_TREES).find(k => SKILL_TREES[k] === tree)}-${lvl}`]
+    )
+  );
+}
+
+// Get XP multiplier for a skill based on unlocks
+function getXPMultiplier(skill) {
+  if (hasFeature(`${skill}_xp_2x`)) return 2;
+  return 1;
+}
+
 
 const TEMPLATES = [
   { name: 'Ab Session', exercises: ['Dumbbell Crunch', 'Dumbbell Side Bend', 'Russian Twist', 'Tuck Dragon Flag Negative'] },
@@ -2239,6 +2490,119 @@ function getOverallLevel() {
 }
 
 // ===================== PROFILE =====================
+// ===================== SKILL DETAIL PAGE =====================
+function showSkillDetail(skill) {
+  const tree = SKILL_TREES[skill];
+  const xp = state.skills[skill];
+  const lvl = getLevel(xp);
+  const skillName = skill.charAt(0).toUpperCase() + skill.slice(1);
+  const color = tree.color;
+  const pct = Math.min(100, (lvl.xpInLevel / lvl.xpNeeded) * 100);
+  const level = lvl.level;
+
+  // Next unlock
+  const unlockLevels = Object.keys(tree.unlocks).map(Number).sort((a,b)=>a-b);
+  const nextUnlockLvl = unlockLevels.find(l => l > level);
+  const nextUnlock = nextUnlockLvl ? tree.unlocks[nextUnlockLvl] : null;
+  const xpToNextUnlock = nextUnlockLvl ? (() => {
+    let total = 0;
+    for (let i = level; i < nextUnlockLvl; i++) total += (XP_PER_LEVEL[i] || 25000);
+    return total - lvl.xpInLevel;
+  })() : 0;
+
+  // Today's done actions
+  const dk = dateKey();
+  const doneTodayIds = state.completedTasks[dk] || [];
+
+  // Build actions HTML
+  const actionsHTML = tree.actions.map(a => {
+    const isDone = doneTodayIds.includes(`${skill}_${a.id}`);
+    const mult = getXPMultiplier(a.skill || skill);
+    const actualXP = Math.round(a.xp * mult);
+    return `
+      <div class="sd-action ${isDone ? 'done' : ''}" onclick="${isDone ? '' : `quickLogSkillAction('${skill}','${a.id}',${actualXP},'${a.skill || skill}','${a.label}')`}">
+        <div class="sd-action-left">
+          <div class="sd-action-label">${a.label}</div>
+          ${a.note ? `<div class="sd-action-note">${a.note}</div>` : ''}
+          ${mult > 1 ? `<div class="sd-action-note" style="color:var(--accent)">2x XP active!</div>` : ''}
+        </div>
+        <div class="sd-action-xp" style="color:${color}">+${actualXP}</div>
+      </div>`;
+  }).join('');
+
+  // Build unlock tree HTML
+  const unlocksHTML = unlockLevels.map(l => {
+    const u = tree.unlocks[l];
+    const earned = level >= l;
+    return `
+      <div class="sd-unlock-row">
+        <div class="sd-unlock-level ${earned ? 'earned' : ''}">LV${l}</div>
+        <div>
+          <div class="sd-unlock-name ${earned ? 'earned' : ''}">${u.name}</div>
+          <div class="sd-unlock-desc">${u.desc}</div>
+        </div>
+        <div class="sd-lock-icon">${earned ? '✓' : '🔒'}</div>
+      </div>`;
+  }).join('');
+
+  const detail = document.getElementById('skillDetail');
+  document.getElementById('skillDetailInner').innerHTML = `
+    <button class="sd-back" onclick="closeSkillDetail()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Profile
+    </button>
+    <div class="sd-header">
+      <div class="sd-skill-name" style="color:${color}">${tree.icon} ${skillName}</div>
+      <div class="sd-rank" style="color:${color}">Level ${level} · ${lvl.rank}</div>
+      <div class="sd-xp-row">
+        <div class="sd-xp-num" style="color:${color}">${xp.toLocaleString()} XP</div>
+        <div class="sd-xp-needed">${lvl.xpInLevel} / ${lvl.xpNeeded} to next level</div>
+      </div>
+      <div class="sd-bar-track">
+        <div class="sd-bar-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+    </div>
+
+    ${nextUnlock ? `
+    <div class="sd-next-unlock">
+      <div class="sd-next-icon">🔒</div>
+      <div>
+        <div class="sd-next-title">Next Unlock · Level ${nextUnlockLvl}</div>
+        <div class="sd-next-name">${nextUnlock.name}</div>
+        <div class="sd-next-lvl" style="color:${color}">${xpToNextUnlock.toLocaleString()} XP away · ${nextUnlock.desc}</div>
+      </div>
+    </div>` : `<div class="sd-next-unlock"><div class="sd-next-icon">👑</div><div><div class="sd-next-title">All unlocks earned</div><div class="sd-next-name">MAXED</div></div></div>`}
+
+    <div class="sd-actions-title">Today's XP Actions</div>
+    ${actionsHTML}
+
+    <div class="sd-unlocks-title">Unlock Tree</div>
+    ${unlocksHTML}
+  `;
+
+  detail.style.display = 'block';
+}
+
+function closeSkillDetail() {
+  document.getElementById('skillDetail').style.display = 'none';
+}
+
+function quickLogSkillAction(skill, actionId, xp, xpSkill, label) {
+  const dk = dateKey();
+  if (!state.completedTasks[dk]) state.completedTasks[dk] = [];
+  const key = `${skill}_${actionId}`;
+  if (state.completedTasks[dk].includes(key)) { showToast('Already logged today'); return; }
+
+  addXP(xpSkill, xp);
+  state.completedTasks[dk].push(key);
+  registerAction(label, { [xpSkill]: xp }, () => {
+    state.completedTasks[dk] = state.completedTasks[dk].filter(x => x !== key);
+  });
+  showXP(xp, xpSkill, `${label}`);
+  saveState(state);
+  showSkillDetail(skill); // re-render to show done state
+}
+
 function updateProfile() {
   const overall = getOverallLevel();
   document.getElementById('profileRank').textContent = overall.rank;
