@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,37 +12,47 @@
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <title>Arcline</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Sora:wght@400;500;600&display=swap');
 
   :root {
-    --bg: #120900;
-    --surface: #1c1000;
-    --surface2: #271700;
-    --border: #3a2200;
-    --accent: rgb(220, 110, 30);
-    --accent-dim: rgba(220, 110, 30, 0.13);
-    --accent-glow: rgba(220, 110, 30, 0.25);
-    --text: #f5ddb0;
-    --muted: #7a5c38;
-    --danger: #cc3300;
-    --radius: 12px;
-    --strength: rgb(220, 80, 40);
-    --nutrition: rgb(180, 140, 30);
-    --discipline: rgb(200, 110, 30);
-    --recovery: rgb(100, 160, 80);
-    --mind: rgb(120, 100, 200);
+    /* Tactical dossier — warm ink on aged dark, desaturated ember */
+    --bg: #16110c;
+    --bg2: #1d1711;
+    --surface: #211a13;
+    --surface2: #2a2219;
+    --border: #3b3024;
+    --border-bright: #54442f;
+    --accent: #d6783a;
+    --accent-deep: #b85e28;
+    --accent-dim: rgba(214, 120, 58, 0.10);
+    --accent-glow: rgba(214, 120, 58, 0.22);
+    --ink: #e8dcc4;
+    --ink-soft: #c4b69a;
+    --muted: #8a7a62;
+    --faint: #5f5341;
+    --danger: #c0492f;
+    --radius: 4px;
+    --strength: #cf6b43;
+    --nutrition: #c2a13e;
+    --discipline: #d6783a;
+    --recovery: #7fa05a;
+    --mind: #8b7cc4;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
     background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(214,120,58,0.05), transparent),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.012) 2px, rgba(0,0,0,0.012) 3px);
+    color: var(--ink);
+    font-family: 'Sora', sans-serif;
     min-height: 100vh;
-    max-width: 480px;
+    /* Pixel 10: 1080x2424 @ ~2.625dpr ≈ 412dp wide. Fill edge-to-edge. */
+    max-width: 412px;
     margin: 0 auto;
-    padding-bottom: 80px;
+    padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
     overflow-x: hidden;
   }
 
@@ -50,51 +60,62 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(50, 15, 0, 0.15);
+    background: rgba(50, 18, 0, 0.12);
     pointer-events: none;
     z-index: 9999;
     mix-blend-mode: multiply;
   }
 
+  /* shared mono label treatment */
+  .mono { font-family: 'Space Mono', monospace; }
+
   /* HEADER */
   header {
-    padding: 48px 20px 14px;
+    padding: calc(14px + env(safe-area-inset-top, 34px)) 18px 12px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background: var(--bg);
+    background: linear-gradient(180deg, var(--bg) 70%, transparent);
     z-index: 100;
     border-bottom: 1px solid var(--border);
   }
 
-  .logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 30px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    color: var(--accent);
-    text-transform: uppercase;
+  .logo-wrap { display: flex; align-items: center; gap: 9px; }
+
+  .logo-mark {
+    width: 26px; height: 26px;
+    flex-shrink: 0;
   }
 
-  .header-right {
-    text-align: right;
+  .logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    color: var(--ink);
+    text-transform: uppercase;
+    padding-left: 2px;
   }
+
+  .header-right { text-align: right; }
 
   .header-level {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
     font-weight: 700;
     color: var(--accent);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
 
   .header-date {
-    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
   }
 
   /* NAV */
@@ -104,22 +125,23 @@
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 480px;
+    max-width: 412px;
     background: var(--surface);
     border-top: 1px solid var(--border);
     display: flex;
     z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   nav button {
     flex: 1;
-    padding: 12px 8px 18px;
+    padding: 11px 6px 14px;
     background: none;
     border: none;
     color: var(--muted);
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -128,165 +150,225 @@
     transition: color 0.15s;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    min-height: 56px;
   }
 
   nav button.active { color: var(--accent); }
+  nav button.active svg { filter: drop-shadow(0 0 4px var(--accent-glow)); }
   nav button svg { width: 20px; height: 20px; }
+  nav button .nav-tick {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+    margin-top: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  nav button.active .nav-tick { opacity: 1; }
 
   /* PAGES */
-  .page { display: none; padding: 20px; }
+  .page { display: none; padding: 16px 14px 24px; }
   .page.active { display: block; }
 
-  /* SECTION LABEL */
+  /* SECTION LABEL — field annotation style */
   .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--muted);
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: 13px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 12px;
+    height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
   }
 
   /* ===================== PROFILE PAGE ===================== */
+  /* profile-hero kept as alias — used by lock-in, cheat, sleep panels */
   .profile-hero {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--bg2), var(--surface));
+    border: 1px solid var(--border-bright);
     border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 18px;
+    margin-bottom: 16px;
     position: relative;
-    overflow: hidden;
   }
-
-  .profile-hero::before {
+  .profile-hero::before, .profile-hero::after {
     content: '';
     position: absolute;
-    top: -40px; right: -40px;
-    width: 120px; height: 120px;
-    background: var(--accent-glow);
-    border-radius: 50%;
-    filter: blur(40px);
+    width: 11px; height: 11px;
+    border: 1.5px solid var(--accent);
+    pointer-events: none;
   }
-
+  .profile-hero::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .profile-hero::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
   .profile-rank-label {
-    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .profile-hero .profile-rank { font-size: 30px; }
+  .profile-hero .profile-level { margin-bottom: 4px; }
+
+  /* DOSSIER PANEL — the signature element: bracketed HUD frame */
+  .dossier {
+    background:
+      linear-gradient(180deg, var(--bg2), var(--surface));
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius);
+    padding: 20px 18px 18px;
+    margin-bottom: 16px;
+    position: relative;
   }
 
+  /* corner brackets */
+  .dossier::before, .dossier::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    border: 1.5px solid var(--accent);
+    pointer-events: none;
+  }
+  .dossier::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .dossier::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .dossier-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .dossier-tag .id { color: var(--accent); }
+
   .profile-rank {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 42px;
-    font-weight: 900;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 2px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
 
   .profile-level {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .overall-bar-wrap {
-    margin-bottom: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 4px;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
   }
 
   .overall-bar-top {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 7px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
   .bar-track {
-    height: 6px;
-    background: var(--surface2);
-    border-radius: 100px;
+    height: 7px;
+    background: var(--bg);
+    border: 1px solid var(--border);
     overflow: hidden;
+    position: relative;
   }
 
   .bar-fill {
     height: 100%;
-    border-radius: 100px;
-    background: var(--accent);
-    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 6px, var(--accent-deep) 6px, var(--accent-deep) 8px);
+    transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
   }
 
-  /* SKILL CARDS */
+  /* SKILL CARDS — readout tiles */
   .skills-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   .skill-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 14px;
+    padding: 13px 13px 12px;
     position: relative;
     overflow: hidden;
   }
 
-  .skill-card::before {
-    content: '';
-    position: absolute;
-    bottom: -20px; right: -20px;
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    filter: blur(20px);
-    opacity: 0.4;
+  /* left status bar on each tile */
+  .skill-card { border-left: 2px solid var(--border); }
+  .skill-card.strength { border-left-color: var(--strength); }
+  .skill-card.nutrition { border-left-color: var(--nutrition); }
+  .skill-card.discipline { border-left-color: var(--discipline); }
+  .skill-card.recovery { border-left-color: var(--recovery); }
+  .skill-card.mind { border-left-color: var(--mind); }
+
+  .skill-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
   }
-
-  .skill-card.strength::before { background: var(--strength); }
-  .skill-card.nutrition::before { background: var(--nutrition); }
-  .skill-card.discipline::before { background: var(--discipline); }
-  .skill-card.recovery::before { background: var(--recovery); }
-  .skill-card.mind::before { background: var(--mind); }
-
-  .skill-icon { font-size: 20px; margin-bottom: 6px; }
 
   .skill-name {
+    font-family: 'Space Mono', monospace;
     font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 2px;
+    font-weight: 700;
   }
+
+  .skill-icon { font-size: 15px; opacity: 0.85; }
 
   .skill-rank {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink);
   }
 
-  .skill-card.strength .skill-rank { color: var(--strength); }
-  .skill-card.nutrition .skill-rank { color: var(--nutrition); }
-  .skill-card.discipline .skill-rank { color: var(--discipline); }
-  .skill-card.recovery .skill-rank { color: var(--recovery); }
-  .skill-card.mind .skill-rank { color: var(--mind); }
-
   .skill-bar-track {
-    height: 4px;
-    background: var(--surface2);
-    border-radius: 100px;
+    height: 3px;
+    background: var(--bg);
     overflow: hidden;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .skill-bar-fill {
     height: 100%;
-    border-radius: 100px;
-    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
   }
 
   .skill-card.strength .skill-bar-fill { background: var(--strength); }
@@ -296,40 +378,44 @@
   .skill-card.mind .skill-bar-fill { background: var(--mind); }
 
   .skill-xp {
+    font-family: 'Space Mono', monospace;
     font-size: 10px;
-    color: var(--muted);
+    color: var(--faint);
+    letter-spacing: 0.5px;
   }
 
-  /* STATS ROW */
+  /* STATS ROW — instrument readouts */
   .stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 18px;
   }
 
   .stat-box {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 14px 10px;
+    padding: 13px 8px 11px;
     text-align: center;
+    position: relative;
   }
 
   .stat-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px;
-    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
     color: var(--accent);
     line-height: 1;
   }
 
   .stat-label {
-    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 4px;
+    margin-top: 5px;
   }
 
   /* ===================== WORKOUT PAGE ===================== */
@@ -342,8 +428,8 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--text);
-    font-family: 'Barlow Condensed', sans-serif;
+    color: var(--ink);
+    font-family: 'Oswald', sans-serif;
     font-size: 24px;
     font-weight: 700;
     padding: 10px 14px;
@@ -354,20 +440,22 @@
   .name-editor input:focus { border-color: var(--accent); }
 
   .btn {
-    padding: 10px 18px;
-    border-radius: 8px;
+    padding: 11px 18px;
+    border-radius: var(--radius);
     border: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.15s;
   }
 
-  .btn-accent { background: var(--accent); color: #fff; }
-  .btn-accent:active { opacity: 0.85; transform: scale(0.97); }
-  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  .btn-ghost:active { opacity: 0.75; }
+  .btn-accent { background: var(--accent); color: #1a120a; }
+  .btn-accent:active { background: var(--accent-deep); transform: scale(0.98); }
+  .btn-ghost { background: transparent; color: var(--ink-soft); border: 1px solid var(--border-bright); }
+  .btn-ghost:active { background: var(--surface2); }
   .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
 
   .exercise-card {
@@ -388,7 +476,7 @@
   }
 
   .exercise-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 20px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -452,8 +540,8 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    font-family: 'Sora', sans-serif;
     font-size: 15px;
     font-weight: 500;
     padding: 8px 10px;
@@ -497,8 +585,8 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    font-family: 'Sora', sans-serif;
     font-size: 13px;
     padding: 10px 12px;
     resize: none;
@@ -535,8 +623,8 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    font-family: 'Sora', sans-serif;
     font-size: 14px;
     padding: 12px 14px;
     outline: none;
@@ -573,7 +661,7 @@
   }
 
   .history-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 22px;
     font-weight: 700;
   }
@@ -582,7 +670,7 @@
 
   .history-stats { display: flex; gap: 16px; }
   .history-stat { font-size: 12px; color: var(--muted); }
-  .history-stat span { color: var(--text); font-weight: 600; }
+  .history-stat span { color: var(--ink); font-weight: 600; }
   .history-exercises { margin-top: 8px; font-size: 12px; color: var(--muted); line-height: 1.6; }
 
   .detail-back {
@@ -600,7 +688,7 @@
   }
 
   .detail-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 32px;
     font-weight: 900;
     margin-bottom: 4px;
@@ -617,7 +705,7 @@
   }
 
   .detail-exercise-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 8px;
@@ -652,7 +740,7 @@
   }
 
   .template-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 20px;
     font-weight: 700;
   }
@@ -667,39 +755,41 @@
   }
 
   .empty-icon { font-size: 40px; margin-bottom: 12px; }
-  .empty-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .empty-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
   .empty-sub { font-size: 14px; line-height: 1.5; }
 
   /* LOG ACTIONS */
-  .log-actions { display: flex; flex-direction: column; gap: 10px; }
+  .log-actions { display: flex; flex-direction: column; gap: 8px; }
 
   .log-action {
     background: var(--surface);
     border: 1px solid var(--border);
+    border-left: 2px solid var(--border-bright);
     border-radius: var(--radius);
-    padding: 14px 16px;
+    padding: 13px 14px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 13px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.12s;
     user-select: none;
   }
 
-  .log-action:active { transform: scale(0.98); border-color: var(--accent); }
-  .log-action.bonus { border-color: rgba(100,160,200,0.4); background: linear-gradient(135deg, var(--surface), rgba(40,80,120,0.15)); }
-  .log-action-icon { font-size: 24px; flex-shrink: 0; }
+  .log-action:active { transform: scale(0.985); border-left-color: var(--accent); background: var(--surface2); }
+  .log-action.bonus { border-left-color: #6a8db0; }
+  .log-action-icon { font-size: 21px; flex-shrink: 0; width: 24px; text-align: center; }
   .log-action-text { flex: 1; }
-  .log-action-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; }
-  .log-action-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .log-action-title { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; color: var(--ink); }
+  .log-action-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; letter-spacing: 0.2px; }
   .log-action-plus {
-    font-size: 24px;
-    font-weight: 300;
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
     color: var(--accent);
-    width: 32px; height: 32px;
+    width: 30px; height: 30px;
     display: flex; align-items: center; justify-content: center;
-    background: var(--accent-dim);
-    border-radius: 8px;
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius);
     flex-shrink: 0;
   }
 
@@ -715,22 +805,232 @@
     box-shadow: inset 0 0 30px rgba(204,51,0,0.15);
   }
 
+  /* SLEEP CARD */
+  .sleep-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    margin-bottom: 10px;
+  }
+
+  .sleep-inputs {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .sleep-field { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .sleep-field label { font-size: 11px; color: var(--muted); font-weight: 600; }
+
+  .sleep-arrow { color: var(--muted); font-size: 18px; padding-bottom: 12px; }
+
+  .time-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--ink);
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 12px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+    text-align: center;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .time-input:focus { border-color: var(--accent); }
+  /* Make the native clock indicator visible on dark bg */
+  .time-input::-webkit-calendar-picker-indicator {
+    filter: invert(0.7) sepia(1) saturate(3) hue-rotate(330deg);
+    cursor: pointer;
+  }
+
+  .sleep-preview {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .sleep-preview.active {
+    background: var(--accent-dim);
+    color: var(--ink);
+  }
+
+  .sleep-preview .big {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+
+  .sleep-preview .xp-est {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .sleep-log-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .sleep-avg { text-align: center; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+  /* LOG ACTION — DONE STATE */
+  .log-action.done {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .log-action.done .log-action-plus {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .log-action.flash {
+    animation: flashLog 0.5s ease-out;
+  }
+
+  @keyframes flashLog {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.03); box-shadow: 0 0 20px var(--accent-glow); }
+    100% { transform: scale(1); }
+  }
+
   /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 96px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
     background: var(--accent);
-    color: #fff;
+    color: #1a120a;
+    font-family: 'Space Mono', monospace;
     font-weight: 700;
-    font-size: 13px;
-    padding: 10px 20px;
-    border-radius: 100px;
+    font-size: 12px;
+    padding: 10px 18px;
+    border-radius: var(--radius);
     opacity: 0;
     transition: all 0.3s;
     z-index: 10000;
     white-space: nowrap;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* XP POPUP — top right */
+  .xp-pop {
+    position: fixed;
+    top: 0;
+    right: 14px;
+    z-index: 10001;
+    display: flex;
+    align-items: stretch;
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    overflow: hidden;
+    transform: translateY(-120%);
+    opacity: 0;
+    transition: transform 0.32s cubic-bezier(0.2,0.9,0.3,1), opacity 0.32s;
+    min-width: 168px;
+  }
+
+  .xp-pop.show { transform: translateY(56px); opacity: 1; }
+  .xp-pop.fading { opacity: 0; transition: opacity 2s linear; }
+
+  .xp-pop-bar {
+    width: 3px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .xp-pop-body { padding: 9px 12px; flex: 1; }
+
+  .xp-pop-main { display: flex; align-items: baseline; gap: 6px; }
+
+  .xp-pop-amount {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .xp-pop-skill {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+
+  .xp-pop-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .xp-pop-undo {
+    background: none;
+    border: none;
+    border-left: 1px solid var(--border);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .xp-pop-undo:active { background: var(--surface2); }
+
+  /* tucked-away undo on profile */
+  .undo-zone { margin-top: 18px; text-align: center; }
+  .undo-zone-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 8px;
+  }
+  .undo-tucked {
+    width: 100%;
+    padding: 11px;
+    background: none;
+    border: 1px dashed var(--border-bright);
+    border-radius: var(--radius);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .undo-tucked:active { border-color: var(--accent); color: var(--accent); }
+  .undo-tucked:disabled { opacity: 0.4; cursor: default; }
 
   /* RANK UP SCREEN */
   .rankup-overlay {
@@ -757,7 +1057,7 @@
   }
 
   .rankup-label {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 4px;
@@ -767,7 +1067,7 @@
   }
 
   .rankup-rank {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 72px;
     font-weight: 900;
     line-height: 1;
@@ -816,7 +1116,7 @@
     max-width: 480px;
   }
 
-  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .modal-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
   .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
   .modal-btns { display: flex; gap: 10px; }
   .modal-btns .btn { flex: 1; padding: 14px; font-size: 15px; }
@@ -825,7 +1125,14 @@
 <body>
 
 <header>
-  <div class="logo">Arcline</div>
+  <div class="logo-wrap">
+    <svg class="logo-mark" viewBox="0 0 100 100" fill="none">
+      <path d="M 22 76 Q 46 72 64 36" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="68" cy="30" r="8" fill="var(--accent)"/>
+      <circle cx="30" cy="74" r="3" fill="var(--accent)" opacity="0.6"/>
+    </svg>
+    <div class="logo">Arcline</div>
+  </div>
   <div class="header-right">
     <div class="header-level" id="headerLevel">LV 1 — Recruit</div>
     <div class="header-date" id="headerDate"></div>
@@ -834,13 +1141,13 @@
 
 <!-- PROFILE PAGE -->
 <div class="page active" id="page-profile">
-  <div class="profile-hero">
-    <div class="profile-rank-label">Current Rank</div>
+  <div class="dossier">
+    <div class="dossier-tag"><span>Operative Status</span><span class="id">ARC-01</span></div>
     <div class="profile-rank" id="profileRank">Recruit</div>
-    <div class="profile-level" id="profileLevel">Overall Level 1</div>
+    <div class="profile-level" id="profileLevel">// Overall Level 1</div>
     <div class="overall-bar-wrap">
       <div class="overall-bar-top">
-        <span>Overall XP</span>
+        <span>Progression</span>
         <span id="overallXPText">0 / 100</span>
       </div>
       <div class="bar-track">
@@ -852,11 +1159,11 @@
   <div class="stats-row">
     <div class="stat-box">
       <div class="stat-num" id="statWorkouts">0</div>
-      <div class="stat-label">Workouts</div>
+      <div class="stat-label">Sessions</div>
     </div>
     <div class="stat-box">
       <div class="stat-num" id="statPRs">0</div>
-      <div class="stat-label">PRs Set</div>
+      <div class="stat-label">Records</div>
     </div>
     <div class="stat-box">
       <div class="stat-num" id="statStreak">0</div>
@@ -864,43 +1171,43 @@
     </div>
   </div>
 
-  <div class="section-label">Skills</div>
+  <div class="section-label">Skill Readout</div>
   <div class="skills-grid">
     <div class="skill-card strength">
-      <div class="skill-icon">⚔️</div>
-      <div class="skill-name">Strength</div>
+      <div class="skill-top"><span class="skill-name">Strength</span><span class="skill-icon">⚔</span></div>
       <div class="skill-rank" id="strengthRank">Recruit</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="strengthBar" style="width:0%"></div></div>
       <div class="skill-xp" id="strengthXP">0 XP</div>
     </div>
     <div class="skill-card nutrition">
-      <div class="skill-icon">🥗</div>
-      <div class="skill-name">Nutrition</div>
+      <div class="skill-top"><span class="skill-name">Nutrition</span><span class="skill-icon">🥗</span></div>
       <div class="skill-rank" id="nutritionRank">Recruit</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="nutritionBar" style="width:0%"></div></div>
       <div class="skill-xp" id="nutritionXP">0 XP</div>
     </div>
     <div class="skill-card discipline">
-      <div class="skill-icon">🔒</div>
-      <div class="skill-name">Discipline</div>
+      <div class="skill-top"><span class="skill-name">Discipline</span><span class="skill-icon">⊟</span></div>
       <div class="skill-rank" id="disciplineRank">Recruit</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="disciplineBar" style="width:0%"></div></div>
       <div class="skill-xp" id="disciplineXP">0 XP</div>
     </div>
     <div class="skill-card recovery">
-      <div class="skill-icon">🌙</div>
-      <div class="skill-name">Recovery</div>
+      <div class="skill-top"><span class="skill-name">Recovery</span><span class="skill-icon">🌙</span></div>
       <div class="skill-rank" id="recoveryRank">Recruit</div>
       <div class="skill-bar-track"><div class="skill-bar-fill" id="recoveryBar" style="width:0%"></div></div>
       <div class="skill-xp" id="recoveryXP">0 XP</div>
     </div>
     <div class="skill-card mind" style="grid-column: span 2;">
-      <div class="skill-icon">🧠</div>
-      <div class="skill-name">Mind</div>
+      <div class="skill-top"><span class="skill-name">Mind</span><span class="skill-icon">🧠</span></div>
       <div class="skill-rank" id="mindRank">Recruit</div>
       <div class="skill-bar-track" style="max-width:200px"><div class="skill-bar-fill" id="mindBar" style="width:0%"></div></div>
       <div class="skill-xp" id="mindXP">0 XP</div>
     </div>
+  </div>
+
+  <div class="undo-zone">
+    <div class="undo-zone-label">— Correction —</div>
+    <button class="undo-tucked" id="undoTucked" onclick="undoLast()" disabled>↶ Nothing to undo</button>
   </div>
 </div>
 
@@ -952,7 +1259,7 @@
   <!-- LUNCH -->
   <div class="section-label">Lunch</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 15, 'Default lunch', '🧀')">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Default lunch', '🧀', event)">
       <div class="log-action-icon">🧀</div>
       <div class="log-action-text">
         <div class="log-action-title">Default Lunch</div>
@@ -960,7 +1267,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 5, 'Skipped lunch — logged it', '⏳')">
+    <div class="log-action" onclick="logAction('nutrition', 5, 'Skipped lunch — logged it', '⏳', event)">
       <div class="log-action-icon">⏳</div>
       <div class="log-action-text">
         <div class="log-action-title">Skipped Lunch</div>
@@ -973,7 +1280,7 @@
   <!-- CHIPOTLE -->
   <div class="section-label" style="margin-top:20px">Chipotle</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle default bowl', '🥙')">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle default bowl', '🥙', event)">
       <div class="log-action-icon">🥙</div>
       <div class="log-action-text">
         <div class="log-action-title">Default Bowl</div>
@@ -994,7 +1301,7 @@
   <!-- DINNER -->
   <div class="section-label" style="margin-top:20px">Dinner</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 18, 'Light home dinner', '🍽️')">
+    <div class="log-action" onclick="logAction('nutrition', 18, 'Light home dinner', '🍽️', event)">
       <div class="log-action-icon">🥄</div>
       <div class="log-action-text">
         <div class="log-action-title">Home — Light</div>
@@ -1002,7 +1309,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 14, 'Normal home dinner', '🍽️')">
+    <div class="log-action" onclick="logAction('nutrition', 14, 'Normal home dinner', '🍽️', event)">
       <div class="log-action-icon">🍽️</div>
       <div class="log-action-text">
         <div class="log-action-title">Home — Normal</div>
@@ -1010,7 +1317,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 8, 'Heavy home dinner', '🍝')">
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Heavy home dinner', '🍝', event)">
       <div class="log-action-icon">🍝</div>
       <div class="log-action-text">
         <div class="log-action-title">Home — Heavy</div>
@@ -1018,7 +1325,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 8, 'Restaurant meal', '🍴')">
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Restaurant meal', '🍴', event)">
       <div class="log-action-icon">🍴</div>
       <div class="log-action-text">
         <div class="log-action-title">Restaurant</div>
@@ -1026,7 +1333,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 8, 'Dinner at GF house', '🏠')">
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Dinner at GF house', '🏠', event)">
       <div class="log-action-icon">🏠</div>
       <div class="log-action-text">
         <div class="log-action-title">Girlfriend's House</div>
@@ -1038,27 +1345,27 @@
 
   <!-- SLEEP -->
   <div class="section-label" style="margin-top:20px">Sleep</div>
-  <div class="profile-hero" style="margin-bottom:12px">
-    <div class="profile-rank-label">Last Night</div>
-    <div style="display:flex;gap:10px;margin-top:8px;margin-bottom:14px">
-      <button class="btn btn-ghost" style="flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;align-items:flex-start" onclick="setSleepTime('screensOff')">
-        <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Screens Off / In Bed</span>
-        <span style="font-family:'Barlow Condensed';font-size:20px;font-weight:700" id="screensOffDisplay">—</span>
-      </button>
-      <button class="btn btn-ghost" style="flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;align-items:flex-start" onclick="setSleepTime('wake')">
-        <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Woke / Alarm</span>
-        <span style="font-family:'Barlow Condensed';font-size:20px;font-weight:700" id="wakeDisplay">—</span>
-      </button>
+  <div class="sleep-card">
+    <div class="sleep-inputs">
+      <div class="sleep-field">
+        <label for="screensOffInput">🌙 Screens off / in bed</label>
+        <input type="time" id="screensOffInput" class="time-input" onchange="onSleepInput()">
+      </div>
+      <div class="sleep-arrow">→</div>
+      <div class="sleep-field">
+        <label for="wakeInput">☀️ Woke / alarm</label>
+        <input type="time" id="wakeInput" class="time-input" onchange="onSleepInput()">
+      </div>
     </div>
-    <button class="btn btn-accent" style="width:100%;padding:13px" onclick="logSleep()">Log Sleep</button>
-    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--muted)" id="sleepHint">Set both times, then log to earn Recovery XP</div>
+    <div class="sleep-preview" id="sleepPreview">Enter both times to see your sleep</div>
+    <button class="btn btn-accent sleep-log-btn" id="sleepLogBtn" style="width:100%;padding:14px" onclick="logSleep()" disabled>Log Sleep</button>
   </div>
-  <div style="text-align:center;font-size:12px;color:var(--muted)" id="sleepAvg"></div>
+  <div class="sleep-avg" id="sleepAvg"></div>
 
   <!-- HYDRATION -->
   <div class="section-label" style="margin-top:20px">Discipline & Recovery</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('discipline', 10, 'Hydrated', '💧')">
+    <div class="log-action" onclick="logAction('discipline', 10, 'Hydrated', '💧', event)">
       <div class="log-action-icon">💧</div>
       <div class="log-action-text">
         <div class="log-action-title">Stayed Hydrated</div>
@@ -1070,7 +1377,7 @@
 
   <!-- BONUS EFFORT -->
   <div class="section-label" style="margin-top:20px">Bonus Effort</div>
-  <div class="log-action bonus" onclick="logBonus()">
+  <div class="log-action bonus" onclick="logBonus(event)">
     <div class="log-action-icon">🧊</div>
     <div class="log-action-text">
       <div class="log-action-title">Cold Shower</div>
@@ -1084,7 +1391,7 @@
   <div class="section-label" style="margin-top:24px">Productivity</div>
 
   <!-- READING -->
-  <div class="log-action" onclick="logChapter()">
+  <div class="log-action" onclick="logChapter(event)">
     <div class="log-action-icon">📖</div>
     <div class="log-action-text">
       <div class="log-action-title">Finished a Chapter</div>
@@ -1105,7 +1412,7 @@
       <button class="btn btn-ghost" style="padding:10px 16px" onclick="setYtBudget()">Set</button>
     </div>
   </div>
-  <div class="log-action" onclick="logUnderYt()">
+  <div class="log-action" id="win-yt" onclick="logUnderYt(event)">
     <div class="log-action-icon">✅</div>
     <div class="log-action-text">
       <div class="log-action-title">Stayed Under YouTube Limit</div>
@@ -1116,7 +1423,7 @@
 
   <!-- DIGITAL DISCIPLINE -->
   <div class="log-actions" style="margin-top:10px">
-    <div class="log-action" onclick="logDailyWin('shorts', 'No Shorts today', '🚫')">
+    <div class="log-action" id="win-shorts" onclick="logDailyWin('shorts', 'No Shorts today', '🚫', event)">
       <div class="log-action-icon">🚫</div>
       <div class="log-action-text">
         <div class="log-action-title">No YouTube Shorts Today</div>
@@ -1124,7 +1431,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logDailyWin('games', 'Under game limit', '🎮')">
+    <div class="log-action" id="win-games" onclick="logDailyWin('games', 'Under game limit', '🎮', event)">
       <div class="log-action-icon">🎮</div>
       <div class="log-action-text">
         <div class="log-action-title">Stayed Under Game Limit</div>
@@ -1153,27 +1460,45 @@
   <button class="active" onclick="showPage('profile', this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     Profile
+    <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('workout', this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/></svg>
     Workout
+    <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('log', this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
     Log
+    <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('history', this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     History
+    <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('templates', this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
     Templates
+    <div class="nav-tick"></div>
   </button>
 </nav>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- XP POPUP -->
+<div class="xp-pop" id="xpPop">
+  <div class="xp-pop-bar"></div>
+  <div class="xp-pop-body">
+    <div class="xp-pop-main">
+      <span class="xp-pop-amount" id="xpPopAmount">+0</span>
+      <span class="xp-pop-skill" id="xpPopSkill">XP</span>
+    </div>
+    <div class="xp-pop-label" id="xpPopLabel"></div>
+  </div>
+  <button class="xp-pop-undo" id="xpPopUndo" onclick="undoLast()">UNDO</button>
+</div>
 
 <!-- RANK UP SCREEN -->
 <div class="rankup-overlay" id="rankupOverlay">
@@ -1261,6 +1586,75 @@ function addXP(skill, amount) {
   saveState(state);
   updateProfile();
   if (after.level > before.level) triggerRankup(skill, after.rank);
+}
+
+// ===================== UNDO SYSTEM =====================
+// undoStack holds up to 10 actions; each: { label, xp: {skill: amount}, side: fn }
+let undoStack = [];
+let xpPopTimer1 = null, xpPopTimer2 = null;
+
+function registerAction(label, xpMap, undoSideEffects) {
+  undoStack.push({ label, xp: xpMap, side: undoSideEffects || null });
+  if (undoStack.length > 10) undoStack.shift();
+  refreshUndoButton();
+}
+
+function refreshUndoButton() {
+  const btn = document.getElementById('undoTucked');
+  if (!btn) return;
+  if (undoStack.length > 0) {
+    btn.disabled = false;
+    const last = undoStack[undoStack.length - 1];
+    btn.textContent = `↶ Undo: ${last.label}  (${undoStack.length})`;
+  } else {
+    btn.disabled = true;
+    btn.textContent = '↶ Nothing to undo';
+  }
+}
+
+function undoLast() {
+  if (undoStack.length === 0) { showToast('Nothing to undo'); return; }
+  const action = undoStack.pop();
+  // Reverse XP
+  Object.entries(action.xp).forEach(([skill, amt]) => {
+    state.skills[skill] = Math.max(0, state.skills[skill] - amt);
+  });
+  // Reverse side effects
+  if (typeof action.side === 'function') action.side();
+  saveState(state);
+  updateProfile();
+  refreshDailyWinStates();
+  updateColdShowerCount();
+  updateChapterCount();
+  updateSleepDisplay();
+  hideXPPop();
+  refreshUndoButton();
+  showToast(`Undone: ${action.label}`);
+}
+
+// ===================== XP POPUP =====================
+function showXP(totalXP, skillLabel, detailLabel) {
+  const pop = document.getElementById('xpPop');
+  if (!pop) return;
+  document.getElementById('xpPopAmount').textContent = `+${totalXP}`;
+  document.getElementById('xpPopSkill').textContent = skillLabel;
+  document.getElementById('xpPopLabel').textContent = detailLabel || '';
+
+  clearTimeout(xpPopTimer1); clearTimeout(xpPopTimer2);
+  pop.classList.remove('fading');
+  pop.classList.add('show');
+
+  // stays 7s total, begins fading at 5s (2s fade)
+  xpPopTimer1 = setTimeout(() => { pop.classList.add('fading'); }, 5000);
+  xpPopTimer2 = setTimeout(() => { hideXPPop(); }, 7000);
+}
+
+function hideXPPop() {
+  const pop = document.getElementById('xpPop');
+  if (!pop) return;
+  clearTimeout(xpPopTimer1); clearTimeout(xpPopTimer2);
+  pop.classList.remove('show');
+  pop.classList.remove('fading');
 }
 
 function getOverallLevel() {
@@ -1543,43 +1937,33 @@ function showPage(name, btn) {
 }
 
 // ===================== LOG ACTIONS =====================
-function logAction(skill, xp, label, icon) {
-  addXP(skill, xp);
-  showToast(`${icon} ${label} · +${xp} XP`);
+function flashCard(el) {
+  if (!el) return;
+  el.classList.remove('flash');
+  void el.offsetWidth; // force reflow to restart animation
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 600);
 }
 
-function logBonus() {
+function logAction(skill, xp, label, icon, ev) {
+  addXP(skill, xp);
+  if (ev && ev.currentTarget) flashCard(ev.currentTarget);
+  registerAction(label, { [skill]: xp });
+  showXP(xp, skill, `${icon} ${label}`);
+}
+
+function logBonus(ev) {
   state.coldShowers++;
   saveState(state);
   addXP('discipline', 25);
   addXP('recovery', 15);
   updateColdShowerCount();
-  showToast('🧊 Cold shower logged · +40 XP total');
+  if (ev && ev.currentTarget) flashCard(ev.currentTarget);
+  registerAction('Cold shower', { discipline: 25, recovery: 15 }, () => { state.coldShowers = Math.max(0, state.coldShowers - 1); });
+  showXP(40, 'Disc + Rec', '🧊 Cold shower');
 }
 
 // ===================== SLEEP =====================
-function setSleepTime(which) {
-  const current = which === 'screensOff' ? state.sleepScreensOff : state.sleepWake;
-  const input = document.createElement('input');
-  input.type = 'time';
-  input.value = current || (which === 'screensOff' ? '22:30' : '07:00');
-  input.style.position = 'fixed';
-  input.style.opacity = '0';
-  input.style.zIndex = '-1';
-  document.body.appendChild(input);
-  input.addEventListener('change', () => {
-    if (input.value) {
-      if (which === 'screensOff') state.sleepScreensOff = input.value;
-      else state.sleepWake = input.value;
-      saveState(state);
-      updateSleepDisplay();
-    }
-    if (input.parentNode) document.body.removeChild(input);
-  });
-  input.addEventListener('blur', () => { if (input.parentNode) document.body.removeChild(input); });
-  input.showPicker ? input.showPicker() : input.click();
-}
-
 function fmtTime(t) {
   if (!t) return '—';
   const [h, m] = t.split(':').map(Number);
@@ -1588,109 +1972,118 @@ function fmtTime(t) {
   return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
 }
 
-function updateSleepDisplay() {
-  const so = document.getElementById('screensOffDisplay');
-  const wk = document.getElementById('wakeDisplay');
-  if (so) so.textContent = fmtTime(state.sleepScreensOff);
-  if (wk) wk.textContent = fmtTime(state.sleepWake);
-
-  // Show average wake time if we have history
-  const avgEl = document.getElementById('sleepAvg');
-  if (avgEl && state.wakeHistory.length >= 2) {
-    const avgMin = state.wakeHistory.reduce((a,b)=>a+b,0) / state.wakeHistory.length;
-    const h = Math.floor(avgMin / 60), m = Math.round(avgMin % 60);
-    avgEl.textContent = `Your recent average wake time: ${fmtTime(`${h}:${String(m).padStart(2,'0')}`)} · ${state.wakeHistory.length} nights tracked`;
-  } else if (avgEl) {
-    avgEl.textContent = '';
-  }
-}
-
-function computeSleepXP() {
-  // Parse times into minutes
-  const [soH, soM] = state.sleepScreensOff.split(':').map(Number);
-  const [wH, wM] = state.sleepWake.split(':').map(Number);
-  let screensOffMin = soH * 60 + soM;
-  let wakeMin = wH * 60 + wM;
-
-  // Duration: if wake is "earlier" than screens off, it's overnight
+function calcSleep(screensOff, wake) {
+  const [soH, soM] = screensOff.split(':').map(Number);
+  const [wH, wM] = wake.split(':').map(Number);
+  const screensOffMin = soH * 60 + soM;
+  const wakeMin = wH * 60 + wM;
   let durationMin = wakeMin - screensOffMin;
   if (durationMin <= 0) durationMin += 24 * 60;
   const hours = durationMin / 60;
 
-  let xp = 20; // base for logging
-  let breakdown = [];
-  breakdown.push('+20 logged');
+  let xp = 20;
+  const breakdown = ['+20 logged'];
 
-  // EARLY SCREENS-OFF BONUS (earlier = more)
-  // Normalize: treat 9pm(21:00)=1260 as best. Map evening times.
   let soForScore = screensOffMin;
-  if (soForScore < 12 * 60) soForScore += 24 * 60; // after-midnight counts as very late
-  let earlyBonus = 0;
-  if (soForScore <= 22 * 60) earlyBonus = 25;        // 10pm or earlier — best
-  else if (soForScore <= 23 * 60) earlyBonus = 18;   // by 11pm
-  else if (soForScore <= 24 * 60) earlyBonus = 10;   // by midnight
-  else if (soForScore <= 25 * 60) earlyBonus = 4;    // by 1am
-  else earlyBonus = 0;                                // later
-  if (earlyBonus > 0) breakdown.push(`+${earlyBonus} early`);
+  if (soForScore < 12 * 60) soForScore += 24 * 60;
+  let earlyBonus = soForScore <= 22*60 ? 25 : soForScore <= 23*60 ? 18 : soForScore <= 24*60 ? 10 : soForScore <= 25*60 ? 4 : 0;
+  if (earlyBonus > 0) breakdown.push(`+${earlyBonus} early night`);
   xp += earlyBonus;
 
-  // DURATION BONUS (7-9 hr sweet spot)
-  let durBonus = 0;
-  if (hours >= 7 && hours <= 9) durBonus = 30;
-  else if (hours >= 6 && hours < 7) durBonus = 18;
-  else if (hours > 9 && hours <= 10) durBonus = 18;
-  else if (hours >= 5 && hours < 6) durBonus = 8;
-  else durBonus = 4;
+  let durBonus = (hours>=7 && hours<=9) ? 30 : (hours>=6 && hours<7) ? 18 : (hours>9 && hours<=10) ? 18 : (hours>=5 && hours<6) ? 8 : 4;
   breakdown.push(`+${durBonus} duration`);
   xp += durBonus;
 
-  // CONSISTENCY BONUS (wake close to recent average)
   let consistBonus = 0;
   if (state.wakeHistory.length >= 2) {
     const avg = state.wakeHistory.reduce((a,b)=>a+b,0) / state.wakeHistory.length;
     const diff = Math.abs(wakeMin - avg);
-    if (diff <= 30) consistBonus = 20;
-    else if (diff <= 60) consistBonus = 10;
-    else consistBonus = 0;
+    consistBonus = diff <= 30 ? 20 : diff <= 60 ? 10 : 0;
     if (consistBonus > 0) breakdown.push(`+${consistBonus} consistency`);
   }
   xp += consistBonus;
 
-  return { xp, hours, breakdown };
+  return { xp, hours, durationMin, breakdown };
+}
+
+function onSleepInput() {
+  const so = document.getElementById('screensOffInput').value;
+  const wk = document.getElementById('wakeInput').value;
+  const preview = document.getElementById('sleepPreview');
+  const btn = document.getElementById('sleepLogBtn');
+
+  if (so && wk) {
+    const { xp, hours } = calcSleep(so, wk);
+    const h = Math.floor(hours);
+    const m = Math.round((hours - h) * 60);
+    let quality = hours >= 7 && hours <= 9 ? 'Solid night' : hours < 6 ? 'A bit short' : hours > 10 ? 'Long one' : 'Decent';
+    preview.classList.add('active');
+    preview.innerHTML = `<span class="big">${h}h ${m}m</span><span class="xp-est">${quality} · about +${xp} Recovery XP</span>`;
+    btn.disabled = false;
+  } else {
+    preview.classList.remove('active');
+    preview.textContent = 'Enter both times to see your sleep';
+    btn.disabled = true;
+  }
 }
 
 function logSleep() {
-  if (!state.sleepScreensOff || !state.sleepWake) {
-    showToast('Set both times first');
-    return;
-  }
-  const { xp, hours, breakdown } = computeSleepXP();
+  const so = document.getElementById('screensOffInput').value;
+  const wk = document.getElementById('wakeInput').value;
+  if (!so || !wk) { showToast('Enter both times first'); return; }
 
-  // Record wake time for consistency tracking (keep last 7)
-  const [wH, wM] = state.sleepWake.split(':').map(Number);
+  const { xp, hours, breakdown } = calcSleep(so, wk);
+
+  state.sleepScreensOff = so;
+  state.sleepWake = wk;
+  const [wH, wM] = wk.split(':').map(Number);
   state.wakeHistory.push(wH * 60 + wM);
   if (state.wakeHistory.length > 7) state.wakeHistory.shift();
   saveState(state);
 
   addXP('recovery', xp);
   updateSleepDisplay();
-  const hrStr = hours.toFixed(1);
-  showToast(`😴 ${hrStr}h logged · +${xp} Recovery XP (${breakdown.join(', ')})`);
 
-  // Update the hint to show last result
-  const hint = document.getElementById('sleepHint');
-  if (hint) hint.textContent = `Last: ${hrStr} hours · +${xp} Recovery XP`;
+  const h = Math.floor(hours), m = Math.round((hours - h) * 60);
+  registerAction(`Sleep ${h}h ${m}m`, { recovery: xp }, () => {
+    state.wakeHistory.pop();
+  });
+  showXP(xp, 'Recovery', `😴 ${h}h ${m}m logged`);
+
+  // Reset inputs for next time, keep avg shown
+  document.getElementById('sleepLogBtn').disabled = true;
+  document.getElementById('sleepPreview').classList.remove('active');
+  document.getElementById('sleepPreview').innerHTML = `<span style="color:var(--accent);font-weight:600">✓ Logged! +${xp} Recovery XP</span><div style="font-size:11px;margin-top:4px">${breakdown.join(' · ')}</div>`;
+}
+
+function updateSleepDisplay() {
+  // Prefill last-used times as a convenience
+  const soInput = document.getElementById('screensOffInput');
+  const wkInput = document.getElementById('wakeInput');
+  if (soInput && !soInput.value && state.sleepScreensOff) soInput.value = state.sleepScreensOff;
+  if (wkInput && !wkInput.value && state.sleepWake) wkInput.value = state.sleepWake;
+
+  const avgEl = document.getElementById('sleepAvg');
+  if (avgEl && state.wakeHistory.length >= 2) {
+    const avgMin = state.wakeHistory.reduce((a,b)=>a+b,0) / state.wakeHistory.length;
+    const h = Math.floor(avgMin / 60), m = Math.round(avgMin % 60);
+    avgEl.textContent = `Avg wake ${fmtTime(`${h}:${String(m).padStart(2,'0')}`)} over last ${state.wakeHistory.length} nights`;
+  } else if (avgEl) {
+    avgEl.textContent = '';
+  }
 }
 
 // ===================== PRODUCTIVITY =====================
 function todayKey() { return new Date().toISOString().slice(0,10); }
 
-function logChapter() {
+function logChapter(ev) {
   state.chaptersRead++;
   saveState(state);
   addXP('mind', 25);
   updateChapterCount();
-  showToast('📖 Chapter logged · +25 Mind XP');
+  if (ev && ev.currentTarget) flashCard(ev.currentTarget);
+  registerAction('Chapter read', { mind: 25 }, () => { state.chaptersRead = Math.max(0, state.chaptersRead - 1); });
+  showXP(25, 'Mind', '📖 Chapter finished');
 }
 
 function updateChapterCount() {
@@ -1714,18 +2107,42 @@ function setYtBudget() {
 function updateYtBudget() {
   const el = document.getElementById('ytBudgetDisplay');
   if (el) el.textContent = state.ytBudget ? `${state.ytBudget} min` : 'Not set';
+  refreshDailyWinStates();
 }
 
-function logUnderYt() {
+function logUnderYt(ev) {
   if (!state.ytBudget) { showToast('Set your budget first'); return; }
-  if (claimDailyWin('yt')) { addXP('mind', 20); showToast('✅ Under your limit · +20 Mind XP'); }
-  else showToast('Already claimed today — see you tomorrow');
+  if (claimDailyWin('yt')) {
+    addXP('mind', 20);
+    if (ev && ev.currentTarget) { flashCard(ev.currentTarget); markDone(ev.currentTarget); }
+    registerAction('Under YT limit', { mind: 20 }, () => { unclaimDailyWin('yt'); });
+    showXP(20, 'Mind', '✅ Under YT limit');
+  } else showToast('Already done today — back tomorrow');
 }
 
-function logDailyWin(key, label, icon) {
+function logDailyWin(key, label, icon, ev) {
   const xp = key === 'games' ? 15 : 20;
-  if (claimDailyWin(key)) { addXP('mind', xp); showToast(`${icon} ${label} · +${xp} Mind XP`); }
-  else showToast('Already claimed today — see you tomorrow');
+  if (claimDailyWin(key)) {
+    addXP('mind', xp);
+    if (ev && ev.currentTarget) { flashCard(ev.currentTarget); markDone(ev.currentTarget); }
+    registerAction(label, { mind: xp }, () => { unclaimDailyWin(key); });
+    showXP(xp, 'Mind', `${icon} ${label}`);
+  } else showToast('Already done today — back tomorrow');
+}
+
+function markDone(el) {
+  if (el) el.classList.add('done');
+}
+
+function refreshDailyWinStates() {
+  // On load, mark today's already-claimed daily wins as done
+  const today = todayKey();
+  const claimed = state.dailyWins[today] || {};
+  const map = { 'yt': 'win-yt', 'shorts': 'win-shorts', 'games': 'win-games' };
+  Object.keys(map).forEach(key => {
+    const el = document.getElementById(map[key]);
+    if (el) { if (claimed[key]) el.classList.add('done'); else el.classList.remove('done'); }
+  });
 }
 
 function claimDailyWin(key) {
@@ -1735,6 +2152,11 @@ function claimDailyWin(key) {
   state.dailyWins[today][key] = true;
   saveState(state);
   return true;
+}
+
+function unclaimDailyWin(key) {
+  const today = todayKey();
+  if (state.dailyWins[today]) { delete state.dailyWins[today][key]; saveState(state); }
 }
 
 // ===================== CHIPOTLE CHEAT =====================
@@ -1778,7 +2200,8 @@ function updateCheatCountdown() {
 
 function logCheatMeal() {
   addXP('discipline', 10);
-  showToast('🌯 Cheat meal logged — you earned it. Zero guilt.');
+  registerAction('Cheat meal', { discipline: 10 });
+  showXP(10, 'Discipline', '🌯 Cheat meal');
   // Auto-advance to next cheat in 2 weeks
   if (state.cheatDate) {
     const next = new Date(state.cheatDate + 'T12:00:00');
@@ -1851,6 +2274,8 @@ updateCheatCountdown();
 updateChapterCount();
 updateYtBudget();
 updateSleepDisplay();
+refreshDailyWinStates();
+refreshUndoButton();
 loadTemplate(0);
 </script>
 </body>
