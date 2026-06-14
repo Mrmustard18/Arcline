@@ -905,6 +905,151 @@
     100% { transform: scale(1); }
   }
 
+  /* ===================== TODAY PAGE ===================== */
+  .today-head { margin-bottom: 18px; }
+  .today-date { font-size: 11px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; }
+  .today-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+
+  .task {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 16px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .task:active { transform: scale(0.99); }
+  .task.workout-task { border-left-color: var(--strength); }
+  .task.meal-task { border-left-color: var(--nutrition); }
+  .task.habit-task { border-left-color: var(--mind); }
+
+  .task-check {
+    width: 26px; height: 26px;
+    border: 2px solid var(--border-bright);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+  }
+  .task.completing .task-check { background: var(--accent); border-color: var(--accent); }
+  .task-check svg { width: 14px; height: 14px; opacity: 0; transition: opacity 0.18s; stroke: #1a120a; }
+  .task.completing .task-check svg { opacity: 1; }
+
+  .task-body { flex: 1; min-width: 0; }
+  .task-kicker { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .task-title { font-family: 'Oswald', sans-serif; font-size: 19px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; color: var(--ink); line-height: 1.1; margin-top: 2px; }
+  .task-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .task-arrow { color: var(--faint); flex-shrink: 0; }
+
+  .task.removing { opacity: 0; transform: translateX(40px); max-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; border-width: 0; }
+
+  .today-empty { text-align: center; padding: 48px 20px; }
+  .today-empty-mark {
+    width: 56px; height: 56px; margin: 0 auto 14px;
+    border: 2px solid var(--accent); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; color: var(--accent);
+  }
+  .today-empty-title { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; text-transform: uppercase; color: var(--ink); }
+  .today-empty-sub { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  .setup-link {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .setup-link:active { border-color: var(--accent); color: var(--accent); }
+
+  .coach-note {
+    background: var(--accent-dim);
+    border: 1px solid var(--border-bright);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 11px 13px;
+    margin-bottom: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .coach-note b { color: var(--accent); font-weight: 700; }
+
+  /* ===================== TUNE PAGE ===================== */
+  .tune-note { font-size: 10px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-cell {
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .day-cell.on { background: var(--accent); color: #1a120a; border-color: var(--accent); }
+
+  .seg { display: flex; gap: 6px; }
+  .seg button {
+    flex: 1;
+    padding: 12px 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .seg button.on { background: var(--accent); color: #1a120a; border-color: var(--accent); }
+
+  .reminder-row { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+  .reminder-title { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
+  .reminder-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  .sched-day {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 13px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--strength);
+    border-radius: var(--radius);
+    margin-bottom: 7px;
+  }
+  .sched-day-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); }
+  .sched-day-focus { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
+
   /* TOAST */
   .toast {
     position: fixed;
@@ -1140,7 +1285,52 @@
 </header>
 
 <!-- PROFILE PAGE -->
-<div class="page active" id="page-profile">
+<!-- TODAY PAGE -->
+<div class="page active" id="page-today">
+  <div class="today-head">
+    <div class="today-date mono" id="todayDate"></div>
+    <div class="today-title" id="todayGreeting">Today</div>
+  </div>
+  <div id="todayList"></div>
+  <div id="todayEmpty" class="today-empty" style="display:none">
+    <div class="today-empty-mark">✓</div>
+    <div class="today-empty-title">Day Complete</div>
+    <div class="today-empty-sub">Everything logged. Rest up.</div>
+  </div>
+  <button class="setup-link mono" id="setupLink" onclick="showPage('tune', null)">⚙ Tune my schedule</button>
+</div>
+
+<!-- TUNE PAGE -->
+<div class="page" id="page-tune">
+  <div class="section-label">Availability</div>
+  <div class="tune-note mono">Tap the days you're usually home and free. Arcline fits your workouts into these.</div>
+  <div class="day-grid" id="dayGrid"></div>
+
+  <div class="section-label" style="margin-top:22px">Workouts / Week</div>
+  <div class="seg" id="freqSeg">
+    <button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button>
+  </div>
+
+  <div class="section-label" style="margin-top:22px">Preferred Time</div>
+  <div class="seg" id="timeSeg">
+    <button data-v="morning">Morning</button><button data-v="afternoon">Afternoon</button><button data-v="evening">Evening</button>
+  </div>
+
+  <div class="section-label" style="margin-top:22px">Reminders</div>
+  <div class="reminder-row">
+    <div>
+      <div class="reminder-title">Workout & meal nudges</div>
+      <div class="reminder-sub mono" id="reminderStatus">Off</div>
+    </div>
+    <button class="btn btn-ghost" id="reminderBtn" onclick="toggleReminders()">Enable</button>
+  </div>
+  <div class="tune-note mono" style="margin-top:8px">Note: phone reminders work best when you've opened Arcline that day. Always-on push isn't possible on this kind of app.</div>
+
+  <button class="btn btn-accent" style="width:100%;padding:14px;margin-top:24px" onclick="saveTune()">Save & Rebuild Week</button>
+  <div id="schedulePreview" style="margin-top:20px"></div>
+</div>
+
+<div class="page" id="page-profile">
   <div class="dossier">
     <div class="dossier-tag"><span>Operative Status</span><span class="id">ARC-01</span></div>
     <div class="profile-rank" id="profileRank">Recruit</div>
@@ -1226,6 +1416,7 @@
     <button class="btn btn-accent" style="flex:1;padding:14px;font-size:15px" onclick="saveWorkout()">Save Workout</button>
     <button class="btn btn-ghost" onclick="clearWorkout()">Clear</button>
   </div>
+  <button class="setup-link mono" onclick="showPage('templates', null)">⊞ Browse workout templates</button>
 </div>
 
 <!-- LOG PAGE -->
@@ -1337,7 +1528,7 @@
       <div class="log-action-icon">🏠</div>
       <div class="log-action-text">
         <div class="log-action-title">Girlfriend's House</div>
-        <div class="log-action-sub">Usually runs heavier · +8 XP for honesty</div>
+        <div class="log-action-sub">+8 XP for tracking</div>
       </div>
       <div class="log-action-plus">+</div>
     </div>
@@ -1457,9 +1648,9 @@
 
 <!-- NAV -->
 <nav>
-  <button class="active" onclick="showPage('profile', this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    Profile
+  <button class="active" onclick="showPage('today', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    Today
     <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('workout', this)">
@@ -1468,18 +1659,18 @@
     <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('log', this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
     Log
+    <div class="nav-tick"></div>
+  </button>
+  <button onclick="showPage('profile', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Profile
     <div class="nav-tick"></div>
   </button>
   <button onclick="showPage('history', this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     History
-    <div class="nav-tick"></div>
-  </button>
-  <button onclick="showPage('templates', this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    Templates
     <div class="nav-tick"></div>
   </button>
 </nav>
@@ -1543,7 +1734,7 @@ const TEMPLATES = [
 ];
 
 function loadState() {
-  return JSON.parse(localStorage.getItem('arcline_state') || JSON.stringify({
+  const s = JSON.parse(localStorage.getItem('arcline_state') || JSON.stringify({
     skills: { strength: 0, nutrition: 0, discipline: 0, recovery: 0, mind: 0 },
     prs: {},
     totalWorkouts: 0,
@@ -1559,8 +1750,22 @@ function loadState() {
     dailyWins: {},
     cheatDate: null,
     lockedIn: false,
-    history: []
+    history: [],
+    // --- scheduling & coaching ---
+    setupDone: false,
+    availDays: [1,2,3,4,5],        // 0=Sun..6=Sat; default weekdays
+    workoutsPerWeek: 3,
+    timeWindow: 'afternoon',        // morning | afternoon | evening
+    schedule: {},                   // { 'YYYY-MM-DD': {focus, done} }
+    scheduleWeek: null,             // week id the schedule was built for
+    progression: {},                // { exerciseName: {target, reps, success, fails} }
+    completedTasks: {},             // { 'YYYY-MM-DD': [taskId,...] }
+    remindersOn: false
   }));
+  // migrate older saves missing new keys
+  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false };
+  for (const k in defaults) if (s[k] === undefined) s[k] = defaults[k];
+  return s;
 }
 
 function saveState(s) { localStorage.setItem('arcline_state', JSON.stringify(s)); }
@@ -1568,6 +1773,69 @@ function saveState(s) { localStorage.setItem('arcline_state', JSON.stringify(s))
 let state = loadState();
 let exercises = [];
 let openCards = new Set();
+
+// Focus rotation pool — maps to TEMPLATES by name
+const FOCUS_ROTATION = ['Ab Session', 'Chest & Triceps', 'Back & Biceps', 'Legs', 'Shoulders'];
+
+// ===================== SCHEDULING ENGINE =====================
+function weekId(d = new Date()) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  const monday = new Date(dt); monday.setDate(dt.getDate() - ((day + 6) % 7));
+  return monday.toISOString().slice(0,10);
+}
+
+function dateKey(d = new Date()) {
+  return new Date(d).toISOString().slice(0,10);
+}
+
+// Build (or rebuild) this week's workout schedule from availability
+function buildSchedule(force = false) {
+  const wid = weekId();
+  if (!force && state.scheduleWeek === wid && Object.keys(state.schedule).length) return;
+
+  // Find this week's Monday
+  const monday = new Date(wid + 'T12:00:00');
+  // Candidate dates = available weekdays this week, today or later
+  const todayKeyStr = dateKey();
+  const candidates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday); d.setDate(monday.getDate() + i);
+    const dow = d.getDay();
+    const dk = dateKey(d);
+    if (state.availDays.includes(dow) && dk >= todayKeyStr) candidates.push(dk);
+  }
+
+  // Space N workouts across available candidate days
+  const n = Math.min(state.workoutsPerWeek, candidates.length);
+  const chosen = [];
+  if (candidates.length && n) {
+    const step = candidates.length / n;
+    for (let i = 0; i < n; i++) chosen.push(candidates[Math.floor(i * step)]);
+  }
+
+  // Preserve any already-done entries from the existing schedule
+  const newSchedule = {};
+  // pick rotation focus, continuing from how many done historically
+  let rotIdx = state.totalWorkouts % FOCUS_ROTATION.length;
+  chosen.forEach(dk => {
+    const existing = state.schedule[dk];
+    newSchedule[dk] = {
+      focus: existing ? existing.focus : FOCUS_ROTATION[rotIdx % FOCUS_ROTATION.length],
+      done: existing ? existing.done : false
+    };
+    rotIdx++;
+  });
+
+  state.schedule = newSchedule;
+  state.scheduleWeek = wid;
+  saveState(state);
+}
+
+function todaysWorkout() {
+  const dk = dateKey();
+  return state.schedule[dk] || null;
+}
 
 // ===================== XP / LEVEL =====================
 function getLevel(xp) {
@@ -1818,6 +2086,17 @@ function saveWorkout() {
   saveState(state);
   updateProfile();
 
+  // Watchful progression — read what was actually done and adjust gently
+  analyzeProgression(entry.exercises);
+
+  // Mark today's scheduled workout complete if this matches it
+  const w = todaysWorkout();
+  if (w && !w.done) {
+    w.done = true;
+    markTaskDone('workout');
+    saveState(state);
+  }
+
   let msg = 'Workout saved!';
   if (newPRs > 0) msg = `Workout saved! ${newPRs} new PR${newPRs > 1 ? 's' : ''}! +${newPRs * 50} Strength XP`;
   showToast(msg);
@@ -1917,23 +2196,325 @@ function renderTemplates() {
     </div>`).join('');
 }
 
-function loadTemplate(i) {
+function loadTemplate(i, fromSchedule) {
   const t = TEMPLATES[i];
-  exercises = t.exercises.map(name => ({ id: generateId(), name, sets: [{ reps: '', weight: '' }], notes: '' }));
+  exercises = t.exercises.map(name => {
+    const prog = state.progression[name];
+    const targetReps = prog ? prog.target : null;
+    return {
+      id: generateId(),
+      name,
+      sets: [{ reps: '', weight: '' }],
+      notes: targetReps ? `Target: ${targetReps} reps` : ''
+    };
+  });
   document.getElementById('workoutName').value = t.name;
   openCards.clear();
   renderExercises();
-  showPage('workout', document.querySelectorAll('nav button')[1]);
-  showToast(`${t.name} loaded!`);
+  if (!fromSchedule) {
+    showPage('workout', null);
+    showToast(`${t.name} loaded`);
+  }
+}
+
+// ===================== WATCHFUL PROGRESSION =====================
+// Conservative: only raises a target after 2 clean successes; backs off on a miss.
+function analyzeProgression(savedExercises) {
+  const notes = [];
+  savedExercises.forEach(ex => {
+    let bestReps = 0;
+    ex.sets.forEach(s => { const r = parseFloat(s.reps) || 0; if (r > bestReps) bestReps = r; });
+    if (bestReps <= 0) return;
+
+    let prog = state.progression[ex.name];
+    if (!prog) {
+      prog = { target: bestReps, reps: bestReps, success: 0, fails: 0 };
+      state.progression[ex.name] = prog;
+      return;
+    }
+
+    if (bestReps >= prog.target) {
+      prog.success++; prog.fails = 0;
+      if (prog.success >= 2) {
+        const oldT = prog.target;
+        prog.target = oldT + 2;
+        prog.success = 0;
+        notes.push(`<b>${ex.name}</b> → target up to ${prog.target} reps (you hit ${oldT}+ twice)`);
+      }
+    } else {
+      prog.fails++; prog.success = 0;
+      if (prog.fails >= 2 && prog.target > bestReps) {
+        prog.target = Math.max(bestReps, prog.target - 2);
+        prog.fails = 0;
+        notes.push(`<b>${ex.name}</b> → eased to ${prog.target} reps (keeping it sustainable)`);
+      }
+    }
+    prog.reps = bestReps;
+  });
+
+  state.lastCoachNote = notes.length ? ('Coach adjusted: ' + notes.join(' · ')) : null;
+  saveState(state);
 }
 
 // ===================== NAV =====================
 function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  btn.classList.add('active');
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  // highlight matching nav button (btn may be null for non-nav links)
+  if (btn && btn.classList && btn.tagName === 'BUTTON' && btn.closest('nav')) {
+    btn.classList.add('active');
+  } else {
+    // map sub-pages to their nav home
+    const navHome = { today:0, workout:1, log:2, profile:3, history:4, tune:0, templates:1 };
+    const idx = navHome[name];
+    if (idx !== undefined) {
+      const navBtns = document.querySelectorAll('nav button');
+      if (navBtns[idx]) navBtns[idx].classList.add('active');
+    }
+  }
   if (name === 'history') renderHistory();
+  if (name === 'today') renderToday();
+  if (name === 'tune') renderTune();
+  window.scrollTo(0, 0);
+}
+
+// ===================== TODAY LIST =====================
+function isTaskDone(id) {
+  const dk = dateKey();
+  return (state.completedTasks[dk] || []).includes(id);
+}
+function markTaskDone(id) {
+  const dk = dateKey();
+  if (!state.completedTasks[dk]) state.completedTasks[dk] = [];
+  if (!state.completedTasks[dk].includes(id)) state.completedTasks[dk].push(id);
+  saveState(state);
+}
+
+function buildTodayTasks() {
+  // returns array of {id, cls, kicker, title, sub, action}
+  const tasks = [];
+  const w = todaysWorkout();
+  if (w && !w.done) {
+    tasks.push({
+      id: 'workout',
+      cls: 'workout-task',
+      kicker: 'Scheduled Session',
+      title: w.focus,
+      sub: 'Tap to start · auto-built for you',
+      action: () => { loadScheduledWorkout(w.focus); }
+    });
+  }
+  // Meals — reminders only; tapping jumps to Log page
+  tasks.push({ id:'lunch', cls:'meal-task', kicker:'Midday', title:'Log Lunch', sub:'Tap to log it your way', action: goLog });
+  tasks.push({ id:'dinner', cls:'meal-task', kicker:'Evening', title:'Log Dinner', sub:'Tap to log it your way', action: goLog });
+  // Habits
+  tasks.push({ id:'hydrate', cls:'habit-task', kicker:'Daily', title:'Hydrate', sub:'+10 Discipline', action: () => quickLogFromTask('discipline',10,'Hydrated','💧') });
+  tasks.push({ id:'read', cls:'habit-task', kicker:'Daily', title:'Read a Chapter', sub:'+25 Mind', action: () => { state.chaptersRead++; saveState(state); addXP('mind',25); updateChapterCount(); registerAction('Chapter read',{mind:25},()=>{state.chaptersRead=Math.max(0,state.chaptersRead-1);}); showXP(25,'Mind','📖 Chapter'); } });
+
+  return tasks.filter(t => !isTaskDone(t.id));
+}
+
+function goLog() {
+  showPage('log', null);
+}
+
+function quickLogFromTask(skill, xp, label, icon) {
+  addXP(skill, xp);
+  registerAction(label, { [skill]: xp });
+  showXP(xp, skill, `${icon} ${label}`);
+}
+
+function renderToday() {
+  buildSchedule();
+  const greeting = document.getElementById('todayGreeting');
+  const dateEl = document.getElementById('todayDate');
+  const now = new Date();
+  const hr = now.getHours();
+  greeting.textContent = hr < 12 ? 'Good Morning' : hr < 18 ? 'Afternoon' : 'Evening';
+  dateEl.textContent = now.toLocaleDateString('en-US', { weekday:'long', month:'short', day:'numeric' }).toUpperCase();
+
+  const list = document.getElementById('todayList');
+  const empty = document.getElementById('todayEmpty');
+  list.innerHTML = '';
+
+  // coaching note (progression explanations) if any pending
+  if (state.lastCoachNote) {
+    const note = document.createElement('div');
+    note.className = 'coach-note';
+    note.innerHTML = state.lastCoachNote;
+    list.appendChild(note);
+  }
+
+  const tasks = buildTodayTasks();
+  if (tasks.length === 0) {
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    tasks.forEach(t => {
+      const el = document.createElement('div');
+      el.className = `task ${t.cls}`;
+      el.innerHTML = `
+        <div class="task-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="task-body">
+          <div class="task-kicker">${t.kicker}</div>
+          <div class="task-title">${t.title}</div>
+          <div class="task-sub">${t.sub}</div>
+        </div>
+        <svg class="task-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg>`;
+      el.onclick = () => handleTaskTap(t, el);
+      list.appendChild(el);
+    });
+  }
+}
+
+function handleTaskTap(t, el) {
+  // Workout & meal tasks navigate; habit tasks complete inline
+  if (t.id === 'workout' || t.id === 'lunch' || t.id === 'dinner') {
+    // mark done only for meals on tap (workout completes when saved)
+    if (t.id !== 'workout') { markTaskDone(t.id); }
+    t.action();
+    return;
+  }
+  // habit: animate check then remove
+  el.classList.add('completing');
+  t.action();
+  markTaskDone(t.id);
+  setTimeout(() => {
+    el.classList.add('removing');
+    setTimeout(renderToday, 280);
+  }, 260);
+}
+
+function loadScheduledWorkout(focus) {
+  const idx = TEMPLATES.findIndex(t => t.name === focus);
+  if (idx >= 0) loadTemplate(idx, true);
+  showPage('workout', null);
+}
+
+// ===================== TUNE PAGE =====================
+const DAY_LABELS = ['S','M','T','W','T','F','S'];
+let tuneDraft = null;
+
+function renderTune() {
+  // working copy
+  tuneDraft = {
+    availDays: [...state.availDays],
+    workoutsPerWeek: state.workoutsPerWeek,
+    timeWindow: state.timeWindow
+  };
+  // day grid
+  const grid = document.getElementById('dayGrid');
+  grid.innerHTML = '';
+  for (let d = 0; d < 7; d++) {
+    const cell = document.createElement('div');
+    cell.className = 'day-cell' + (tuneDraft.availDays.includes(d) ? ' on' : '');
+    cell.textContent = DAY_LABELS[d];
+    cell.onclick = () => {
+      if (tuneDraft.availDays.includes(d)) tuneDraft.availDays = tuneDraft.availDays.filter(x => x !== d);
+      else tuneDraft.availDays.push(d);
+      cell.classList.toggle('on');
+    };
+    grid.appendChild(cell);
+  }
+  // freq
+  document.querySelectorAll('#freqSeg button').forEach(b => {
+    b.classList.toggle('on', parseInt(b.dataset.v) === tuneDraft.workoutsPerWeek);
+    b.onclick = () => { tuneDraft.workoutsPerWeek = parseInt(b.dataset.v); document.querySelectorAll('#freqSeg button').forEach(x => x.classList.toggle('on', x === b)); };
+  });
+  // time
+  document.querySelectorAll('#timeSeg button').forEach(b => {
+    b.classList.toggle('on', b.dataset.v === tuneDraft.timeWindow);
+    b.onclick = () => { tuneDraft.timeWindow = b.dataset.v; document.querySelectorAll('#timeSeg button').forEach(x => x.classList.toggle('on', x === b)); };
+  });
+  // reminders
+  updateReminderUI();
+  renderSchedulePreview();
+}
+
+function saveTune() {
+  if (!tuneDraft.availDays.length) { showToast('Pick at least one day'); return; }
+  state.availDays = tuneDraft.availDays.sort((a,b)=>a-b);
+  state.workoutsPerWeek = tuneDraft.workoutsPerWeek;
+  state.timeWindow = tuneDraft.timeWindow;
+  state.setupDone = true;
+  saveState(state);
+  buildSchedule(true);
+  renderSchedulePreview();
+  showToast('Schedule rebuilt for this week');
+}
+
+function renderSchedulePreview() {
+  const wrap = document.getElementById('schedulePreview');
+  if (!wrap) return;
+  buildSchedule();
+  const keys = Object.keys(state.schedule).sort();
+  if (!keys.length) { wrap.innerHTML = '<div class="tune-note mono">No workouts left to schedule this week — adjust your days above.</div>'; return; }
+  let html = '<div class="section-label">This Week\'s Plan</div>';
+  keys.forEach(dk => {
+    const s = state.schedule[dk];
+    const d = new Date(dk + 'T12:00:00');
+    const label = d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' }).toUpperCase();
+    html += `<div class="sched-day"><span class="sched-day-date">${label}${s.done ? ' ✓' : ''}</span><span class="sched-day-focus">${s.focus}</span></div>`;
+  });
+  wrap.innerHTML = html;
+}
+
+// ===================== REMINDERS =====================
+function updateReminderUI() {
+  const status = document.getElementById('reminderStatus');
+  const btn = document.getElementById('reminderBtn');
+  if (!status) return;
+  const granted = ('Notification' in window) && Notification.permission === 'granted' && state.remindersOn;
+  status.textContent = granted ? 'On — workout window + meals' : (('Notification' in window) ? 'Off' : 'Not supported on this device');
+  btn.textContent = granted ? 'Disable' : 'Enable';
+}
+
+function toggleReminders() {
+  if (!('Notification' in window)) { showToast('Notifications not supported here'); return; }
+  if (state.remindersOn && Notification.permission === 'granted') {
+    state.remindersOn = false; saveState(state); updateReminderUI(); clearScheduledReminders(); showToast('Reminders off');
+    return;
+  }
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') {
+      state.remindersOn = true; saveState(state); updateReminderUI(); scheduleReminders();
+      new Notification('Arcline', { body: "Reminders on. I'll nudge you about workouts and meals." });
+      showToast('Reminders enabled');
+    } else {
+      showToast('Permission denied — enable in browser settings');
+      updateReminderUI();
+    }
+  });
+}
+
+let reminderTimers = [];
+function clearScheduledReminders() { reminderTimers.forEach(t => clearTimeout(t)); reminderTimers = []; }
+
+function scheduleReminders() {
+  clearScheduledReminders();
+  if (!state.remindersOn || Notification.permission !== 'granted') return;
+  // Schedule today's reminders relative to now (only while app/tab stays alive)
+  const windowHour = { morning: 8, afternoon: 13, evening: 19 }[state.timeWindow] || 13;
+  const now = new Date();
+
+  const fireAt = (hour, min, body) => {
+    const t = new Date(); t.setHours(hour, min, 0, 0);
+    const ms = t - now;
+    if (ms > 0 && ms < 24*60*60*1000) {
+      reminderTimers.push(setTimeout(() => {
+        try { new Notification('Arcline', { body }); } catch(e){}
+      }, ms));
+    }
+  };
+
+  // workout reminder if today is a workout day and not done
+  const w = todaysWorkout();
+  if (w && !w.done) fireAt(windowHour, 0, `Time for your ${w.focus} — tap to start.`);
+  // meal nudges
+  fireAt(13, 0, 'Lunch check — log it in Arcline.');
+  fireAt(19, 0, 'Dinner check — log it in Arcline.');
 }
 
 // ===================== LOG ACTIONS =====================
@@ -1981,27 +2562,28 @@ function calcSleep(screensOff, wake) {
   if (durationMin <= 0) durationMin += 24 * 60;
   const hours = durationMin / 60;
 
-  let xp = 20;
-  const breakdown = ['+20 logged'];
-
+  // Bedtime is the whole story. Most XP for in-bed by 11pm, then ~12 XP less per hour later.
+  // Normalize evening times onto a continuous scale (after-midnight = late).
   let soForScore = screensOffMin;
-  if (soForScore < 12 * 60) soForScore += 24 * 60;
-  let earlyBonus = soForScore <= 22*60 ? 25 : soForScore <= 23*60 ? 18 : soForScore <= 24*60 ? 10 : soForScore <= 25*60 ? 4 : 0;
-  if (earlyBonus > 0) breakdown.push(`+${earlyBonus} early night`);
-  xp += earlyBonus;
+  if (soForScore < 12 * 60) soForScore += 24 * 60; // 12:30am -> 1470, etc.
 
-  let durBonus = (hours>=7 && hours<=9) ? 30 : (hours>=6 && hours<7) ? 18 : (hours>9 && hours<=10) ? 18 : (hours>=5 && hours<6) ? 8 : 4;
-  breakdown.push(`+${durBonus} duration`);
-  xp += durBonus;
+  const MAX_XP = 80;            // by 11pm (or earlier)
+  const DROP_PER_HOUR = 12;     // each hour past 11pm
+  const cutoff = 23 * 60;       // 11:00pm
 
-  let consistBonus = 0;
-  if (state.wakeHistory.length >= 2) {
-    const avg = state.wakeHistory.reduce((a,b)=>a+b,0) / state.wakeHistory.length;
-    const diff = Math.abs(wakeMin - avg);
-    consistBonus = diff <= 30 ? 20 : diff <= 60 ? 10 : 0;
-    if (consistBonus > 0) breakdown.push(`+${consistBonus} consistency`);
+  let xp;
+  let breakdown = [];
+  if (soForScore <= cutoff) {
+    xp = MAX_XP;
+    breakdown.push(`In bed by 11 · +${MAX_XP}`);
+  } else {
+    const hoursLate = (soForScore - cutoff) / 60;
+    xp = Math.max(10, Math.round(MAX_XP - hoursLate * DROP_PER_HOUR));
+    const lateH = Math.floor(hoursLate);
+    const lateM = Math.round((hoursLate - lateH) * 60);
+    const lateStr = lateH > 0 ? `${lateH}h ${lateM}m` : `${lateM}m`;
+    breakdown.push(`${lateStr} past 11 · +${xp}`);
   }
-  xp += consistBonus;
 
   return { xp, hours, durationMin, breakdown };
 }
@@ -2276,7 +2858,10 @@ updateYtBudget();
 updateSleepDisplay();
 refreshDailyWinStates();
 refreshUndoButton();
-loadTemplate(0);
+// Build this week's schedule and show Today first
+buildSchedule();
+renderToday();
+if (state.remindersOn && ('Notification' in window) && Notification.permission === 'granted') scheduleReminders();
 </script>
 </body>
 </html>
