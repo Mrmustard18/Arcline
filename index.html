@@ -534,6 +534,32 @@
     margin-bottom: 8px;
   }
 
+  .rep-input-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .rep-input-group .set-input { flex: 1; }
+
+  .rep-checkbox {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rep-checkbox:active { background: var(--accent); color: #1a120a; transform: scale(0.92); }
+
   .set-num { font-size: 12px; color: var(--muted); font-weight: 600; text-align: center; }
 
   .set-input {
@@ -2276,7 +2302,12 @@ function removeExercise(id) { exercises = exercises.filter(e => e.id !== id); re
 
 function addSet(id) {
   const ex = exercises.find(e => e.id === id);
-  if (ex) { ex.sets.push({ reps: '', weight: '' }); renderExercises(id); }
+  if (ex) {
+    // Copy last set's reps/weight as defaults (Gymbro style)
+    const lastSet = ex.sets[ex.sets.length - 1] || { reps: '', weight: '' };
+    ex.sets.push({ reps: lastSet.reps, weight: lastSet.weight });
+    renderExercises(id);
+  }
 }
 
 function removeSet(exId, setIdx) {
@@ -2314,7 +2345,10 @@ function renderExercises() {
         ${ex.sets.map((s, i) => `
           <div class="set-row">
             <div class="set-num">${i+1}</div>
-            <input class="set-input" type="number" inputmode="numeric" placeholder="—" value="${s.reps}" oninput="updateSet('${ex.id}',${i},'reps',this.value)">
+            <div class="rep-input-group">
+              <input class="set-input" type="number" inputmode="numeric" placeholder="—" value="${s.reps}" oninput="updateSet('${ex.id}',${i},'reps',this.value)">
+              <button class="rep-checkbox" onclick="fillLastRepTarget('${ex.id}',${i})" title="Hit target reps?">✓</button>
+            </div>
             <input class="set-input" type="number" inputmode="decimal" placeholder="—" value="${s.weight}" oninput="updateSet('${ex.id}',${i},'weight',this.value)">
             <button class="set-delete" onclick="removeSet('${ex.id}',${i})">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -2330,58 +2364,74 @@ function renderExercises() {
   });
 }
 
+// Quick-tap checkbox to copy last set's reps to current set
+function fillLastRepTarget(exId, setIdx) {
+  const ex = exercises.find(e => e.id === exId);
+  if (!ex || setIdx === 0) return;
+  const lastSet = ex.sets[setIdx - 1];
+  if (lastSet && lastSet.reps) {
+    ex.sets[setIdx].reps = lastSet.reps;
+    renderExercises();
+  }
+}
+
 function toggleCard(id) {
   if (openCards.has(id)) openCards.delete(id); else openCards.add(id);
   renderExercises();
 }
 
 function saveWorkout() {
-  if (exercises.length === 0) { showToast('Add at least one exercise'); return; }
-  const name = document.getElementById('workoutName').value.trim() || 'Workout';
+  try {
+    if (exercises.length === 0) { showToast('Add at least one exercise'); return; }
+    const name = document.getElementById('workoutName').value.trim() || 'Workout';
 
-  let newPRs = 0;
-  exercises.forEach(ex => {
-    ex.sets.forEach(s => {
-      const r = parseFloat(s.reps) || 0;
-      const w = parseFloat(s.weight) || 0;
-      if (r > 0 || w > 0) { if (checkPR(ex.name, r, w)) newPRs++; }
+    let newPRs = 0;
+    exercises.forEach(ex => {
+      ex.sets.forEach(s => {
+        const r = parseFloat(s.reps) || 0;
+        const w = parseFloat(s.weight) || 0;
+        if (r > 0 || w > 0) { if (checkPR(ex.name, r, w)) newPRs++; }
+      });
     });
-  });
 
-  const entry = { id: generateId(), name, date: new Date().toISOString(), exercises: JSON.parse(JSON.stringify(exercises)) };
-  state.history.unshift(entry);
-  state.totalWorkouts++;
+    const entry = { id: generateId(), name, date: new Date().toISOString(), exercises: JSON.parse(JSON.stringify(exercises)) };
+    state.history.unshift(entry);
+    state.totalWorkouts++;
 
-  // Discipline XP for completing a workout
-  addXP('discipline', 20);
+    // Discipline XP for completing a workout
+    addXP('discipline', 20);
 
-  // Week streak
-  const thisWeek = getWeekNumber(new Date());
-  if (state.lastWorkoutWeek !== thisWeek) {
-    const lastWeek = getWeekNumber(new Date(Date.now() - 7*24*60*60*1000));
-    if (state.lastWorkoutWeek === lastWeek) state.weekStreak++;
-    else if (state.lastWorkoutWeek !== thisWeek) state.weekStreak = 1;
-    state.lastWorkoutWeek = thisWeek;
-  }
+    // Week streak
+    const thisWeek = getWeekNumber(new Date());
+    if (state.lastWorkoutWeek !== thisWeek) {
+      const lastWeek = getWeekNumber(new Date(Date.now() - 7*24*60*60*1000));
+      if (state.lastWorkoutWeek === lastWeek) state.weekStreak++;
+      else if (state.lastWorkoutWeek !== thisWeek) state.weekStreak = 1;
+      state.lastWorkoutWeek = thisWeek;
+    }
 
-  saveState(state);
-  updateProfile();
-
-  // Watchful progression — read what was actually done and adjust gently
-  analyzeProgression(entry.exercises);
-
-  // Mark today's scheduled workout complete if this matches it
-  const w = todaysWorkout();
-  if (w && !w.done) {
-    w.done = true;
-    markTaskDone('workout');
     saveState(state);
-  }
+    updateProfile();
 
-  let msg = 'Workout saved!';
-  if (newPRs > 0) msg = `Workout saved! ${newPRs} new PR${newPRs > 1 ? 's' : ''}! +${newPRs * 50} Strength XP`;
-  showToast(msg);
-  setTimeout(() => { exercises = []; openCards.clear(); renderExercises(); }, 800);
+    // Watchful progression — read what was actually done and adjust gently
+    analyzeProgression(entry.exercises);
+
+    // Mark today's scheduled workout complete if this matches it
+    const w = todaysWorkout();
+    if (w && !w.done) {
+      w.done = true;
+      markTaskDone('workout');
+      saveState(state);
+    }
+
+    let msg = 'Workout saved!';
+    if (newPRs > 0) msg = `Workout saved! ${newPRs} new PR${newPRs > 1 ? 's' : ''}! +${newPRs * 50} Strength XP`;
+    showToast(msg);
+    setTimeout(() => { exercises = []; openCards.clear(); renderExercises(); }, 800);
+  } catch (e) {
+    console.error('Save error:', e);
+    showToast('Error saving workout — try again');
+  }
 }
 
 function getWeekNumber(d) {
