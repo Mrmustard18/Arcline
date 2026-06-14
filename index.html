@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#120900">
+<title>Arcline</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #120900;
+    --surface: #1c1000;
+    --surface2: #271700;
+    --border: #3a2200;
+    --accent: rgb(220, 110, 30);
+    --accent-dim: rgba(220, 110, 30, 0.13);
+    --accent-glow: rgba(220, 110, 30, 0.25);
+    --text: #f5ddb0;
+    --muted: #7a5c38;
+    --danger: #cc3300;
+    --radius: 12px;
+    --strength: rgb(220, 80, 40);
+    --nutrition: rgb(180, 140, 30);
+    --discipline: rgb(200, 110, 30);
+    --recovery: rgb(100, 160, 80);
+    --mind: rgb(120, 100, 200);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(50, 15, 0, 0.15);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: multiply;
+  }
+
+  /* HEADER */
+  header {
+    padding: 48px 20px 14px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    text-align: right;
+  }
+
+  .header-level {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .header-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    z-index: 100;
+  }
+
+  nav button {
+    flex: 1;
+    padding: 12px 8px 18px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  nav button.active { color: var(--accent); }
+  nav button svg { width: 20px; height: 20px; }
+
+  /* PAGES */
+  .page { display: none; padding: 20px; }
+  .page.active { display: block; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ===================== PROFILE PAGE ===================== */
+  .profile-hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: var(--accent-glow);
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+
+  .profile-rank-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .profile-rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .profile-level {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .overall-bar-wrap {
+    margin-bottom: 6px;
+  }
+
+  .overall-bar-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .bar-track {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--accent);
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* SKILL CARDS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.4;
+  }
+
+  .skill-card.strength::before { background: var(--strength); }
+  .skill-card.nutrition::before { background: var(--nutrition); }
+  .skill-card.discipline::before { background: var(--discipline); }
+  .skill-card.recovery::before { background: var(--recovery); }
+  .skill-card.mind::before { background: var(--mind); }
+
+  .skill-icon { font-size: 20px; margin-bottom: 6px; }
+
+  .skill-name {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .skill-rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .skill-card.strength .skill-rank { color: var(--strength); }
+  .skill-card.nutrition .skill-rank { color: var(--nutrition); }
+  .skill-card.discipline .skill-rank { color: var(--discipline); }
+  .skill-card.recovery .skill-rank { color: var(--recovery); }
+  .skill-card.mind .skill-rank { color: var(--mind); }
+
+  .skill-bar-track {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .skill-card.strength .skill-bar-fill { background: var(--strength); }
+  .skill-card.nutrition .skill-bar-fill { background: var(--nutrition); }
+  .skill-card.discipline .skill-bar-fill { background: var(--discipline); }
+  .skill-card.recovery .skill-bar-fill { background: var(--recovery); }
+  .skill-card.mind .skill-bar-fill { background: var(--mind); }
+
+  .skill-xp {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* ===================== WORKOUT PAGE ===================== */
+  .name-editor {
+    margin-bottom: 16px;
+  }
+
+  .name-editor input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .name-editor input:focus { border-color: var(--accent); }
+
+  .btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:active { opacity: 0.85; transform: scale(0.97); }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:active { opacity: 0.75; }
+  .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+
+  .exercise-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .exercise-card-header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .exercise-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .exercise-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pr-badge {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    display: none;
+  }
+
+  .exercise-summary { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .chevron { color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+  .chevron.open { transform: rotate(180deg); }
+
+  .exercise-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .exercise-body.open { display: block; }
+
+  .sets-header {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr 32px;
+    gap: 8px;
+    padding: 10px 0 6px;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .set-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr 32px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .set-num { font-size: 12px; color: var(--muted); font-weight: 600; text-align: center; }
+
+  .set-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 10px;
+    width: 100%;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .set-input:focus { border-color: var(--accent); }
+
+  .set-delete {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+
+  .set-delete:active { color: var(--danger); }
+
+  .add-set-btn {
+    width: 100%;
+    padding: 8px;
+    background: var(--accent-dim);
+    border: 1px dashed rgba(220,110,30,0.3);
+    border-radius: 8px;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .notes-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    resize: none;
+    outline: none;
+    margin-top: 12px;
+    min-height: 60px;
+    transition: border-color 0.15s;
+  }
+
+  .notes-input:focus { border-color: var(--accent); }
+  .notes-input::placeholder { color: var(--muted); }
+
+  .remove-exercise-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 8px;
+    background: none;
+    border: 1px solid rgba(204,51,0,0.3);
+    border-radius: 8px;
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .add-exercise-section {
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .exercise-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .exercise-input:focus { border-color: var(--accent); }
+  .exercise-input::placeholder { color: var(--muted); }
+
+  .save-bar {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  /* ===================== HISTORY PAGE ===================== */
+  .history-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .history-card:active { border-color: var(--accent); }
+
+  .history-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+
+  .history-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .history-date { font-size: 11px; color: var(--muted); text-align: right; }
+
+  .history-stats { display: flex; gap: 16px; }
+  .history-stat { font-size: 12px; color: var(--muted); }
+  .history-stat span { color: var(--text); font-weight: 600; }
+  .history-exercises { margin-top: 8px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .detail-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .detail-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .detail-date { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  .detail-exercise {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .detail-exercise-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .detail-set-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    gap: 8px;
+    font-size: 13px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-set-row:last-of-type { border-bottom: none; }
+  .detail-set-label { color: var(--muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .detail-notes { font-size: 12px; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+  /* ===================== TEMPLATES PAGE ===================== */
+  .template-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .template-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .template-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* EMPTY STATE */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .empty-sub { font-size: 14px; line-height: 1.5; }
+
+  /* LOG ACTIONS */
+  .log-actions { display: flex; flex-direction: column; gap: 10px; }
+
+  .log-action {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .log-action:active { transform: scale(0.98); border-color: var(--accent); }
+  .log-action.bonus { border-color: rgba(100,160,200,0.4); background: linear-gradient(135deg, var(--surface), rgba(40,80,120,0.15)); }
+  .log-action-icon { font-size: 24px; flex-shrink: 0; }
+  .log-action-text { flex: 1; }
+  .log-action-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; }
+  .log-action-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .log-action-plus {
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--accent);
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent-dim);
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  /* LOCK IN ACTIVE STATE */
+  body.locked-in { --accent: rgb(204, 51, 0); --accent-dim: rgba(204,51,0,0.13); --accent-glow: rgba(204,51,0,0.3); }
+  body.locked-in::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    border: 2px solid rgba(204,51,0,0.5);
+    pointer-events: none;
+    z-index: 9998;
+    box-shadow: inset 0 0 30px rgba(204,51,0,0.15);
+  }
+
+  /* TOAST */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 10000;
+    white-space: nowrap;
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* RANK UP SCREEN */
+  .rankup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .rankup-overlay.show { display: flex; }
+
+  .rankup-skill {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .rankup-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .rankup-rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 24px;
+    animation: rankPulse 1s ease-out;
+  }
+
+  .rankup-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  @keyframes rankPulse {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 20px currentColor; }
+    50% { text-shadow: 0 0 60px currentColor, 0 0 100px currentColor; }
+  }
+
+  .rankup-rank { animation: rankPulse 0.6s ease-out, glowPulse 2s ease-in-out infinite; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 300;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    padding: 24px 20px 40px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+  .modal-btns { display: flex; gap: 10px; }
+  .modal-btns .btn { flex: 1; padding: 14px; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Arcline</div>
+  <div class="header-right">
+    <div class="header-level" id="headerLevel">LV 1 — Recruit</div>
+    <div class="header-date" id="headerDate"></div>
+  </div>
+</header>
+
+<!-- PROFILE PAGE -->
+<div class="page active" id="page-profile">
+  <div class="profile-hero">
+    <div class="profile-rank-label">Current Rank</div>
+    <div class="profile-rank" id="profileRank">Recruit</div>
+    <div class="profile-level" id="profileLevel">Overall Level 1</div>
+    <div class="overall-bar-wrap">
+      <div class="overall-bar-top">
+        <span>Overall XP</span>
+        <span id="overallXPText">0 / 100</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="overallBar" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num" id="statWorkouts">0</div>
+      <div class="stat-label">Workouts</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="statPRs">0</div>
+      <div class="stat-label">PRs Set</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="statStreak">0</div>
+      <div class="stat-label">Wk Streak</div>
+    </div>
+  </div>
+
+  <div class="section-label">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-card strength">
+      <div class="skill-icon">⚔️</div>
+      <div class="skill-name">Strength</div>
+      <div class="skill-rank" id="strengthRank">Recruit</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill" id="strengthBar" style="width:0%"></div></div>
+      <div class="skill-xp" id="strengthXP">0 XP</div>
+    </div>
+    <div class="skill-card nutrition">
+      <div class="skill-icon">🥗</div>
+      <div class="skill-name">Nutrition</div>
+      <div class="skill-rank" id="nutritionRank">Recruit</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill" id="nutritionBar" style="width:0%"></div></div>
+      <div class="skill-xp" id="nutritionXP">0 XP</div>
+    </div>
+    <div class="skill-card discipline">
+      <div class="skill-icon">🔒</div>
+      <div class="skill-name">Discipline</div>
+      <div class="skill-rank" id="disciplineRank">Recruit</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill" id="disciplineBar" style="width:0%"></div></div>
+      <div class="skill-xp" id="disciplineXP">0 XP</div>
+    </div>
+    <div class="skill-card recovery">
+      <div class="skill-icon">🌙</div>
+      <div class="skill-name">Recovery</div>
+      <div class="skill-rank" id="recoveryRank">Recruit</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill" id="recoveryBar" style="width:0%"></div></div>
+      <div class="skill-xp" id="recoveryXP">0 XP</div>
+    </div>
+    <div class="skill-card mind" style="grid-column: span 2;">
+      <div class="skill-icon">🧠</div>
+      <div class="skill-name">Mind</div>
+      <div class="skill-rank" id="mindRank">Recruit</div>
+      <div class="skill-bar-track" style="max-width:200px"><div class="skill-bar-fill" id="mindBar" style="width:0%"></div></div>
+      <div class="skill-xp" id="mindXP">0 XP</div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKOUT PAGE -->
+<div class="page" id="page-workout">
+  <div class="section-label">Today's Workout</div>
+  <div class="name-editor">
+    <input type="text" id="workoutName" placeholder="Workout name..." value="Ab Session">
+  </div>
+  <div id="exerciseList"></div>
+  <div class="add-exercise-section">
+    <input class="exercise-input" type="text" id="newExerciseName" placeholder="Add exercise...">
+    <button class="btn btn-accent" onclick="addExercise()">Add</button>
+  </div>
+  <div class="save-bar">
+    <button class="btn btn-accent" style="flex:1;padding:14px;font-size:15px" onclick="saveWorkout()">Save Workout</button>
+    <button class="btn btn-ghost" onclick="clearWorkout()">Clear</button>
+  </div>
+</div>
+
+<!-- LOG PAGE -->
+<div class="page" id="page-log">
+  <div class="section-label">Daily Log</div>
+
+  <!-- LOCK IN MODE -->
+  <div class="profile-hero" id="lockinCard" style="margin-bottom:16px">
+    <div class="profile-rank-label">Focus Mode</div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div class="profile-rank" id="lockinStatus" style="font-size:28px">Off</div>
+        <div class="profile-level" id="lockinSub">Activate when you're dialed in</div>
+      </div>
+      <button class="btn btn-accent" id="lockinBtn" style="padding:12px 24px" onclick="toggleLockin()">Lock In</button>
+    </div>
+  </div>
+
+  <!-- CHIPOTLE CHEAT SCHEDULER -->
+  <div class="profile-hero" style="margin-bottom:16px">
+    <div class="profile-rank-label">Next Cheat Chipotle</div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div class="profile-rank" id="cheatCountdown" style="font-size:24px">Not scheduled</div>
+        <div class="profile-level" id="cheatSub">Every other payday Wednesday</div>
+      </div>
+      <button class="btn btn-ghost" style="padding:10px 16px" onclick="scheduleCheat()">Set Date</button>
+    </div>
+  </div>
+
+  <!-- LUNCH -->
+  <div class="section-label">Lunch</div>
+  <div class="log-actions">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Default lunch', '🧀')">
+      <div class="log-action-icon">🧀</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Default Lunch</div>
+        <div class="log-action-sub">2 Kirkland bars + 2 string cheese · +15 Nutrition XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logAction('nutrition', 5, 'Skipped lunch — logged it', '⏳')">
+      <div class="log-action-icon">⏳</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Skipped Lunch</div>
+        <div class="log-action-sub">Honest log beats no log · +5 XP for awareness</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+  </div>
+
+  <!-- CHIPOTLE -->
+  <div class="section-label" style="margin-top:20px">Chipotle</div>
+  <div class="log-actions">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle default bowl', '🥙')">
+      <div class="log-action-icon">🥙</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Default Bowl</div>
+        <div class="log-action-sub">Chicken, rice, beans, extra corn + pico, chips · +15 XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action bonus" onclick="logCheatMeal()">
+      <div class="log-action-icon">🌯</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Cheat Meal</div>
+        <div class="log-action-sub">Planned indulgent order · zero guilt · +10 Discipline XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+  </div>
+
+  <!-- DINNER -->
+  <div class="section-label" style="margin-top:20px">Dinner</div>
+  <div class="log-actions">
+    <div class="log-action" onclick="logAction('nutrition', 18, 'Light home dinner', '🍽️')">
+      <div class="log-action-icon">🥄</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Home — Light</div>
+        <div class="log-action-sub">Smaller portion, protein first · +18 Nutrition XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logAction('nutrition', 14, 'Normal home dinner', '🍽️')">
+      <div class="log-action-icon">🍽️</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Home — Normal</div>
+        <div class="log-action-sub">Regular plate, protein prioritized · +14 XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Heavy home dinner', '🍝')">
+      <div class="log-action-icon">🍝</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Home — Heavy</div>
+        <div class="log-action-sub">Big plate or seconds · +8 XP for logging it</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Restaurant meal', '🍴')">
+      <div class="log-action-icon">🍴</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Restaurant</div>
+        <div class="log-action-sub">Ate out · +8 XP for tracking</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Dinner at GF house', '🏠')">
+      <div class="log-action-icon">🏠</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Girlfriend's House</div>
+        <div class="log-action-sub">Usually runs heavier · +8 XP for honesty</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+  </div>
+
+  <!-- DISCIPLINE / RECOVERY -->
+  <div class="section-label" style="margin-top:20px">Discipline & Recovery</div>
+  <div class="log-actions">
+    <div class="log-action" onclick="logAction('recovery', 10, 'Good sleep (7+ hrs)', '🌙')">
+      <div class="log-action-icon">🌙</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Slept 7+ Hours</div>
+        <div class="log-action-sub">+10 Recovery XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logAction('discipline', 10, 'Hydrated', '💧')">
+      <div class="log-action-icon">💧</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Stayed Hydrated</div>
+        <div class="log-action-sub">+10 Discipline XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+  </div>
+
+  <!-- BONUS EFFORT -->
+  <div class="section-label" style="margin-top:20px">Bonus Effort</div>
+  <div class="log-action bonus" onclick="logBonus()">
+    <div class="log-action-icon">🧊</div>
+    <div class="log-action-text">
+      <div class="log-action-title">Cold Shower</div>
+      <div class="log-action-sub">Extra credit — no streak pressure · +25 Discipline, +15 Recovery</div>
+    </div>
+    <div class="log-action-plus">+</div>
+  </div>
+  <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--muted)" id="coldShowerCount">Cold showers logged: 0</div>
+
+  <!-- PRODUCTIVITY -->
+  <div class="section-label" style="margin-top:24px">Productivity</div>
+
+  <!-- READING -->
+  <div class="log-action" onclick="logChapter()">
+    <div class="log-action-icon">📖</div>
+    <div class="log-action-text">
+      <div class="log-action-title">Finished a Chapter</div>
+      <div class="log-action-sub">Real focus work · +25 Mind XP</div>
+    </div>
+    <div class="log-action-plus">+</div>
+  </div>
+  <div style="text-align:center;margin:8px 0 16px;font-size:12px;color:var(--muted)" id="chapterCount">Chapters read: 0</div>
+
+  <!-- YOUTUBE BUDGET -->
+  <div class="profile-hero" style="margin-bottom:12px">
+    <div class="profile-rank-label">YouTube Daily Budget</div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div class="profile-rank" id="ytBudgetDisplay" style="font-size:26px">Not set</div>
+        <div class="profile-level">Set your daily limit, then log if you stayed under</div>
+      </div>
+      <button class="btn btn-ghost" style="padding:10px 16px" onclick="setYtBudget()">Set</button>
+    </div>
+  </div>
+  <div class="log-action" onclick="logUnderYt()">
+    <div class="log-action-icon">✅</div>
+    <div class="log-action-text">
+      <div class="log-action-title">Stayed Under YouTube Limit</div>
+      <div class="log-action-sub">Daily win · +20 Mind XP</div>
+    </div>
+    <div class="log-action-plus">+</div>
+  </div>
+
+  <!-- DIGITAL DISCIPLINE -->
+  <div class="log-actions" style="margin-top:10px">
+    <div class="log-action" onclick="logDailyWin('shorts', 'No Shorts today', '🚫')">
+      <div class="log-action-icon">🚫</div>
+      <div class="log-action-text">
+        <div class="log-action-title">No YouTube Shorts Today</div>
+        <div class="log-action-sub">Stayed out of the scroll · +20 Mind XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+    <div class="log-action" onclick="logDailyWin('games', 'Under game limit', '🎮')">
+      <div class="log-action-icon">🎮</div>
+      <div class="log-action-text">
+        <div class="log-action-title">Stayed Under Game Limit</div>
+        <div class="log-action-sub">Kept gaming in check · +15 Mind XP</div>
+      </div>
+      <div class="log-action-plus">+</div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY PAGE -->
+<div class="page" id="page-history">
+  <div class="section-label">Workout History</div>
+  <div id="historyList"></div>
+  <div id="historyDetail" style="display:none"></div>
+</div>
+
+<!-- TEMPLATES PAGE -->
+<div class="page" id="page-templates">
+  <div class="section-label">Quick Start Templates</div>
+  <div id="templateList"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <button class="active" onclick="showPage('profile', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Profile
+  </button>
+  <button onclick="showPage('workout', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/></svg>
+    Workout
+  </button>
+  <button onclick="showPage('log', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    Log
+  </button>
+  <button onclick="showPage('history', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    History
+  </button>
+  <button onclick="showPage('templates', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Templates
+  </button>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- RANK UP SCREEN -->
+<div class="rankup-overlay" id="rankupOverlay">
+  <div class="rankup-skill" id="rankupSkill">Strength</div>
+  <div class="rankup-label">Rank Up</div>
+  <div class="rankup-rank" id="rankupRank" style="color: rgb(220,80,40)">Soldier</div>
+  <div class="rankup-sub" id="rankupSub">You've earned this through real progress.</div>
+  <button class="btn btn-accent" style="padding:14px 40px;font-size:16px" onclick="closeRankup()">Continue</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Are you sure?</div>
+    <div class="modal-sub" id="modalSub"></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="modalConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const SKILL_COLORS = {
+  strength: 'rgb(220,80,40)',
+  nutrition: 'rgb(180,140,30)',
+  discipline: 'rgb(200,110,30)',
+  recovery: 'rgb(100,160,80)',
+  mind: 'rgb(120,100,200)'
+};
+
+const RANKS = ['Recruit', 'Soldier', 'Veteran', 'Elite', 'Legend'];
+const XP_PER_LEVEL = [100, 250, 500, 1000, 2000];
+
+const TEMPLATES = [
+  { name: 'Ab Session', exercises: ['Dumbbell Crunch', 'Dumbbell Side Bend', 'Russian Twist', 'Tuck Dragon Flag Negative'] },
+  { name: 'Chest & Triceps', exercises: ['Bench Press', 'Push-Ups', 'Dumbbell Fly', 'Tricep Dips', 'Skull Crushers'] },
+  { name: 'Back & Biceps', exercises: ['Pull-Ups', 'Dumbbell Row', 'Dumbbell Curl', 'Hammer Curl'] },
+  { name: 'Shoulders', exercises: ['Overhead Press', 'Lateral Raise', 'Front Raise', 'Arnold Press'] },
+  { name: 'Legs', exercises: ['Bulgarian Split Squat', 'Leg Extension', 'Glute Bridge', 'Jump Squat'] }
+];
+
+function loadState() {
+  return JSON.parse(localStorage.getItem('arcline_state') || JSON.stringify({
+    skills: { strength: 0, nutrition: 0, discipline: 0, recovery: 0, mind: 0 },
+    prs: {},
+    totalWorkouts: 0,
+    totalPRs: 0,
+    weekStreak: 0,
+    lastWorkoutWeek: null,
+    coldShowers: 0,
+    chaptersRead: 0,
+    ytBudget: null,
+    dailyWins: {},
+    cheatDate: null,
+    lockedIn: false,
+    history: []
+  }));
+}
+
+function saveState(s) { localStorage.setItem('arcline_state', JSON.stringify(s)); }
+
+let state = loadState();
+let exercises = [];
+let openCards = new Set();
+
+// ===================== XP / LEVEL =====================
+function getLevel(xp) {
+  let total = 0;
+  for (let i = 0; i < XP_PER_LEVEL.length; i++) {
+    total += XP_PER_LEVEL[i];
+    if (xp < total) return { level: i + 1, rank: RANKS[i], xpInLevel: xp - (total - XP_PER_LEVEL[i]), xpNeeded: XP_PER_LEVEL[i] };
+  }
+  return { level: XP_PER_LEVEL.length + 1, rank: RANKS[RANKS.length - 1], xpInLevel: xp - XP_PER_LEVEL.reduce((a,b)=>a+b,0), xpNeeded: 9999 };
+}
+
+function addXP(skill, amount) {
+  const before = getLevel(state.skills[skill]);
+  state.skills[skill] += amount;
+  const after = getLevel(state.skills[skill]);
+  saveState(state);
+  updateProfile();
+  if (after.level > before.level) triggerRankup(skill, after.rank);
+}
+
+function getOverallLevel() {
+  const total = Object.values(state.skills).reduce((a,b)=>a+b,0);
+  return getLevel(Math.floor(total / 5));
+}
+
+// ===================== PROFILE =====================
+function updateProfile() {
+  const overall = getOverallLevel();
+  document.getElementById('profileRank').textContent = overall.rank;
+  document.getElementById('profileLevel').textContent = `Overall Level ${overall.level}`;
+  document.getElementById('headerLevel').textContent = `LV ${overall.level} — ${overall.rank}`;
+  document.getElementById('overallXPText').textContent = `${overall.xpInLevel} / ${overall.xpNeeded}`;
+  document.getElementById('overallBar').style.width = `${Math.min(100, (overall.xpInLevel / overall.xpNeeded) * 100)}%`;
+
+  document.getElementById('statWorkouts').textContent = state.totalWorkouts;
+  document.getElementById('statPRs').textContent = state.totalPRs;
+  document.getElementById('statStreak').textContent = state.weekStreak;
+
+  ['strength','nutrition','discipline','recovery','mind'].forEach(skill => {
+    const lvl = getLevel(state.skills[skill]);
+    document.getElementById(skill + 'Rank').textContent = lvl.rank;
+    document.getElementById(skill + 'Bar').style.width = `${Math.min(100, (lvl.xpInLevel / lvl.xpNeeded) * 100)}%`;
+    document.getElementById(skill + 'XP').textContent = `${state.skills[skill]} XP`;
+  });
+}
+
+// ===================== RANK UP =====================
+function triggerRankup(skill, rank) {
+  const overlay = document.getElementById('rankupOverlay');
+  document.getElementById('rankupSkill').textContent = skill.charAt(0).toUpperCase() + skill.slice(1);
+  document.getElementById('rankupRank').textContent = rank;
+  document.getElementById('rankupRank').style.color = SKILL_COLORS[skill];
+  document.getElementById('rankupSub').textContent = `Your ${skill} is leveling up. Keep going.`;
+  overlay.classList.add('show');
+}
+
+function closeRankup() { document.getElementById('rankupOverlay').classList.remove('show'); }
+
+// ===================== PR DETECTION =====================
+function checkPR(exerciseName, reps, weight) {
+  const key = exerciseName.toLowerCase().trim();
+  const current = state.prs[key] || { reps: 0, weight: 0 };
+  let isPR = false;
+  if (weight > 0 && weight > current.weight) isPR = true;
+  else if (reps > 0 && reps > current.reps && weight >= current.weight) isPR = true;
+  if (isPR) {
+    state.prs[key] = { reps: Math.max(reps, current.reps), weight: Math.max(weight, current.weight) };
+    state.totalPRs++;
+    addXP('strength', 50);
+    return true;
+  }
+  return false;
+}
+
+// ===================== WORKOUT =====================
+function generateId() { return Date.now() + Math.random().toString(36).slice(2); }
+
+function addExercise(name) {
+  const input = document.getElementById('newExerciseName');
+  const exName = name || input.value.trim();
+  if (!exName) return;
+  exercises.push({ id: generateId(), name: exName, sets: [{ reps: '', weight: '' }], notes: '' });
+  input.value = '';
+  renderExercises();
+}
+
+function removeExercise(id) { exercises = exercises.filter(e => e.id !== id); renderExercises(); }
+
+function addSet(id) {
+  const ex = exercises.find(e => e.id === id);
+  if (ex) { ex.sets.push({ reps: '', weight: '' }); renderExercises(id); }
+}
+
+function removeSet(exId, setIdx) {
+  const ex = exercises.find(e => e.id === exId);
+  if (ex && ex.sets.length > 1) { ex.sets.splice(setIdx, 1); renderExercises(exId); }
+}
+
+function updateSet(exId, setIdx, field, value) {
+  const ex = exercises.find(e => e.id === exId);
+  if (ex) ex.sets[setIdx][field] = value;
+}
+
+function updateNotes(exId, value) {
+  const ex = exercises.find(e => e.id === exId);
+  if (ex) ex.notes = value;
+}
+
+function renderExercises() {
+  const list = document.getElementById('exerciseList');
+  list.innerHTML = '';
+  exercises.forEach(ex => {
+    const isOpen = openCards.has(ex.id);
+    const card = document.createElement('div');
+    card.className = 'exercise-card';
+    card.innerHTML = `
+      <div class="exercise-card-header" onclick="toggleCard('${ex.id}')">
+        <div>
+          <div class="exercise-name">${ex.name}</div>
+          <div class="exercise-summary">${ex.sets.length} set${ex.sets.length !== 1 ? 's' : ''}</div>
+        </div>
+        <svg class="chevron ${isOpen ? 'open' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="exercise-body ${isOpen ? 'open' : ''}">
+        <div class="sets-header"><div>#</div><div>Reps</div><div>Weight (lbs)</div><div></div></div>
+        ${ex.sets.map((s, i) => `
+          <div class="set-row">
+            <div class="set-num">${i+1}</div>
+            <input class="set-input" type="number" inputmode="numeric" placeholder="—" value="${s.reps}" oninput="updateSet('${ex.id}',${i},'reps',this.value)">
+            <input class="set-input" type="number" inputmode="decimal" placeholder="—" value="${s.weight}" oninput="updateSet('${ex.id}',${i},'weight',this.value)">
+            <button class="set-delete" onclick="removeSet('${ex.id}',${i})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        `).join('')}
+        <button class="add-set-btn" onclick="addSet('${ex.id}')">+ Add Set</button>
+        <textarea class="notes-input" placeholder="Notes for this exercise..." oninput="updateNotes('${ex.id}',this.value)">${ex.notes||''}</textarea>
+        <button class="remove-exercise-btn" onclick="confirmRemoveExercise('${ex.id}')">Remove Exercise</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function toggleCard(id) {
+  if (openCards.has(id)) openCards.delete(id); else openCards.add(id);
+  renderExercises();
+}
+
+function saveWorkout() {
+  if (exercises.length === 0) { showToast('Add at least one exercise'); return; }
+  const name = document.getElementById('workoutName').value.trim() || 'Workout';
+
+  let newPRs = 0;
+  exercises.forEach(ex => {
+    ex.sets.forEach(s => {
+      const r = parseFloat(s.reps) || 0;
+      const w = parseFloat(s.weight) || 0;
+      if (r > 0 || w > 0) { if (checkPR(ex.name, r, w)) newPRs++; }
+    });
+  });
+
+  const entry = { id: generateId(), name, date: new Date().toISOString(), exercises: JSON.parse(JSON.stringify(exercises)) };
+  state.history.unshift(entry);
+  state.totalWorkouts++;
+
+  // Discipline XP for completing a workout
+  addXP('discipline', 20);
+
+  // Week streak
+  const thisWeek = getWeekNumber(new Date());
+  if (state.lastWorkoutWeek !== thisWeek) {
+    const lastWeek = getWeekNumber(new Date(Date.now() - 7*24*60*60*1000));
+    if (state.lastWorkoutWeek === lastWeek) state.weekStreak++;
+    else if (state.lastWorkoutWeek !== thisWeek) state.weekStreak = 1;
+    state.lastWorkoutWeek = thisWeek;
+  }
+
+  saveState(state);
+  updateProfile();
+
+  let msg = 'Workout saved!';
+  if (newPRs > 0) msg = `Workout saved! ${newPRs} new PR${newPRs > 1 ? 's' : ''}! +${newPRs * 50} Strength XP`;
+  showToast(msg);
+  setTimeout(() => { exercises = []; openCards.clear(); renderExercises(); }, 800);
+}
+
+function getWeekNumber(d) {
+  const start = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil(((d - start) / 86400000 + start.getDay() + 1) / 7);
+}
+
+function clearWorkout() {
+  showModal('Clear workout?', 'This will remove all exercises from the current session.', () => {
+    exercises = []; openCards.clear(); renderExercises(); closeModal();
+  });
+}
+
+function confirmRemoveExercise(id) {
+  showModal('Remove exercise?', 'This will delete this exercise and all its sets.', () => {
+    removeExercise(id); closeModal();
+  });
+}
+
+// ===================== HISTORY =====================
+function renderHistory() {
+  document.getElementById('historyList').style.display = 'block';
+  document.getElementById('historyDetail').style.display = 'none';
+  const list = document.getElementById('historyList');
+  if (state.history.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No workouts yet</div><div class="empty-sub">Save your first workout and it'll show up here.</div></div>`;
+    return;
+  }
+  list.innerHTML = state.history.map(w => {
+    const d = new Date(w.date);
+    const dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const totalSets = w.exercises.reduce((a,e)=>a+e.sets.length,0);
+    return `
+      <div class="history-card" onclick="showDetail('${w.id}')">
+        <div class="history-card-top">
+          <div class="history-name">${w.name}</div>
+          <div class="history-date">${dateStr}<br>${timeStr}</div>
+        </div>
+        <div class="history-stats">
+          <div class="history-stat"><span>${w.exercises.length}</span> exercises</div>
+          <div class="history-stat"><span>${totalSets}</span> sets</div>
+        </div>
+        <div class="history-exercises">${w.exercises.map(e=>e.name).join(' · ')}</div>
+      </div>`;
+  }).join('');
+}
+
+function showDetail(id) {
+  const w = state.history.find(x => x.id === id);
+  if (!w) return;
+  document.getElementById('historyList').style.display = 'none';
+  const detail = document.getElementById('historyDetail');
+  detail.style.display = 'block';
+  const d = new Date(w.date);
+  detail.innerHTML = `
+    <button class="detail-back" onclick="renderHistory()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>Back
+    </button>
+    <div class="detail-title">${w.name}</div>
+    <div class="detail-date">${d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</div>
+    ${w.exercises.map(ex => {
+      const prKey = ex.name.toLowerCase().trim();
+      const isPR = state.prs[prKey];
+      return `<div class="detail-exercise">
+        <div class="detail-exercise-name">${ex.name}${isPR ? '<span class="pr-badge" style="display:inline-block">PR</span>' : ''}</div>
+        <div class="detail-set-row"><div class="detail-set-label">#</div><div class="detail-set-label">Reps</div><div class="detail-set-label">Weight</div></div>
+        ${ex.sets.map((s,i)=>`<div class="detail-set-row"><div style="color:var(--muted);font-size:12px">${i+1}</div><div>${s.reps||'—'}</div><div>${s.weight ? s.weight+'lbs' : '—'}</div></div>`).join('')}
+        ${ex.notes ? `<div class="detail-notes">"${ex.notes}"</div>` : ''}
+      </div>`;
+    }).join('')}
+    <button class="btn btn-danger" style="width:100%;margin-top:12px;padding:12px" onclick="confirmDeleteWorkout('${w.id}')">Delete This Workout</button>`;
+}
+
+function confirmDeleteWorkout(id) {
+  showModal('Delete workout?', 'This cannot be undone.', () => {
+    state.history = state.history.filter(w => w.id !== id);
+    saveState(state);
+    closeModal();
+    renderHistory();
+  });
+}
+
+// ===================== TEMPLATES =====================
+function renderTemplates() {
+  document.getElementById('templateList').innerHTML = TEMPLATES.map((t,i) => `
+    <div class="template-card">
+      <div>
+        <div class="template-name">${t.name}</div>
+        <div class="template-sub">${t.exercises.join(' · ')}</div>
+      </div>
+      <button class="btn btn-accent" onclick="loadTemplate(${i})">Load</button>
+    </div>`).join('');
+}
+
+function loadTemplate(i) {
+  const t = TEMPLATES[i];
+  exercises = t.exercises.map(name => ({ id: generateId(), name, sets: [{ reps: '', weight: '' }], notes: '' }));
+  document.getElementById('workoutName').value = t.name;
+  openCards.clear();
+  renderExercises();
+  showPage('workout', document.querySelectorAll('nav button')[1]);
+  showToast(`${t.name} loaded!`);
+}
+
+// ===================== NAV =====================
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'history') renderHistory();
+}
+
+// ===================== LOG ACTIONS =====================
+function logAction(skill, xp, label, icon) {
+  addXP(skill, xp);
+  showToast(`${icon} ${label} · +${xp} XP`);
+}
+
+function logBonus() {
+  state.coldShowers++;
+  saveState(state);
+  addXP('discipline', 25);
+  addXP('recovery', 15);
+  updateColdShowerCount();
+  showToast('🧊 Cold shower logged · +40 XP total');
+}
+
+// ===================== PRODUCTIVITY =====================
+function todayKey() { return new Date().toISOString().slice(0,10); }
+
+function logChapter() {
+  state.chaptersRead++;
+  saveState(state);
+  addXP('mind', 25);
+  updateChapterCount();
+  showToast('📖 Chapter logged · +25 Mind XP');
+}
+
+function updateChapterCount() {
+  const el = document.getElementById('chapterCount');
+  if (el) el.textContent = `Chapters read: ${state.chaptersRead}`;
+}
+
+function setYtBudget() {
+  const val = prompt('Set your daily YouTube limit (minutes):', state.ytBudget || 30);
+  if (val !== null) {
+    const mins = parseInt(val);
+    if (mins > 0) {
+      state.ytBudget = mins;
+      saveState(state);
+      updateYtBudget();
+      showToast(`YouTube budget set to ${mins} min/day`);
+    }
+  }
+}
+
+function updateYtBudget() {
+  const el = document.getElementById('ytBudgetDisplay');
+  if (el) el.textContent = state.ytBudget ? `${state.ytBudget} min` : 'Not set';
+}
+
+function logUnderYt() {
+  if (!state.ytBudget) { showToast('Set your budget first'); return; }
+  if (claimDailyWin('yt')) { addXP('mind', 20); showToast('✅ Under your limit · +20 Mind XP'); }
+  else showToast('Already claimed today — see you tomorrow');
+}
+
+function logDailyWin(key, label, icon) {
+  const xp = key === 'games' ? 15 : 20;
+  if (claimDailyWin(key)) { addXP('mind', xp); showToast(`${icon} ${label} · +${xp} Mind XP`); }
+  else showToast('Already claimed today — see you tomorrow');
+}
+
+function claimDailyWin(key) {
+  const today = todayKey();
+  if (!state.dailyWins[today]) state.dailyWins[today] = {};
+  if (state.dailyWins[today][key]) return false;
+  state.dailyWins[today][key] = true;
+  saveState(state);
+  return true;
+}
+
+// ===================== CHIPOTLE CHEAT =====================
+function scheduleCheat() {
+  const input = document.createElement('input');
+  input.type = 'date';
+  input.style.position = 'fixed';
+  input.style.opacity = '0';
+  input.style.zIndex = '-1';
+  document.body.appendChild(input);
+  input.addEventListener('change', () => {
+    if (input.value) {
+      state.cheatDate = input.value;
+      saveState(state);
+      updateCheatCountdown();
+      showToast('🌯 Cheat meal scheduled');
+    }
+    document.body.removeChild(input);
+  });
+  input.showPicker ? input.showPicker() : input.click();
+}
+
+function updateCheatCountdown() {
+  const el = document.getElementById('cheatCountdown');
+  const sub = document.getElementById('cheatSub');
+  if (!el) return;
+  if (!state.cheatDate) {
+    el.textContent = 'Not scheduled';
+    sub.textContent = 'Every other payday Wednesday';
+    return;
+  }
+  const target = new Date(state.cheatDate + 'T12:00:00');
+  const now = new Date();
+  const days = Math.ceil((target - now) / (1000*60*60*24));
+  const dateStr = target.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  if (days < 0) { el.textContent = 'Ready to claim'; sub.textContent = `Was due ${dateStr} — enjoy it`; }
+  else if (days === 0) { el.textContent = 'Today!'; sub.textContent = `${dateStr} · payday earned`; }
+  else if (days === 1) { el.textContent = 'Tomorrow'; sub.textContent = dateStr; }
+  else { el.textContent = `${days} days`; sub.textContent = dateStr; }
+}
+
+function logCheatMeal() {
+  addXP('discipline', 10);
+  showToast('🌯 Cheat meal logged — you earned it. Zero guilt.');
+  // Auto-advance to next cheat in 2 weeks
+  if (state.cheatDate) {
+    const next = new Date(state.cheatDate + 'T12:00:00');
+    next.setDate(next.getDate() + 14);
+    state.cheatDate = next.toISOString().slice(0,10);
+    saveState(state);
+    updateCheatCountdown();
+  }
+}
+
+function updateColdShowerCount() {
+  const el = document.getElementById('coldShowerCount');
+  if (el) el.textContent = `Cold showers logged: ${state.coldShowers}`;
+}
+
+// ===================== LOCK IN MODE =====================
+function toggleLockin() {
+  state.lockedIn = !state.lockedIn;
+  saveState(state);
+  applyLockin();
+  if (state.lockedIn) { addXP('discipline', 5); showToast('🔒 Locked in. Stay focused.'); }
+  else showToast('Focus mode off');
+}
+
+function applyLockin() {
+  const statusEl = document.getElementById('lockinStatus');
+  const subEl = document.getElementById('lockinSub');
+  const btnEl = document.getElementById('lockinBtn');
+  if (state.lockedIn) {
+    document.body.classList.add('locked-in');
+    if (statusEl) statusEl.textContent = 'ON';
+    if (subEl) subEl.textContent = "You're dialed in. Make it count.";
+    if (btnEl) btnEl.textContent = 'Release';
+  } else {
+    document.body.classList.remove('locked-in');
+    if (statusEl) statusEl.textContent = 'Off';
+    if (subEl) subEl.textContent = "Activate when you're dialed in";
+    if (btnEl) btnEl.textContent = 'Lock In';
+  }
+}
+
+// ===================== TOAST =====================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ===================== MODAL =====================
+function showModal(title, sub, cb) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalSub').textContent = sub;
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modalConfirm').onclick = cb;
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+document.getElementById('newExerciseName').addEventListener('keydown', e => { if (e.key === 'Enter') addExercise(); });
+
+// ===================== INIT =====================
+document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+updateProfile();
+renderTemplates();
+applyLockin();
+updateColdShowerCount();
+updateCheatCountdown();
+updateChapterCount();
+updateYtBudget();
+loadTemplate(0);
+</script>
+</body>
+</html>
