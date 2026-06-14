@@ -2213,7 +2213,13 @@ function getXPMultiplier(skill) {
 
 
 const TEMPLATES = [
-  { name: 'Ab Session', exercises: ['Dumbbell Crunch', 'Dumbbell Side Bend', 'Russian Twist', 'Tuck Dragon Flag Negative'] },
+  { name: 'Ab Session', exercises: [
+    { name: 'Dead Bug', note: 'Press lower back into bench. Extend opposite arm/leg slowly. Do NOT let your back arch.' },
+    { name: 'Weighted Crunch', note: 'Hold dumbbell at chest — NOT behind head. Curl spine, chin to chest. Squeeze at top for 1 sec.' },
+    { name: 'Russian Twist', note: 'Lean back 45°, feet off floor. Rotate from your torso, not your arms. Touch weight to floor each side.' },
+    { name: 'Reverse Crunch', note: 'Hands gripping bench edge behind head. Bring knees to chest, then tilt pelvis up. Lower slowly.' },
+    { name: 'Plank Hold', note: 'Log time as reps (e.g. 30 = 30 seconds). Hips level, squeeze glutes and abs. No sagging.' },
+  ]},
   { name: 'Chest & Triceps', exercises: ['Bench Press', 'Push-Ups', 'Dumbbell Fly', 'Tricep Dips', 'Skull Crushers'] },
   { name: 'Back & Biceps', exercises: ['Pull-Ups', 'Dumbbell Row', 'Dumbbell Curl', 'Hammer Curl'] },
   { name: 'Shoulders', exercises: ['Overhead Press', 'Lateral Raise', 'Front Raise', 'Arnold Press'] },
@@ -2248,11 +2254,14 @@ function loadState() {
     progression: {},                // { exerciseName: {target, reps, success, fails} }
     completedTasks: {},             // { 'YYYY-MM-DD': [taskId,...] }
     remindersOn: false,
-    unlockedSkills: {},             // { 'skill-5': true, 'strength-10': true, ... }
-    lastCoachNote: null
+    unlockedSkills: {},
+    lastCoachNote: null,
+    creatineStreak: 0,              // current consecutive day streak
+    creatineLastDate: null,         // last date creatine was logged (YYYY-MM-DD)
+    creatineWeeksCompleted: 0,      // total 7-day weeks completed
+    creatineTotalDays: 0            // all-time days logged
   }));
-  // migrate older saves missing new keys
-  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null };
+  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null, creatineStreak:0, creatineLastDate:null, creatineWeeksCompleted:0, creatineTotalDays:0 };
   for (const k in defaults) if (s[k] === undefined) s[k] = defaults[k];
   return s;
 }
@@ -2947,26 +2956,33 @@ function confirmDeleteWorkout(id) {
 
 // ===================== TEMPLATES =====================
 function renderTemplates() {
-  document.getElementById('templateList').innerHTML = TEMPLATES.map((t,i) => `
+  document.getElementById('templateList').innerHTML = TEMPLATES.map((t,i) => {
+    const exNames = t.exercises.map(ex => typeof ex === 'string' ? ex : ex.name).join(' · ');
+    return `
     <div class="template-card">
       <div>
         <div class="template-name">${t.name}</div>
-        <div class="template-sub">${t.exercises.join(' · ')}</div>
+        <div class="template-sub">${exNames}</div>
       </div>
       <button class="btn btn-accent" onclick="loadTemplate(${i})">Load</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function loadTemplate(i, fromSchedule) {
   const t = TEMPLATES[i];
-  exercises = t.exercises.map(name => {
+  exercises = t.exercises.map(ex => {
+    // Support both string format (old) and object format (new with notes)
+    const name = typeof ex === 'string' ? ex : ex.name;
+    const templateNote = typeof ex === 'object' ? ex.note : '';
     const prog = state.progression[name];
     const targetReps = prog ? prog.target : null;
+    const note = targetReps ? `Target: ${targetReps} reps${templateNote ? ' · ' + templateNote : ''}` : (templateNote || '');
     return {
       id: generateId(),
       name,
       sets: [{ reps: '', weight: '' }],
-      notes: targetReps ? `Target: ${targetReps} reps` : ''
+      notes: note
     };
   });
   document.getElementById('workoutName').value = t.name;
@@ -3134,7 +3150,6 @@ function markTaskDone(id) {
 }
 
 function buildTodayTasks() {
-  // returns array of {id, cls, kicker, title, sub, action}
   const tasks = [];
   const w = todaysWorkout();
   if (w && !w.done) {
@@ -3147,10 +3162,26 @@ function buildTodayTasks() {
       action: () => { loadScheduledWorkout(w.focus); }
     });
   }
-  // Meals — reminders only; tapping jumps to Log page
   tasks.push({ id:'lunch', cls:'meal-task', kicker:'Midday', title:'Log Lunch', sub:'Tap to log it your way', action: goLog });
   tasks.push({ id:'dinner', cls:'meal-task', kicker:'Evening', title:'Log Dinner', sub:'Tap to log it your way', action: goLog });
-  // Habits
+
+  // Creatine — first in habits, most important daily non-negotiable
+  const streak = state.creatineStreak || 0;
+  const daysToWeek = 7 - (streak % 7);
+  const streakSub = streak === 0
+    ? 'Start your streak · +3 Discipline +1 Strength +1 Recovery'
+    : daysToWeek === 1
+      ? `🔥 ${streak} day streak · 1 more day = +90 BONUS XP`
+      : `🔥 ${streak} day streak · ${daysToWeek} days to week bonus`;
+  tasks.push({
+    id: 'creatine',
+    cls: 'habit-task',
+    kicker: 'Non-Negotiable',
+    title: 'Creatine 5g',
+    sub: streakSub,
+    action: () => logCreatine()
+  });
+
   tasks.push({ id:'hydrate', cls:'habit-task', kicker:'Daily', title:'Hydrate', sub:'+10 Discipline', action: () => quickLogFromTask('discipline',10,'Hydrated','💧') });
   tasks.push({ id:'read', cls:'habit-task', kicker:'Daily', title:'Read a Chapter', sub:'+25 Mind', action: () => { state.chaptersRead++; saveState(state); addXP('mind',25); updateChapterCount(); registerAction('Chapter read',{mind:25},()=>{state.chaptersRead=Math.max(0,state.chaptersRead-1);}); showXP(25,'Mind','📖 Chapter'); } });
 
@@ -3159,6 +3190,68 @@ function buildTodayTasks() {
 
 function goLog() {
   showPage('log', null);
+}
+
+// ===================== CREATINE TRACKING =====================
+function logCreatine() {
+  const dk = dateKey();
+
+  // Daily XP
+  addXP('discipline', 3);
+  addXP('strength', 1);
+  addXP('recovery', 1);
+
+  // Update streak
+  const yesterday = dateKey(new Date(Date.now() - 86400000));
+  if (state.creatineLastDate === yesterday || state.creatineLastDate === dk) {
+    // Continuing streak (or already logged today somehow)
+    if (state.creatineLastDate !== dk) state.creatineStreak++;
+  } else if (state.creatineLastDate === null) {
+    // First ever log
+    state.creatineStreak = 1;
+  } else {
+    // Missed a day — reset streak
+    state.creatineStreak = 1;
+  }
+  state.creatineLastDate = dk;
+  state.creatineTotalDays = (state.creatineTotalDays || 0) + 1;
+
+  // Check for completed week (every 7 days)
+  const weekBonus = state.creatineStreak > 0 && state.creatineStreak % 7 === 0;
+  if (weekBonus) {
+    state.creatineWeeksCompleted = (state.creatineWeeksCompleted || 0) + 1;
+    // Substantial week bonus
+    setTimeout(() => {
+      addXP('discipline', 50);
+      addXP('strength', 20);
+      addXP('recovery', 20);
+      showUnlockAlert(
+        `🧬 ${state.creatineStreak} Day Streak`,
+        `Week ${state.creatineWeeksCompleted} Complete · +90 Bonus XP`
+      );
+    }, 800);
+  }
+
+  // Register for undo
+  registerAction('Creatine 5g', { discipline: 3, strength: 1, recovery: 1 }, () => {
+    // Undo streak
+    state.creatineStreak = Math.max(0, state.creatineStreak - 1);
+    state.creatineTotalDays = Math.max(0, state.creatineTotalDays - 1);
+    state.creatineLastDate = state.creatineStreak > 0 ? yesterday : null;
+  });
+
+  markTaskDone('creatine');
+  saveState(state);
+
+  const msg = weekBonus
+    ? null // unlock alert handles it
+    : state.creatineStreak % 7 === 6
+      ? `Day ${state.creatineStreak} · 1 more day for week bonus!`
+      : `Day ${state.creatineStreak} streak 🧬`;
+
+  if (msg) showToast(msg);
+  showXP(5, 'Discipline', '🧬 Creatine');
+  renderToday();
 }
 
 function quickLogFromTask(skill, xp, label, icon) {
