@@ -905,7 +905,161 @@
     100% { transform: scale(1); }
   }
 
-  /* ===================== TODAY PAGE ===================== */
+  /* SKILL COLORS SYSTEM */
+  --skill-strength: #e85d43;
+  --skill-nutrition: #d4af37;
+  --skill-discipline: #d6783a;
+  --skill-recovery: #6fa035;
+  --skill-mind: #7b68ee;
+
+  /* ===================== MEAL QUICK LOG MODAL ===================== */
+  .modal { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: flex-end; }
+  .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
+  .modal-content {
+    position: relative;
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    width: 100%;
+    max-width: 412px;
+    margin: 0 auto;
+    animation: slideUp 0.18s cubic-bezier(0.34,1.56,0.64,1);
+    will-change: transform;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+  /* GPU OPTIMIZATION */
+  .page { will-change: opacity; contain: layout style paint; }
+  .task { will-change: transform, opacity; }
+  .xp-alert { will-change: transform, opacity; }
+  .unlock-alert { will-change: transform, opacity; }
+  nav button { will-change: color; }
+
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:active { color: var(--accent); }
+
+  .modal-options { padding: 12px 14px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .meal-option {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 13px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .meal-option:active { background: var(--surface2); border-color: var(--accent); }
+  .meal-icon { font-size: 26px; }
+  .meal-name { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink); }
+  .meal-xp { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); margin-top: 2px; }
+
+  /* ===================== XP & UNLOCK ALERTS ===================== */
+  .xp-alert {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-40px);
+    background: var(--accent);
+    color: #1a120a;
+    padding: 11px 18px;
+    border-radius: 50px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    z-index: 10001;
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  }
+  .xp-alert.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .xp-alert-amt { color: #fff; font-weight: 900; }
+
+  .unlock-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    color: #fff;
+    padding: 28px 40px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    text-align: center;
+    z-index: 10002;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.2,0.9,0.3,1);
+    pointer-events: none;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+  }
+  .unlock-alert.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .unlock-text { font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; line-height: 1.1; }
+  .unlock-sub { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; margin-top: 8px; opacity: 0.9; }
+
+  /* COSMETIC BADGES IN SKILLS */
+  .skill-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    padding: 3px 7px;
+    border-radius: 3px;
+    margin-top: 6px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* FLOATING UNDO */
+  .float-undo {
+    position: fixed;
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    right: 18px;
+    z-index: 1001;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1a120a;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: all 0.18s;
+  }
+  .float-undo:active { transform: scale(0.9); }
+  .float-undo svg { width: 20px; height: 20px; }
+
+  /* SKILL COLOR INDICATORS */
+  .skill-indicator { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .skill-strength .skill-indicator { background: var(--skill-strength); }
+  .skill-nutrition .skill-indicator { background: var(--skill-nutrition); }
+  .skill-discipline .skill-indicator { background: var(--skill-discipline); }
+  .skill-recovery .skill-indicator { background: var(--skill-recovery); }
+  .skill-mind .skill-indicator { background: var(--skill-mind); }
+
+
   .today-head { margin-bottom: 18px; }
   .today-date { font-size: 11px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; }
   .today-title {
@@ -1678,6 +1832,48 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- MEAL QUICK LOG MODAL -->
+<div id="mealModal" class="modal" style="display:none">
+  <div class="modal-backdrop" onclick="closeMealModal()"></div>
+  <div class="modal-content">
+    <div class="modal-head">
+      <div class="modal-title" id="mealModalTitle">Log Lunch</div>
+      <button class="modal-close" onclick="closeMealModal()">✕</button>
+    </div>
+    <div class="modal-options">
+      <button class="meal-option" onclick="quickLogMeal('default', 'Lunch')">
+        <div class="meal-icon">🌮</div>
+        <div class="meal-name">Default</div>
+        <div class="meal-xp">+15 XP</div>
+      </button>
+      <button class="meal-option" onclick="quickLogMeal('chipotle', 'Lunch')">
+        <div class="meal-icon">🌯</div>
+        <div class="meal-name">Chipotle</div>
+        <div class="meal-xp">+15 XP</div>
+      </button>
+      <button class="meal-option" onclick="quickLogMeal('skip', 'Lunch')">
+        <div class="meal-icon">⏭</div>
+        <div class="meal-name">Skipped</div>
+        <div class="meal-xp">+5 XP</div>
+      </button>
+      <button class="meal-option" onclick="goFullLog('meal')">
+        <div class="meal-icon">⋯</div>
+        <div class="meal-name">More Options</div>
+        <div class="meal-xp">See all</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING UNDO -->
+<button class="float-undo" id="floatUndo" onclick="undoLast()" style="display:none">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+    <path d="M3 7v6h6"/>
+    <path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"/>
+  </svg>
+  <span id="floatUndoText">Undo</span>
+</button>
+
 <!-- XP POPUP -->
 <div class="xp-pop" id="xpPop">
   <div class="xp-pop-bar"></div>
@@ -1760,15 +1956,22 @@ function loadState() {
     scheduleWeek: null,             // week id the schedule was built for
     progression: {},                // { exerciseName: {target, reps, success, fails} }
     completedTasks: {},             // { 'YYYY-MM-DD': [taskId,...] }
-    remindersOn: false
+    remindersOn: false,
+    unlockedSkills: {},             // { 'skill-5': true, 'strength-10': true, ... }
+    lastCoachNote: null
   }));
   // migrate older saves missing new keys
-  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false };
+  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null };
   for (const k in defaults) if (s[k] === undefined) s[k] = defaults[k];
   return s;
 }
 
-function saveState(s) { localStorage.setItem('arcline_state', JSON.stringify(s)); }
+function saveState(s) { 
+  clearTimeout(window.saveStateTimeout);
+  window.saveStateTimeout = setTimeout(() => {
+    localStorage.setItem('arcline_state', JSON.stringify(s));
+  }, 300);
+}
 
 let state = loadState();
 let exercises = [];
@@ -1838,24 +2041,42 @@ function todaysWorkout() {
 }
 
 // ===================== XP / LEVEL =====================
+const levelCache = {};
 function getLevel(xp) {
+  if (levelCache[xp]) return levelCache[xp];
   let total = 0;
   for (let i = 0; i < XP_PER_LEVEL.length; i++) {
     total += XP_PER_LEVEL[i];
-    if (xp < total) return { level: i + 1, rank: RANKS[i], xpInLevel: xp - (total - XP_PER_LEVEL[i]), xpNeeded: XP_PER_LEVEL[i] };
+    if (xp < total) {
+      const result = { level: i + 1, rank: RANKS[i], xpInLevel: xp - (total - XP_PER_LEVEL[i]), xpNeeded: XP_PER_LEVEL[i] };
+      levelCache[xp] = result;
+      return result;
+    }
   }
-  return { level: XP_PER_LEVEL.length + 1, rank: RANKS[RANKS.length - 1], xpInLevel: xp - XP_PER_LEVEL.reduce((a,b)=>a+b,0), xpNeeded: 9999 };
+  const result = { level: XP_PER_LEVEL.length + 1, rank: RANKS[RANKS.length - 1], xpInLevel: xp - XP_PER_LEVEL.reduce((a,b)=>a+b,0), xpNeeded: 9999 };
+  levelCache[xp] = result;
+  return result;
 }
 
+let updateProfileTimeout;
 function addXP(skill, amount) {
   const before = getLevel(state.skills[skill]);
   state.skills[skill] += amount;
+  levelCache = {}; // Invalidate cache on XP changes
   const after = getLevel(state.skills[skill]);
   saveState(state);
-  updateProfile();
+  
+  // Debounce profile updates to avoid reflows
+  clearTimeout(updateProfileTimeout);
+  updateProfileTimeout = setTimeout(updateProfile, 100);
+  
+  // Real-time XP alert (fire immediately)
+  showXPAlert(amount, skill);
+  
+  // Rank up and unlocks checked immediately
   if (after.level > before.level) triggerRankup(skill, after.rank);
+  checkSkillUnlocks();
 }
-
 // ===================== UNDO SYSTEM =====================
 // undoStack holds up to 10 actions; each: { label, xp: {skill: amount}, side: fn }
 let undoStack = [];
@@ -1897,9 +2118,69 @@ function undoLast() {
   updateSleepDisplay();
   hideXPPop();
   refreshUndoButton();
+  updateFloatUndo();
   showToast(`Undone: ${action.label}`);
 }
 
+// ===================== SKILL UNLOCKS & PROGRESSION =====================
+const SKILL_UNLOCKS = {
+  strength: { 5: 'Iron Grip', 10: 'Steel Core', 15: 'Titan', 20: 'Legend' },
+  nutrition: { 5: 'Fueled', 10: 'Balanced', 15: 'Master Chef', 20: 'Sustenance' },
+  discipline: { 5: 'Focused', 10: 'Locked In', 15: 'Relentless', 20: 'Unstoppable' },
+  recovery: { 5: 'Rested', 10: 'Rejuvenated', 15: 'Regenerating', 20: 'Eternal' },
+  mind: { 5: 'Awakened', 10: 'Enlightened', 15: 'Ascended', 20: 'Transcendent' }
+};
+
+function checkSkillUnlocks() {
+  const unlocked = state.unlockedSkills || {};
+  let newUnlocks = [];
+  
+  Object.keys(SKILL_UNLOCKS).forEach(skill => {
+    const level = getLevel(state.skills[skill]).level;
+    const thresholds = Object.keys(SKILL_UNLOCKS[skill]).map(Number).sort((a,b)=>a-b);
+    thresholds.forEach(t => {
+      const key = `${skill}-${t}`;
+      if (level >= t && !unlocked[key]) {
+        unlocked[key] = true;
+        newUnlocks.push({ skill, level: t, badge: SKILL_UNLOCKS[skill][t] });
+      }
+    });
+  });
+
+  if (newUnlocks.length) {
+    state.unlockedSkills = unlocked;
+    saveState(state);
+    newUnlocks.forEach(u => {
+      const skillName = u.skill.charAt(0).toUpperCase() + u.skill.slice(1);
+      showUnlockAlert(`${u.badge}`, `${skillName} Lvl ${u.level} Unlocked!`);
+    });
+  }
+}
+
+function showUnlockAlert(badge, text) {
+  const el = document.createElement('div');
+  el.className = 'unlock-alert';
+  el.innerHTML = `<div class="unlock-text">${badge}</div><div class="unlock-sub">${text}</div>`;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 300);
+  }, 2500);
+}
+
+// ===================== XP ALERTS (real-time) =====================
+function showXPAlert(amount, skill) {
+  const el = document.createElement('div');
+  el.className = 'xp-alert';
+  el.innerHTML = `<span class="xp-alert-amt">+${amount}</span> <span class="xp-alert-skill">${skill.toUpperCase()}</span>`;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 300);
+  }, 1400);
+}
 // ===================== XP POPUP =====================
 function showXP(totalXP, skillLabel, detailLabel) {
   const pop = document.getElementById('xpPop');
@@ -2258,33 +2539,113 @@ function analyzeProgression(savedExercises) {
 
 // ===================== NAV =====================
 function showPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  // Cache page elements to avoid multiple queries
+  const pages = document.querySelectorAll('.page');
+  const navBtns = document.querySelectorAll('nav button');
+  
+  // Batch removals with classList.remove
+  for (let p of pages) p.classList.remove('active');
+  for (let b of navBtns) b.classList.remove('active');
+  
+  // Single add
   const pg = document.getElementById('page-' + name);
   if (pg) pg.classList.add('active');
-  // highlight matching nav button (btn may be null for non-nav links)
+  
+  // highlight matching nav button
   if (btn && btn.classList && btn.tagName === 'BUTTON' && btn.closest('nav')) {
     btn.classList.add('active');
   } else {
-    // map sub-pages to their nav home
     const navHome = { today:0, workout:1, log:2, profile:3, history:4, tune:0, templates:1 };
     const idx = navHome[name];
-    if (idx !== undefined) {
-      const navBtns = document.querySelectorAll('nav button');
-      if (navBtns[idx]) navBtns[idx].classList.add('active');
-    }
+    if (idx !== undefined && navBtns[idx]) navBtns[idx].classList.add('active');
   }
+  
+  // Lazy render only when needed
   if (name === 'history') renderHistory();
-  if (name === 'today') renderToday();
-  if (name === 'tune') renderTune();
-  window.scrollTo(0, 0);
+  else if (name === 'today') renderToday();
+  else if (name === 'tune') renderTune();
+  
+  // Use requestAnimationFrame to avoid jank from scroll
+  requestAnimationFrame(() => window.scrollTo(0, 0));
 }
 
-// ===================== TODAY LIST =====================
+// ===================== MEAL QUICK LOG =====================
+function openMealModal(meal) {
+  const modal = document.getElementById('mealModal');
+  const title = document.getElementById('mealModalTitle');
+  title.textContent = meal === 'lunch' ? 'Log Lunch' : 'Log Dinner';
+  modal.dataset.meal = meal;
+  modal.style.display = 'flex';
+}
+
+function closeMealModal() {
+  const modal = document.getElementById('mealModal');
+  modal.style.display = 'none';
+}
+
+function quickLogMeal(type, mealName) {
+  const xpMap = { default: 15, chipotle: 15, skip: 5 };
+  const labels = { default: 'Default meal', chipotle: 'Chipotle bowl', skip: 'Skipped meal' };
+  const xp = xpMap[type];
+  addXP('nutrition', xp);
+  registerAction(`${mealName}: ${labels[type]}`, { nutrition: xp });
+  showXP(xp, 'Nutrition', `🍽 ${mealName} logged`);
+  markTaskDone(mealName.toLowerCase());
+  closeMealModal();
+  renderToday();
+}
+
+function goFullLog(context) {
+  closeMealModal();
+  showPage('log', null);
+}
+
+// Update task taps to use meal modal
+function handleTaskTap(t, el) {
+  if (t.id === 'lunch' || t.id === 'dinner') {
+    openMealModal(t.id);
+    return;
+  }
+  if (t.id === 'workout') {
+    t.action();
+    return;
+  }
+  // habit: animate check then remove, register for undo
+  el.classList.add('completing');
+  t.action();
+  markTaskDone(t.id);
+  const taskId = t.id;
+  registerAction(`${t.title} completed`, {}, () => {
+    const dk = dateKey();
+    if (state.completedTasks[dk]) {
+      state.completedTasks[dk] = state.completedTasks[dk].filter(x => x !== taskId);
+    }
+    renderToday();
+  });
+  setTimeout(() => {
+    el.classList.add('removing');
+    setTimeout(renderToday, 280);
+  }, 260);
+}
+
+// ===================== FLOATING UNDO =====================
+function updateFloatUndo() {
+  const btn = document.getElementById('floatUndo');
+  if (!btn) return;
+  if (undoStack.length > 0) {
+    btn.style.display = 'flex';
+    document.getElementById('floatUndoText').textContent = `Undo (${undoStack.length})`;
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+
 function isTaskDone(id) {
   const dk = dateKey();
   return (state.completedTasks[dk] || []).includes(id);
 }
+
 function markTaskDone(id) {
   const dk = dateKey();
   if (!state.completedTasks[dk]) state.completedTasks[dk] = [];
@@ -2352,9 +2713,12 @@ function renderToday() {
     empty.style.display = 'block';
   } else {
     empty.style.display = 'none';
+    // Use DocumentFragment to batch DOM inserts
+    const frag = document.createDocumentFragment();
     tasks.forEach(t => {
       const el = document.createElement('div');
       el.className = `task ${t.cls}`;
+      el.dataset.taskId = t.id;
       el.innerHTML = `
         <div class="task-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="task-body">
@@ -2363,29 +2727,23 @@ function renderToday() {
           <div class="task-sub">${t.sub}</div>
         </div>
         <svg class="task-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg>`;
-      el.onclick = () => handleTaskTap(t, el);
-      list.appendChild(el);
+      el.dataset.handler = JSON.stringify(t);
+      frag.appendChild(el);
     });
+    list.appendChild(frag);
   }
 }
 
-function handleTaskTap(t, el) {
-  // Workout & meal tasks navigate; habit tasks complete inline
-  if (t.id === 'workout' || t.id === 'lunch' || t.id === 'dinner') {
-    // mark done only for meals on tap (workout completes when saved)
-    if (t.id !== 'workout') { markTaskDone(t.id); }
-    t.action();
-    return;
-  }
-  // habit: animate check then remove
-  el.classList.add('completing');
-  t.action();
-  markTaskDone(t.id);
-  setTimeout(() => {
-    el.classList.add('removing');
-    setTimeout(renderToday, 280);
-  }, 260);
-}
+// Event delegation: single handler for all tasks
+document.addEventListener('click', (e) => {
+  const task = e.target.closest('.task');
+  if (!task || !task.parentElement.id === 'todayList') return;
+  const taskId = task.dataset.taskId;
+  if (!taskId) return;
+  const tasks = buildTodayTasks();
+  const taskObj = tasks.find(t => t.id === taskId);
+  if (taskObj) handleTaskTap(taskObj, task);
+}, true);
 
 function loadScheduledWorkout(focus) {
   const idx = TEMPLATES.findIndex(t => t.name === focus);
@@ -2743,22 +3101,64 @@ function unclaimDailyWin(key) {
 
 // ===================== CHIPOTLE CHEAT =====================
 function scheduleCheat() {
+  // Create a modal with a visible date input
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:10000;';
+  
+  const content = document.createElement('div');
+  content.style.cssText = 'background:var(--surface);border:1px solid var(--border-bright);border-radius:8px;padding:24px;max-width:320px;width:90%;';
+  
+  const title = document.createElement('div');
+  title.style.cssText = 'font-family:Oswald;font-size:20px;font-weight:700;text-transform:uppercase;margin-bottom:16px;';
+  title.textContent = 'Schedule Cheat Meal';
+  
   const input = document.createElement('input');
   input.type = 'date';
-  input.style.position = 'fixed';
-  input.style.opacity = '0';
-  input.style.zIndex = '-1';
-  document.body.appendChild(input);
-  input.addEventListener('change', () => {
+  input.value = state.cheatDate || '';
+  input.style.cssText = 'width:100%;padding:12px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--ink);font-size:16px;font-family:Space Mono;';
+  
+  const btnWrap = document.createElement('div');
+  btnWrap.style.cssText = 'display:flex;gap:8px;margin-top:16px;';
+  
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = 'Set';
+  saveBtn.style.cssText = 'flex:1;padding:11px;background:var(--accent);color:#1a120a;border:none;border-radius:4px;font-weight:700;cursor:pointer;font-family:Space Mono;font-size:12px;text-transform:uppercase;';
+  saveBtn.onclick = () => {
     if (input.value) {
       state.cheatDate = input.value;
       saveState(state);
       updateCheatCountdown();
-      showToast('🌯 Cheat meal scheduled');
+      const d = new Date(input.value + 'T12:00:00');
+      showToast('🌯 Cheat meal scheduled for ' + d.toLocaleDateString());
+      document.body.removeChild(modal);
     }
-    document.body.removeChild(input);
-  });
-  input.showPicker ? input.showPicker() : input.click();
+  };
+  
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.style.cssText = 'flex:1;padding:11px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:4px;font-weight:700;cursor:pointer;font-family:Space Mono;font-size:12px;text-transform:uppercase;';
+  cancelBtn.onclick = () => {
+    document.body.removeChild(modal);
+  };
+  
+  btnWrap.appendChild(saveBtn);
+  btnWrap.appendChild(cancelBtn);
+  content.appendChild(title);
+  content.appendChild(input);
+  content.appendChild(btnWrap);
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+  
+  // Focus and open picker
+  input.focus();
+  setTimeout(() => {
+    try {
+      if (input.showPicker) input.showPicker();
+      else input.click();
+    } catch(e) {
+      // If picker still fails, user can type the date manually
+    }
+  }, 100);
 }
 
 function updateCheatCountdown() {
@@ -2858,6 +3258,8 @@ updateYtBudget();
 updateSleepDisplay();
 refreshDailyWinStates();
 refreshUndoButton();
+updateFloatUndo();
+checkSkillUnlocks();
 // Build this week's schedule and show Today first
 buildSchedule();
 renderToday();
