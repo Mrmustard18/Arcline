@@ -1036,17 +1036,28 @@
     </div>
   </div>
 
-  <!-- DISCIPLINE / RECOVERY -->
+  <!-- SLEEP -->
+  <div class="section-label" style="margin-top:20px">Sleep</div>
+  <div class="profile-hero" style="margin-bottom:12px">
+    <div class="profile-rank-label">Last Night</div>
+    <div style="display:flex;gap:10px;margin-top:8px;margin-bottom:14px">
+      <button class="btn btn-ghost" style="flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;align-items:flex-start" onclick="setSleepTime('screensOff')">
+        <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Screens Off / In Bed</span>
+        <span style="font-family:'Barlow Condensed';font-size:20px;font-weight:700" id="screensOffDisplay">—</span>
+      </button>
+      <button class="btn btn-ghost" style="flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;align-items:flex-start" onclick="setSleepTime('wake')">
+        <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Woke / Alarm</span>
+        <span style="font-family:'Barlow Condensed';font-size:20px;font-weight:700" id="wakeDisplay">—</span>
+      </button>
+    </div>
+    <button class="btn btn-accent" style="width:100%;padding:13px" onclick="logSleep()">Log Sleep</button>
+    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--muted)" id="sleepHint">Set both times, then log to earn Recovery XP</div>
+  </div>
+  <div style="text-align:center;font-size:12px;color:var(--muted)" id="sleepAvg"></div>
+
+  <!-- HYDRATION -->
   <div class="section-label" style="margin-top:20px">Discipline & Recovery</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('recovery', 10, 'Good sleep (7+ hrs)', '🌙')">
-      <div class="log-action-icon">🌙</div>
-      <div class="log-action-text">
-        <div class="log-action-title">Slept 7+ Hours</div>
-        <div class="log-action-sub">+10 Recovery XP</div>
-      </div>
-      <div class="log-action-plus">+</div>
-    </div>
     <div class="log-action" onclick="logAction('discipline', 10, 'Hydrated', '💧')">
       <div class="log-action-icon">💧</div>
       <div class="log-action-text">
@@ -1217,6 +1228,9 @@ function loadState() {
     coldShowers: 0,
     chaptersRead: 0,
     ytBudget: null,
+    sleepScreensOff: null,
+    sleepWake: null,
+    wakeHistory: [],
     dailyWins: {},
     cheatDate: null,
     lockedIn: false,
@@ -1543,6 +1557,131 @@ function logBonus() {
   showToast('🧊 Cold shower logged · +40 XP total');
 }
 
+// ===================== SLEEP =====================
+function setSleepTime(which) {
+  const current = which === 'screensOff' ? state.sleepScreensOff : state.sleepWake;
+  const input = document.createElement('input');
+  input.type = 'time';
+  input.value = current || (which === 'screensOff' ? '22:30' : '07:00');
+  input.style.position = 'fixed';
+  input.style.opacity = '0';
+  input.style.zIndex = '-1';
+  document.body.appendChild(input);
+  input.addEventListener('change', () => {
+    if (input.value) {
+      if (which === 'screensOff') state.sleepScreensOff = input.value;
+      else state.sleepWake = input.value;
+      saveState(state);
+      updateSleepDisplay();
+    }
+    if (input.parentNode) document.body.removeChild(input);
+  });
+  input.addEventListener('blur', () => { if (input.parentNode) document.body.removeChild(input); });
+  input.showPicker ? input.showPicker() : input.click();
+}
+
+function fmtTime(t) {
+  if (!t) return '—';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function updateSleepDisplay() {
+  const so = document.getElementById('screensOffDisplay');
+  const wk = document.getElementById('wakeDisplay');
+  if (so) so.textContent = fmtTime(state.sleepScreensOff);
+  if (wk) wk.textContent = fmtTime(state.sleepWake);
+
+  // Show average wake time if we have history
+  const avgEl = document.getElementById('sleepAvg');
+  if (avgEl && state.wakeHistory.length >= 2) {
+    const avgMin = state.wakeHistory.reduce((a,b)=>a+b,0) / state.wakeHistory.length;
+    const h = Math.floor(avgMin / 60), m = Math.round(avgMin % 60);
+    avgEl.textContent = `Your recent average wake time: ${fmtTime(`${h}:${String(m).padStart(2,'0')}`)} · ${state.wakeHistory.length} nights tracked`;
+  } else if (avgEl) {
+    avgEl.textContent = '';
+  }
+}
+
+function computeSleepXP() {
+  // Parse times into minutes
+  const [soH, soM] = state.sleepScreensOff.split(':').map(Number);
+  const [wH, wM] = state.sleepWake.split(':').map(Number);
+  let screensOffMin = soH * 60 + soM;
+  let wakeMin = wH * 60 + wM;
+
+  // Duration: if wake is "earlier" than screens off, it's overnight
+  let durationMin = wakeMin - screensOffMin;
+  if (durationMin <= 0) durationMin += 24 * 60;
+  const hours = durationMin / 60;
+
+  let xp = 20; // base for logging
+  let breakdown = [];
+  breakdown.push('+20 logged');
+
+  // EARLY SCREENS-OFF BONUS (earlier = more)
+  // Normalize: treat 9pm(21:00)=1260 as best. Map evening times.
+  let soForScore = screensOffMin;
+  if (soForScore < 12 * 60) soForScore += 24 * 60; // after-midnight counts as very late
+  let earlyBonus = 0;
+  if (soForScore <= 22 * 60) earlyBonus = 25;        // 10pm or earlier — best
+  else if (soForScore <= 23 * 60) earlyBonus = 18;   // by 11pm
+  else if (soForScore <= 24 * 60) earlyBonus = 10;   // by midnight
+  else if (soForScore <= 25 * 60) earlyBonus = 4;    // by 1am
+  else earlyBonus = 0;                                // later
+  if (earlyBonus > 0) breakdown.push(`+${earlyBonus} early`);
+  xp += earlyBonus;
+
+  // DURATION BONUS (7-9 hr sweet spot)
+  let durBonus = 0;
+  if (hours >= 7 && hours <= 9) durBonus = 30;
+  else if (hours >= 6 && hours < 7) durBonus = 18;
+  else if (hours > 9 && hours <= 10) durBonus = 18;
+  else if (hours >= 5 && hours < 6) durBonus = 8;
+  else durBonus = 4;
+  breakdown.push(`+${durBonus} duration`);
+  xp += durBonus;
+
+  // CONSISTENCY BONUS (wake close to recent average)
+  let consistBonus = 0;
+  if (state.wakeHistory.length >= 2) {
+    const avg = state.wakeHistory.reduce((a,b)=>a+b,0) / state.wakeHistory.length;
+    const diff = Math.abs(wakeMin - avg);
+    if (diff <= 30) consistBonus = 20;
+    else if (diff <= 60) consistBonus = 10;
+    else consistBonus = 0;
+    if (consistBonus > 0) breakdown.push(`+${consistBonus} consistency`);
+  }
+  xp += consistBonus;
+
+  return { xp, hours, breakdown };
+}
+
+function logSleep() {
+  if (!state.sleepScreensOff || !state.sleepWake) {
+    showToast('Set both times first');
+    return;
+  }
+  const { xp, hours, breakdown } = computeSleepXP();
+
+  // Record wake time for consistency tracking (keep last 7)
+  const [wH, wM] = state.sleepWake.split(':').map(Number);
+  state.wakeHistory.push(wH * 60 + wM);
+  if (state.wakeHistory.length > 7) state.wakeHistory.shift();
+  saveState(state);
+
+  addXP('recovery', xp);
+  updateSleepDisplay();
+  const hrStr = hours.toFixed(1);
+  showToast(`😴 ${hrStr}h logged · +${xp} Recovery XP (${breakdown.join(', ')})`);
+
+  // Update the hint to show last result
+  const hint = document.getElementById('sleepHint');
+  if (hint) hint.textContent = `Last: ${hrStr} hours · +${xp} Recovery XP`;
+}
+
 // ===================== PRODUCTIVITY =====================
 function todayKey() { return new Date().toISOString().slice(0,10); }
 
@@ -1711,6 +1850,7 @@ updateColdShowerCount();
 updateCheatCountdown();
 updateChapterCount();
 updateYtBudget();
+updateSleepDisplay();
 loadTemplate(0);
 </script>
 </body>
