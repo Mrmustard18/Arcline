@@ -1727,13 +1727,27 @@
 
   <!-- LOCK IN MODE -->
   <div class="profile-hero" id="lockinCard" style="margin-bottom:16px">
-    <div class="profile-rank-label">Focus Mode</div>
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <div class="profile-rank" id="lockinStatus" style="font-size:28px">Off</div>
-        <div class="profile-level" id="lockinSub">Activate when you're dialed in</div>
+    <div class="profile-rank-label">Focus Session</div>
+    <div id="lockinIdle">
+      <div class="profile-level" style="margin-bottom:12px">Set a timer, stay locked in, earn XP for every minute you hold.</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+        <input id="lockinMins" type="number" inputmode="numeric" min="1" max="180" placeholder="mins"
+          style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--ink);font-family:'Oswald',sans-serif;font-size:22px;padding:10px 14px;outline:none;text-align:center">
+        <button class="btn btn-accent" style="padding:12px 20px;font-size:14px" onclick="startLockin()">Start</button>
       </div>
-      <button class="btn btn-accent" id="lockinBtn" style="padding:12px 24px" onclick="toggleLockin()">Lock In</button>
+      <div class="profile-level" id="lockinDailyNote" style="color:var(--muted)">One session per day</div>
+    </div>
+    <div id="lockinActive" style="display:none">
+      <div class="profile-rank" id="lockinTimer" style="font-size:42px;font-weight:700;letter-spacing:2px;color:var(--accent);font-family:'Oswald',sans-serif">25:00</div>
+      <div class="profile-level" id="lockinActiveSub">Stay off your phone. You got this.</div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-accent" style="flex:1;padding:11px" onclick="endLockin(true)">End + Claim XP</button>
+        <button class="btn btn-ghost" style="padding:11px 16px" onclick="endLockin(false)">Cancel</button>
+      </div>
+    </div>
+    <div id="lockinDone" style="display:none">
+      <div class="profile-rank" style="font-size:22px" id="lockinDoneMsg">Session complete</div>
+      <div class="profile-level" id="lockinDoneSub">Come back tomorrow for another session.</div>
     </div>
   </div>
 
@@ -1752,7 +1766,7 @@
   <!-- LUNCH -->
   <div class="section-label">Lunch</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 15, 'Default lunch', '🧀', event)">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Default lunch', '🧀', event, 'lunch')">
       <div class="log-action-icon">🧀</div>
       <div class="log-action-text">
         <div class="log-action-title">Default Lunch</div>
@@ -1760,7 +1774,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 5, 'Skipped lunch — logged it', '⏳', event)">
+    <div class="log-action" onclick="logAction('nutrition', 5, 'Skipped lunch — logged it', '⏳', event, 'lunch')">
       <div class="log-action-icon">⏳</div>
       <div class="log-action-text">
         <div class="log-action-title">Skipped Lunch</div>
@@ -1773,7 +1787,7 @@
   <!-- CHIPOTLE -->
   <div class="section-label" style="margin-top:20px">Chipotle</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle default bowl', '🥙', event)">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle default bowl', '🥙', event, 'lunch')">
       <div class="log-action-icon">🥙</div>
       <div class="log-action-text">
         <div class="log-action-title">Default Bowl</div>
@@ -1794,7 +1808,7 @@
   <!-- DINNER -->
   <div class="section-label" style="margin-top:20px">Dinner</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 18, 'Light home dinner', '🍽️', event)">
+    <div class="log-action" onclick="logAction('nutrition', 18, 'Light home dinner', '🍽️', event, 'dinner')">
       <div class="log-action-icon">🥄</div>
       <div class="log-action-text">
         <div class="log-action-title">Home — Light</div>
@@ -1802,7 +1816,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 14, 'Normal home dinner', '🍽️', event)">
+    <div class="log-action" onclick="logAction('nutrition', 14, 'Normal home dinner', '🍽️', event, 'dinner')">
       <div class="log-action-icon">🍽️</div>
       <div class="log-action-text">
         <div class="log-action-title">Home — Normal</div>
@@ -1810,7 +1824,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 8, 'Heavy home dinner', '🍝', event)">
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Heavy home dinner', '🍝', event, 'dinner')">
       <div class="log-action-icon">🍝</div>
       <div class="log-action-text">
         <div class="log-action-title">Home — Heavy</div>
@@ -1818,7 +1832,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 8, 'Restaurant meal', '🍴', event)">
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Restaurant meal', '🍴', event, 'dinner')">
       <div class="log-action-icon">🍴</div>
       <div class="log-action-text">
         <div class="log-action-title">Restaurant</div>
@@ -1826,7 +1840,7 @@
       </div>
       <div class="log-action-plus">+</div>
     </div>
-    <div class="log-action" onclick="logAction('nutrition', 8, 'Dinner at GF house', '🏠', event)">
+    <div class="log-action" onclick="logAction('nutrition', 8, 'Dinner at GF house', '🏠', event, 'dinner')">
       <div class="log-action-icon">🏠</div>
       <div class="log-action-text">
         <div class="log-action-title">Girlfriend's House</div>
@@ -1858,11 +1872,11 @@
   <!-- HYDRATION -->
   <div class="section-label" style="margin-top:20px">Discipline & Recovery</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('discipline', 10, 'Hydrated', '💧', event)">
+    <div class="log-action" onclick="logAction('discipline', 10, 'Hydrated', '💧', event, 'hydrate')">
       <div class="log-action-icon">💧</div>
       <div class="log-action-text">
         <div class="log-action-title">Stayed Hydrated</div>
-        <div class="log-action-sub">+10 Discipline XP</div>
+        <div class="log-action-sub">+10 Discipline XP · once per day</div>
       </div>
       <div class="log-action-plus">+</div>
     </div>
@@ -2135,8 +2149,7 @@ const SKILL_TREES = {
     actions: [
       { id: 'hydrate', label: 'Hydrate Today', xp: 10, skill: 'discipline' },
       { id: 'cold_shower', label: 'Cold Shower', xp: 25, skill: 'discipline', note: '+15 Recovery too' },
-      { id: 'no_shorts', label: 'No YouTube Shorts', xp: 20, skill: 'mind', note: 'Logs to Mind' },
-      { id: 'lock_in', label: 'Activate Lock In Mode', xp: 5, skill: 'discipline' },
+      { id: 'lockin_session', label: 'Focus Session', xp: 25, skill: 'discipline', note: 'XP scales with duration — start in Log tab' },
     ],
     unlocks: {
       5:  { name: 'Focused', desc: 'Unlock cold shower tracker', feature: 'cold_shower_track' },
@@ -2546,11 +2559,20 @@ function showSkillDetail(skill) {
   }).join('');
 
   const detail = document.getElementById('skillDetail');
+  // Find last undo action for this skill
+  const lastAction = [...undoStack].reverse().find(a => a.xp && a.xp[skill]);
   document.getElementById('skillDetailInner').innerHTML = `
-    <button class="sd-back" onclick="closeSkillDetail()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to Profile
-    </button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <button class="sd-back" onclick="closeSkillDetail()" style="margin-bottom:0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      ${lastAction ? `
+        <button onclick="undoSkillAction('${skill}')" style="background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 12px;color:var(--muted);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.5px;cursor:pointer;text-transform:uppercase">
+          ↶ Undo: ${lastAction.label.length > 18 ? lastAction.label.slice(0,18)+'…' : lastAction.label}
+        </button>` : `
+        <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--faint)">Nothing to undo</span>`}
+    </div>
     <div class="sd-header">
       <div class="sd-skill-name" style="color:${color}">${tree.icon} ${skillName}</div>
       <div class="sd-rank" style="color:${color}">Level ${level} · ${lvl.rank}</div>
@@ -2581,6 +2603,29 @@ function showSkillDetail(skill) {
   `;
 
   detail.style.display = 'block';
+}
+
+function undoSkillAction(skill) {
+  // Find and remove the last undo action that affected this skill
+  const idx = [...undoStack].reverse().findIndex(a => a.xp && a.xp[skill]);
+  if (idx === -1) { showToast('Nothing to undo for this skill'); return; }
+  const realIdx = undoStack.length - 1 - idx;
+  const action = undoStack.splice(realIdx, 1)[0];
+
+  // Reverse XP
+  Object.entries(action.xp).forEach(([s, amt]) => {
+    state.skills[s] = Math.max(0, state.skills[s] - amt);
+    levelCache = {};
+  });
+  if (typeof action.side === 'function') action.side();
+
+  saveState(state);
+  updateProfile();
+  refreshUndoButton();
+  updateFloatUndo();
+  showToast(`↶ Undone: ${action.label}`);
+  // Re-render skill detail to reflect new XP
+  showSkillDetail(skill);
 }
 
 function closeSkillDetail() {
@@ -3334,21 +3379,42 @@ function flashCard(el) {
   setTimeout(() => el.classList.remove('flash'), 600);
 }
 
-function logAction(skill, xp, label, icon, ev) {
+function logAction(skill, xp, label, icon, ev, dailyKey) {
+  // Enforce daily limit if a key is provided
+  if (dailyKey) {
+    if (isDoneToday(dailyKey)) {
+      showToast(`Already logged today — ${label}`);
+      if (ev && ev.currentTarget) flashCard(ev.currentTarget);
+      return;
+    }
+    markDoneToday(dailyKey);
+    registerAction(label, { [skill]: xp }, () => { unmarkDoneToday(dailyKey); });
+  } else {
+    registerAction(label, { [skill]: xp });
+  }
   addXP(skill, xp);
   if (ev && ev.currentTarget) flashCard(ev.currentTarget);
-  registerAction(label, { [skill]: xp });
   showXP(xp, skill, `${icon} ${label}`);
 }
 
 function logBonus(ev) {
+  // Cold shower — once per day
+  if (isDoneToday('cold_shower')) {
+    showToast('Cold shower already logged today');
+    if (ev && ev.currentTarget) flashCard(ev.currentTarget);
+    return;
+  }
+  markDoneToday('cold_shower');
   state.coldShowers++;
   saveState(state);
   addXP('discipline', 25);
   addXP('recovery', 15);
   updateColdShowerCount();
   if (ev && ev.currentTarget) flashCard(ev.currentTarget);
-  registerAction('Cold shower', { discipline: 25, recovery: 15 }, () => { state.coldShowers = Math.max(0, state.coldShowers - 1); });
+  registerAction('Cold shower', { discipline: 25, recovery: 15 }, () => {
+    state.coldShowers = Math.max(0, state.coldShowers - 1);
+    unmarkDoneToday('cold_shower');
+  });
   showXP(40, 'Disc + Rec', '🧊 Cold shower');
 }
 
@@ -3649,29 +3715,128 @@ function updateColdShowerCount() {
   if (el) el.textContent = `Cold showers logged: ${state.coldShowers}`;
 }
 
-// ===================== LOCK IN MODE =====================
-function toggleLockin() {
-  state.lockedIn = !state.lockedIn;
+// ===================== LOCK IN MODE (timer-based, one session/day) =====================
+let lockinInterval = null;
+let lockinSecondsLeft = 0;
+let lockinSecondsTotal = 0;
+let lockinStartTime = null;
+
+function startLockin() {
+  // Check already done today
+  const dk = dateKey();
+  if ((state.completedTasks[dk] || []).includes('lockin_session')) {
+    showToast('Focus session already done today — come back tomorrow'); return;
+  }
+  if (state.lockedIn) return;
+
+  const minsInput = document.getElementById('lockinMins');
+  const mins = parseInt(minsInput.value) || 0;
+  if (mins < 1 || mins > 180) { showToast('Set a time between 1 and 180 minutes'); return; }
+
+  lockinSecondsTotal = mins * 60;
+  lockinSecondsLeft = lockinSecondsTotal;
+  lockinStartTime = Date.now();
+  state.lockedIn = true;
   saveState(state);
-  applyLockin();
-  if (state.lockedIn) { addXP('discipline', 5); showToast('🔒 Locked in. Stay focused.'); }
-  else showToast('Focus mode off');
+
+  document.getElementById('lockinIdle').style.display = 'none';
+  document.getElementById('lockinActive').style.display = 'block';
+  document.getElementById('lockinDone').style.display = 'none';
+  document.body.classList.add('locked-in');
+
+  updateLockinTimerDisplay();
+  lockinInterval = setInterval(() => {
+    lockinSecondsLeft--;
+    updateLockinTimerDisplay();
+    if (lockinSecondsLeft <= 0) {
+      clearInterval(lockinInterval);
+      endLockin(true);
+    }
+  }, 1000);
+}
+
+function updateLockinTimerDisplay() {
+  const m = Math.floor(lockinSecondsLeft / 60);
+  const s = lockinSecondsLeft % 60;
+  const el = document.getElementById('lockinTimer');
+  if (el) el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const sub = document.getElementById('lockinActiveSub');
+  if (sub) {
+    const pct = Math.round(((lockinSecondsTotal - lockinSecondsLeft) / lockinSecondsTotal) * 100);
+    sub.textContent = pct < 50 ? "Stay off your phone. You got this." : pct < 90 ? "Over halfway — keep grinding." : "Almost there. Don't quit now.";
+  }
+}
+
+function endLockin(claim) {
+  clearInterval(lockinInterval);
+  state.lockedIn = false;
+  document.body.classList.remove('locked-in');
+
+  if (claim) {
+    // XP = 1 per minute completed, min 5, max 60
+    const secsCompleted = lockinSecondsTotal - Math.max(0, lockinSecondsLeft);
+    const minsCompleted = Math.max(1, Math.floor(secsCompleted / 60));
+    const xp = Math.min(60, Math.max(5, minsCompleted));
+
+    addXP('discipline', xp);
+    registerAction(`Focus session (${minsCompleted}m)`, { discipline: xp });
+    showXP(xp, 'Discipline', `🔒 ${minsCompleted}min focus`);
+
+    // Mark done for today
+    const dk = dateKey();
+    if (!state.completedTasks[dk]) state.completedTasks[dk] = [];
+    state.completedTasks[dk].push('lockin_session');
+
+    const doneMsg = document.getElementById('lockinDoneMsg');
+    const doneSub = document.getElementById('lockinDoneSub');
+    if (doneMsg) doneMsg.textContent = `+${xp} Discipline XP earned`;
+    if (doneSub) doneSub.textContent = `${minsCompleted} min session complete. Come back tomorrow.`;
+  }
+
+  saveState(state);
+  document.getElementById('lockinIdle').style.display = claim ? 'none' : 'block';
+  document.getElementById('lockinActive').style.display = 'none';
+  document.getElementById('lockinDone').style.display = claim ? 'block' : 'none';
+
+  // Update daily note
+  const dk = dateKey();
+  const doneToday = (state.completedTasks[dk] || []).includes('lockin_session');
+  const note = document.getElementById('lockinDailyNote');
+  if (note) note.textContent = doneToday ? '✓ Session done for today' : 'One session per day';
 }
 
 function applyLockin() {
-  const statusEl = document.getElementById('lockinStatus');
-  const subEl = document.getElementById('lockinSub');
-  const btnEl = document.getElementById('lockinBtn');
-  if (state.lockedIn) {
-    document.body.classList.add('locked-in');
-    if (statusEl) statusEl.textContent = 'ON';
-    if (subEl) subEl.textContent = "You're dialed in. Make it count.";
-    if (btnEl) btnEl.textContent = 'Release';
-  } else {
-    document.body.classList.remove('locked-in');
-    if (statusEl) statusEl.textContent = 'Off';
-    if (subEl) subEl.textContent = "Activate when you're dialed in";
-    if (btnEl) btnEl.textContent = 'Lock In';
+  // Restore timer state if mid-session (page refresh during session)
+  const dk = dateKey();
+  const doneToday = (state.completedTasks[dk] || []).includes('lockin_session');
+  const note = document.getElementById('lockinDailyNote');
+  if (note) note.textContent = doneToday ? '✓ Session done for today' : 'One session per day';
+  if (doneToday) {
+    document.getElementById('lockinIdle').style.display = 'none';
+    document.getElementById('lockinDone').style.display = 'block';
+  }
+  // Clear any stale locked-in body class
+  if (!state.lockedIn) document.body.classList.remove('locked-in');
+}
+
+// ===================== DAILY LIMIT HELPERS =====================
+function isDoneToday(key) {
+  const dk = dateKey();
+  return (state.completedTasks[dk] || []).includes(key);
+}
+
+function markDoneToday(key) {
+  const dk = dateKey();
+  if (!state.completedTasks[dk]) state.completedTasks[dk] = [];
+  if (!state.completedTasks[dk].includes(key)) state.completedTasks[dk].push(key);
+  saveState(state);
+}
+
+function unmarkDoneToday(key) {
+  const dk = dateKey();
+  if (state.completedTasks[dk]) {
+    state.completedTasks[dk] = state.completedTasks[dk].filter(x => x !== key);
+    saveState(state);
   }
 }
 
