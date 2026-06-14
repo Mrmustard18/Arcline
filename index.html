@@ -559,6 +559,7 @@
     justify-content: center;
   }
   .rep-checkbox:active { background: var(--accent); color: #1a120a; transform: scale(0.92); }
+  .rep-checkbox.checked { background: var(--accent); color: #1a120a; border-color: var(--accent); }
 
   .set-num { font-size: 12px; color: var(--muted); font-weight: 600; text-align: center; }
 
@@ -2067,7 +2068,7 @@ function todaysWorkout() {
 }
 
 // ===================== XP / LEVEL =====================
-const levelCache = {};
+let levelCache = {};
 function getLevel(xp) {
   if (levelCache[xp]) return levelCache[xp];
   let total = 0;
@@ -2343,11 +2344,11 @@ function renderExercises() {
       <div class="exercise-body ${isOpen ? 'open' : ''}">
         <div class="sets-header"><div>#</div><div>Reps</div><div>Weight (lbs)</div><div></div></div>
         ${ex.sets.map((s, i) => `
-          <div class="set-row">
+          <div class="set-row" data-ex-id="${ex.id}" data-set-idx="${i}">
             <div class="set-num">${i+1}</div>
             <div class="rep-input-group">
               <input class="set-input" type="number" inputmode="numeric" placeholder="—" value="${s.reps}" oninput="updateSet('${ex.id}',${i},'reps',this.value)">
-              <button class="rep-checkbox" onclick="fillLastRepTarget('${ex.id}',${i})" title="Hit target reps?">✓</button>
+              <button class="rep-checkbox ${s.completed ? 'checked' : ''}" title="Mark set complete">✓</button>
             </div>
             <input class="set-input" type="number" inputmode="decimal" placeholder="—" value="${s.weight}" oninput="updateSet('${ex.id}',${i},'weight',this.value)">
             <button class="set-delete" onclick="removeSet('${ex.id}',${i})">
@@ -2365,14 +2366,13 @@ function renderExercises() {
 }
 
 // Quick-tap checkbox to copy last set's reps to current set
-function fillLastRepTarget(exId, setIdx) {
+function toggleSetComplete(exId, setIdx) {
   const ex = exercises.find(e => e.id === exId);
-  if (!ex || setIdx === 0) return;
-  const lastSet = ex.sets[setIdx - 1];
-  if (lastSet && lastSet.reps) {
-    ex.sets[setIdx].reps = lastSet.reps;
-    renderExercises();
-  }
+  if (!ex) return;
+  if (!ex.sets[setIdx]) return;
+  
+  ex.sets[setIdx].completed = !ex.sets[setIdx].completed;
+  renderExercises();
 }
 
 function toggleCard(id) {
@@ -2503,7 +2503,28 @@ function showDetail(id) {
         ${ex.notes ? `<div class="detail-notes">"${ex.notes}"</div>` : ''}
       </div>`;
     }).join('')}
-    <button class="btn btn-danger" style="width:100%;margin-top:12px;padding:12px" onclick="confirmDeleteWorkout('${w.id}')">Delete This Workout</button>`;
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-accent" style="flex:1;padding:12px" onclick="editWorkout('${w.id}')">Edit Workout</button>
+      <button class="btn btn-danger" style="flex:1;padding:12px" onclick="confirmDeleteWorkout('${w.id}')">Delete</button>
+    </div>`;
+}
+
+function editWorkout(id) {
+  const w = state.history.find(x => x.id === id);
+  if (!w) return;
+  
+  // Load the workout back into the editor
+  exercises = JSON.parse(JSON.stringify(w.exercises));
+  document.getElementById('workoutName').value = w.name;
+  openCards.clear();
+  renderExercises();
+  
+  // Remove from history so it can be saved as a new entry
+  state.history = state.history.filter(x => x.id !== id);
+  saveState(state);
+  
+  showPage('workout', null);
+  showToast('Workout loaded for editing');
 }
 
 function confirmDeleteWorkout(id) {
@@ -2787,12 +2808,27 @@ function renderToday() {
 // Event delegation: single handler for all tasks
 document.addEventListener('click', (e) => {
   const task = e.target.closest('.task');
-  if (!task || !task.parentElement.id === 'todayList') return;
-  const taskId = task.dataset.taskId;
-  if (!taskId) return;
-  const tasks = buildTodayTasks();
-  const taskObj = tasks.find(t => t.id === taskId);
-  if (taskObj) handleTaskTap(taskObj, task);
+  if (task && task.parentElement.id === 'todayList') {
+    const taskId = task.dataset.taskId;
+    if (taskId) {
+      const tasks = buildTodayTasks();
+      const taskObj = tasks.find(t => t.id === taskId);
+      if (taskObj) handleTaskTap(taskObj, task);
+    }
+  }
+  
+  // Rep checkbox handler
+  const checkbox = e.target.closest('.rep-checkbox');
+  if (checkbox) {
+    const setRow = checkbox.closest('.set-row');
+    if (setRow) {
+      const exId = setRow.dataset.exId;
+      const setIdx = parseInt(setRow.dataset.setIdx);
+      if (exId && !isNaN(setIdx)) {
+        toggleSetComplete(exId, setIdx);
+      }
+    }
+  }
 }, true);
 
 function loadScheduledWorkout(focus) {
