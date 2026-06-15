@@ -409,6 +409,33 @@
     letter-spacing: 0.3px;
   }
 
+  .decay-warning {
+    margin-top: 8px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .decay-warning.active {
+    background: rgba(224, 82, 82, 0.15);
+    border: 1px solid var(--danger);
+    color: #ff7a7a;
+    animation: decayPulse 1.6s ease-in-out infinite;
+  }
+  .decay-warning.soon {
+    background: rgba(245, 200, 66, 0.10);
+    border: 1px solid rgba(245, 200, 66, 0.4);
+    color: var(--nutrition);
+  }
+  @keyframes decayPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 rgba(224,82,82,0); }
+    50% { opacity: 0.7; box-shadow: 0 0 12px rgba(224,82,82,0.4); }
+  }
+
   /* STATS ROW — instrument readouts */
   .stats-row {
     display: grid;
@@ -1480,6 +1507,23 @@
   .sd-bar-track { height: 8px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
   .sd-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease-out; }
 
+  .sd-decay-banner {
+    background: rgba(224, 82, 82, 0.12);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin: 16px 0;
+    animation: decayPulse 1.8s ease-in-out infinite;
+  }
+  .sd-decay-banner.soon {
+    background: rgba(245, 200, 66, 0.10);
+    border-color: rgba(245, 200, 66, 0.4);
+    animation: none;
+  }
+  .sd-decay-title { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; color: #ff7a7a; letter-spacing: 0.5px; }
+  .sd-decay-banner.soon .sd-decay-title { color: var(--nutrition); }
+  .sd-decay-text { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ink-soft); margin-top: 5px; line-height: 1.5; }
+
   .sd-next-unlock {
     background: var(--surface); border: 1px solid var(--border-bright);
     border-radius: var(--radius); padding: 12px 14px; margin: 16px 0;
@@ -1522,6 +1566,96 @@
   .sd-unlock-name.earned { color: var(--accent); }
   .sd-unlock-desc { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
   .sd-lock-icon { margin-left: auto; font-size: 14px; color: var(--border-bright); flex-shrink: 0; }
+
+  /* ===================== HISTORY: CALENDAR + STATS ===================== */
+  .hist-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+  .hist-tab {
+    flex: 1; padding: 11px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    color: var(--muted); font-family: 'Space Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; cursor: pointer; transition: all 0.15s;
+  }
+  .hist-tab.active { background: var(--accent); color: #0e0e12; border-color: var(--accent); }
+
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .cal-month { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .cal-nav {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--ink); font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cal-nav:active { background: var(--surface2); }
+
+  .cal-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    margin-bottom: 6px;
+  }
+  .cal-weekdays div {
+    text-align: center; font-family: 'Space Mono', monospace;
+    font-size: 9px; color: var(--muted); font-weight: 700;
+  }
+
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-cell {
+    aspect-ratio: 1; border-radius: 7px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; position: relative; transition: all 0.15s;
+    font-family: 'Space Mono', monospace; min-height: 0;
+  }
+  .cal-cell.empty { background: none; border: none; cursor: default; }
+  .cal-cell.today { border-color: var(--accent); }
+  .cal-cell.selected { background: var(--accent-dim); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .cal-cell-num { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .cal-dots { display: flex; gap: 2px; margin-top: 3px; height: 4px; }
+  .cal-dot { width: 4px; height: 4px; border-radius: 50%; }
+
+  .cal-day-detail { margin-top: 18px; }
+  .cdd-date { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+  .cdd-empty { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); text-align: center; padding: 24px; }
+  .cdd-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 13px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px;
+  }
+  .cdd-item-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cdd-item-label { flex: 1; font-family: 'Sora', sans-serif; font-size: 14px; color: var(--ink); }
+  .cdd-item-time { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); }
+  .cdd-item-xp { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; }
+
+  .stat-block { margin-bottom: 22px; }
+  .stat-block-title {
+    font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .stat-big-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .stat-big {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 10px; text-align: center;
+  }
+  .stat-big-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-big-label { font-family: 'Space Mono', monospace; font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+
+  .stat-bar-row { margin-bottom: 12px; }
+  .stat-bar-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+  .stat-bar-name { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; text-transform: uppercase; }
+  .stat-bar-val { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .stat-bar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease-out; }
+
+  .stat-insight {
+    border-radius: 10px; padding: 14px; margin-bottom: 8px;
+    border: 1px solid var(--border);
+    display: flex; gap: 11px; align-items: flex-start;
+  }
+  .stat-insight.good { background: rgba(78,203,141,0.08); border-color: rgba(78,203,141,0.3); }
+  .stat-insight.bad { background: rgba(224,82,82,0.08); border-color: rgba(224,82,82,0.3); }
+  .stat-insight.neutral { background: var(--surface); }
+  .stat-insight-icon { font-size: 18px; flex-shrink: 0; }
+  .stat-insight-title { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; }
+  .stat-insight-text { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ink-soft); margin-top: 3px; line-height: 1.5; }
 
   /* TOAST */
   .toast {
@@ -2128,8 +2262,30 @@
 
 <!-- HISTORY PAGE -->
 <div class="page" id="page-history">
-  <div class="section-label">Workout History</div>
-  <div id="historyList"></div>
+  <div class="hist-tabs">
+    <button class="hist-tab active" id="histTabCal" onclick="switchHistTab('calendar')">Calendar</button>
+    <button class="hist-tab" id="histTabStats" onclick="switchHistTab('stats')">Statistics</button>
+  </div>
+
+  <!-- CALENDAR VIEW -->
+  <div id="histCalendarView">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="calPrevMonth()">‹</button>
+      <div class="cal-month" id="calMonthLabel">June 2026</div>
+      <button class="cal-nav" onclick="calNextMonth()">›</button>
+    </div>
+    <div class="cal-weekdays">
+      <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-day-detail" id="calDayDetail"></div>
+  </div>
+
+  <!-- STATISTICS VIEW -->
+  <div id="histStatsView" style="display:none">
+    <div id="statsContent"></div>
+  </div>
+
   <div id="historyDetail" style="display:none"></div>
 </div>
 
@@ -2476,9 +2632,12 @@ function loadState() {
     creatineStreak: 0,              // current consecutive day streak
     creatineLastDate: null,         // last date creatine was logged (YYYY-MM-DD)
     creatineWeeksCompleted: 0,      // total 7-day weeks completed
-    creatineTotalDays: 0            // all-time days logged
+    creatineTotalDays: 0,           // all-time days logged
+    skillLastActive: {},            // { skill: 'YYYY-MM-DD' } — last day each skill earned XP
+    decayLastChecked: null,         // last date we ran the decay check
+    activityLog: {}                 // { 'YYYY-MM-DD': [{type, label, xp, skill, time}] }
   }));
-  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null, creatineStreak:0, creatineLastDate:null, creatineWeeksCompleted:0, creatineTotalDays:0 };
+  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null, creatineStreak:0, creatineLastDate:null, creatineWeeksCompleted:0, creatineTotalDays:0, skillLastActive:{}, decayLastChecked:null, activityLog:{} };
   for (const k in defaults) if (s[k] === undefined) s[k] = defaults[k];
   return s;
 }
@@ -2502,11 +2661,16 @@ function weekId(d = new Date()) {
   const dt = new Date(d);
   const day = dt.getDay();
   const monday = new Date(dt); monday.setDate(dt.getDate() - ((day + 6) % 7));
-  return monday.toISOString().slice(0,10);
+  return dateKey(monday);
 }
 
 function dateKey(d = new Date()) {
-  return new Date(d).toISOString().slice(0,10);
+  // Use LOCAL date, not UTC — toISOString() shifts by timezone and breaks day boundaries
+  const dt = new Date(d);
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth() + 1).padStart(2, '0');
+  const day = String(dt.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 // Build (or rebuild) this week's workout schedule from availability
@@ -2576,24 +2740,104 @@ function getLevel(xp) {
 }
 
 let updateProfileTimeout;
-function addXP(skill, amount) {
+function addXP(skill, amount, activityLabel) {
   const before = getLevel(state.skills[skill]);
   state.skills[skill] += amount;
   levelCache = {}; // Invalidate cache on XP changes
+
+  // Record activity — only positive gains reset the decay timer
+  if (amount > 0) {
+    if (!state.skillLastActive) state.skillLastActive = {};
+    state.skillLastActive[skill] = dateKey();
+
+    // Log to activity history
+    if (activityLabel) {
+      const dk = dateKey();
+      if (!state.activityLog) state.activityLog = {};
+      if (!state.activityLog[dk]) state.activityLog[dk] = [];
+      state.activityLog[dk].push({
+        label: activityLabel,
+        xp: amount,
+        skill: skill,
+        time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+      });
+    }
+  }
+
   const after = getLevel(state.skills[skill]);
   saveState(state);
-  
+
   // Debounce profile updates to avoid reflows
   clearTimeout(updateProfileTimeout);
   updateProfileTimeout = setTimeout(updateProfile, 100);
-  
+
   // Real-time XP alert (fire immediately)
-  showXPAlert(amount, skill);
-  
+  if (amount > 0) showXPAlert(amount, skill);
+
   // Rank up and unlocks checked immediately
   if (after.level > before.level) triggerRankup(skill, after.rank);
   checkSkillUnlocks();
 }
+
+// ===================== XP DECAY SYSTEM =====================
+// If a skill earns no XP for 7 days, it loses 5 XP/day after that.
+// Decay CAN drop levels — real consequences.
+const DECAY_GRACE_DAYS = 7;
+const DECAY_PER_DAY = 5;
+
+function daysSinceActive(skill) {
+  const last = state.skillLastActive && state.skillLastActive[skill];
+  if (!last) return null; // never active — no decay until first activity
+  const lastDate = new Date(last + 'T12:00:00');
+  const today = new Date(dateKey() + 'T12:00:00');
+  return Math.floor((today - lastDate) / 86400000);
+}
+
+function isSkillDecaying(skill) {
+  const days = daysSinceActive(skill);
+  return days !== null && days >= DECAY_GRACE_DAYS;
+}
+
+function runDecayCheck() {
+  const today = dateKey();
+  if (state.decayLastChecked === today) return; // already ran today
+
+  // Figure out how many days of decay to apply since last check
+  let lastCheck = state.decayLastChecked ? new Date(state.decayLastChecked + 'T12:00:00') : null;
+  const now = new Date(today + 'T12:00:00');
+
+  const skills = ['strength','nutrition','discipline','recovery','mind'];
+  let anyDecayed = [];
+
+  skills.forEach(skill => {
+    const days = daysSinceActive(skill);
+    if (days === null || days < DECAY_GRACE_DAYS) return;
+
+    // Number of days past the grace period = days to charge decay for
+    // But only charge for days we haven't already charged (since last check)
+    let decayDays = 1; // at minimum, today
+    if (lastCheck) {
+      decayDays = Math.min(days - DECAY_GRACE_DAYS + 1, Math.floor((now - lastCheck) / 86400000));
+      decayDays = Math.max(0, decayDays);
+    }
+    if (decayDays <= 0) return;
+
+    const loss = decayDays * DECAY_PER_DAY;
+    if (state.skills[skill] > 0) {
+      state.skills[skill] = Math.max(0, state.skills[skill] - loss);
+      levelCache = {};
+      anyDecayed.push(skill);
+    }
+  });
+
+  state.decayLastChecked = today;
+  saveState(state);
+
+  if (anyDecayed.length) {
+    updateProfile();
+  }
+}
+
 // ===================== UNDO SYSTEM =====================
 // undoStack holds up to 10 actions; each: { label, xp: {skill: amount}, side: fn }
 let undoStack = [];
@@ -2811,6 +3055,22 @@ function showSkillDetail(skill) {
       </div>
     </div>
 
+    ${(() => {
+      const days = daysSinceActive(skill);
+      if (days !== null && days >= DECAY_GRACE_DAYS) {
+        return `<div class="sd-decay-banner">
+          <div class="sd-decay-title">⚠ Losing XP</div>
+          <div class="sd-decay-text">No activity for ${days} days. You're losing ${DECAY_PER_DAY} XP every day. Log any ${skillName} action below to stop the bleed.</div>
+        </div>`;
+      } else if (days !== null && days >= 5) {
+        return `<div class="sd-decay-banner soon">
+          <div class="sd-decay-title">${DECAY_GRACE_DAYS - days} days until decay</div>
+          <div class="sd-decay-text">Train this skill within ${DECAY_GRACE_DAYS - days} day${DECAY_GRACE_DAYS-days>1?'s':''} to avoid losing XP.</div>
+        </div>`;
+      }
+      return '';
+    })()}
+
     ${nextUnlock ? `
     <div class="sd-next-unlock">
       <div class="sd-next-icon">🔒</div>
@@ -2864,7 +3124,7 @@ function quickLogSkillAction(skill, actionId, xp, xpSkill, label) {
   const key = `${skill}_${actionId}`;
   if (state.completedTasks[dk].includes(key)) { showToast('Already logged today'); return; }
 
-  addXP(xpSkill, xp);
+  addXP(xpSkill, xp, label);
   state.completedTasks[dk].push(key);
   registerAction(label, { [xpSkill]: xp }, () => {
     state.completedTasks[dk] = state.completedTasks[dk].filter(x => x !== key);
@@ -2891,6 +3151,35 @@ function updateProfile() {
     document.getElementById(skill + 'Rank').textContent = lvl.rank;
     document.getElementById(skill + 'Bar').style.width = `${Math.min(100, (lvl.xpInLevel / lvl.xpNeeded) * 100)}%`;
     document.getElementById(skill + 'XP').textContent = `${state.skills[skill]} XP`;
+
+    // Decay warning
+    const card = document.querySelector(`.skill-card.${skill}`);
+    if (!card) return;
+    let warn = card.querySelector('.decay-warning');
+    const days = daysSinceActive(skill);
+    const decaying = isSkillDecaying(skill);
+    // Approaching decay: 5-6 days, warn early
+    const approaching = days !== null && days >= 5 && days < DECAY_GRACE_DAYS;
+
+    if (decaying) {
+      if (!warn) {
+        warn = document.createElement('div');
+        warn.className = 'decay-warning';
+        card.appendChild(warn);
+      }
+      warn.className = 'decay-warning active';
+      warn.innerHTML = `⚠ LOSING XP · ${days}d idle — train to stop`;
+    } else if (approaching) {
+      if (!warn) {
+        warn = document.createElement('div');
+        warn.className = 'decay-warning';
+        card.appendChild(warn);
+      }
+      warn.className = 'decay-warning soon';
+      warn.innerHTML = `${DECAY_GRACE_DAYS - days}d until XP decay`;
+    } else if (warn) {
+      warn.remove();
+    }
   });
 }
 
@@ -3034,7 +3323,7 @@ function saveWorkout() {
     state.totalWorkouts++;
 
     // Discipline XP for completing a workout
-    addXP('discipline', 20);
+    addXP('discipline', 20, `Workout: ${name}`);
 
     // Week streak
     const thisWeek = getWeekNumber(new Date());
@@ -3086,39 +3375,251 @@ function confirmRemoveExercise(id) {
   });
 }
 
-// ===================== HISTORY =====================
+// ===================== HISTORY: CALENDAR + STATS =====================
+let calViewDate = new Date();
+let calSelectedKey = null;
+
+const SKILL_COLOR_MAP = {
+  strength: '#ff5e5e', nutrition: '#f5c842', discipline: '#e8854a',
+  recovery: '#4ecb8d', mind: '#a78bfa'
+};
+
 function renderHistory() {
-  document.getElementById('historyList').style.display = 'block';
   document.getElementById('historyDetail').style.display = 'none';
-  const list = document.getElementById('historyList');
-  if (state.history.length === 0) {
-    list.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No workouts yet</div><div class="empty-sub">Save your first workout and it'll show up here.</div></div>`;
-    return;
-  }
-  list.innerHTML = state.history.map(w => {
-    const d = new Date(w.date);
-    const dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    const totalSets = w.exercises.reduce((a,e)=>a+e.sets.length,0);
-    return `
-      <div class="history-card" onclick="showDetail('${w.id}')">
-        <div class="history-card-top">
-          <div class="history-name">${w.name}</div>
-          <div class="history-date">${dateStr}<br>${timeStr}</div>
-        </div>
-        <div class="history-stats">
-          <div class="history-stat"><span>${w.exercises.length}</span> exercises</div>
-          <div class="history-stat"><span>${totalSets}</span> sets</div>
-        </div>
-        <div class="history-exercises">${w.exercises.map(e=>e.name).join(' · ')}</div>
-      </div>`;
-  }).join('');
+  switchHistTab('calendar');
 }
+
+function switchHistTab(tab) {
+  const cal = document.getElementById('histCalendarView');
+  const stats = document.getElementById('histStatsView');
+  const tabCal = document.getElementById('histTabCal');
+  const tabStats = document.getElementById('histTabStats');
+  document.getElementById('historyDetail').style.display = 'none';
+  if (tab === 'calendar') {
+    cal.style.display = 'block'; stats.style.display = 'none';
+    tabCal.classList.add('active'); tabStats.classList.remove('active');
+    renderCalendar();
+  } else {
+    cal.style.display = 'none'; stats.style.display = 'block';
+    tabCal.classList.remove('active'); tabStats.classList.add('active');
+    renderStats();
+  }
+}
+
+// Combine workout history + activity log into a per-day map of events
+function getDayActivity(dk) {
+  const events = [];
+  // Activity log entries (meals, habits, etc.)
+  (state.activityLog[dk] || []).forEach(a => {
+    events.push({ label: a.label, xp: a.xp, skill: a.skill, time: a.time });
+  });
+  // Workouts (matched by local date)
+  state.history.forEach(w => {
+    if (dateKey(new Date(w.date)) === dk) {
+      const sets = w.exercises.reduce((a,e)=>a+e.sets.length,0);
+      events.push({
+        label: `🏋 ${w.name} (${w.exercises.length} ex, ${sets} sets)`,
+        xp: null, skill: 'discipline', isWorkout: true, workoutId: w.id,
+        time: new Date(w.date).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})
+      });
+    }
+  });
+  return events;
+}
+
+function renderCalendar() {
+  const year = calViewDate.getFullYear();
+  const month = calViewDate.getMonth();
+  document.getElementById('calMonthLabel').textContent =
+    calViewDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const todayK = dateKey();
+
+  let html = '';
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-cell empty"></div>`;
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dk = dateKey(new Date(year, month, day));
+    const events = getDayActivity(dk);
+    const skills = [...new Set(events.map(e => e.skill))].slice(0, 4);
+    const dots = skills.map(s => `<div class="cal-dot" style="background:${SKILL_COLOR_MAP[s]||'#888'}"></div>`).join('');
+    const classes = ['cal-cell'];
+    if (dk === todayK) classes.push('today');
+    if (dk === calSelectedKey) classes.push('selected');
+    html += `<div class="${classes.join(' ')}" onclick="selectCalDay('${dk}')">
+      <div class="cal-cell-num">${day}</div>
+      <div class="cal-dots">${dots}</div>
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+
+  // Default to showing today if nothing selected
+  if (!calSelectedKey) calSelectedKey = todayK;
+  renderCalDayDetail();
+}
+
+function selectCalDay(dk) {
+  calSelectedKey = dk;
+  renderCalendar();
+}
+
+function renderCalDayDetail() {
+  const wrap = document.getElementById('calDayDetail');
+  if (!calSelectedKey) { wrap.innerHTML = ''; return; }
+  const events = getDayActivity(calSelectedKey);
+  const d = new Date(calSelectedKey + 'T12:00:00');
+  const dateStr = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+  let html = `<div class="cdd-date">${dateStr}</div>`;
+  if (events.length === 0) {
+    html += `<div class="cdd-empty">Nothing logged this day</div>`;
+  } else {
+    // Sort by time
+    events.forEach(e => {
+      const color = SKILL_COLOR_MAP[e.skill] || '#888';
+      const xpStr = e.xp != null ? `+${e.xp}` : '';
+      const onclick = e.isWorkout ? `onclick="showDetail('${e.workoutId}')" style="cursor:pointer"` : '';
+      html += `<div class="cdd-item" ${onclick}>
+        <div class="cdd-item-dot" style="background:${color}"></div>
+        <div class="cdd-item-label">${e.label}</div>
+        <div>
+          ${xpStr ? `<div class="cdd-item-xp" style="color:${color}">${xpStr}</div>` : ''}
+          <div class="cdd-item-time">${e.time||''}</div>
+        </div>
+      </div>`;
+    });
+  }
+  wrap.innerHTML = html;
+}
+
+function calPrevMonth() { calViewDate.setMonth(calViewDate.getMonth() - 1); renderCalendar(); }
+function calNextMonth() { calViewDate.setMonth(calViewDate.getMonth() + 1); renderCalendar(); }
+
+// ===================== STATISTICS =====================
+function renderStats() {
+  const wrap = document.getElementById('statsContent');
+
+  // Gather last 30 days of activity
+  const today = new Date();
+  let totalXP = 0, activeDays = 0, totalActions = 0;
+  const skillXP = { strength: 0, nutrition: 0, discipline: 0, recovery: 0, mind: 0 };
+  const last7 = []; // active or not for last 7 days
+
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const dk = dateKey(d);
+    const events = getDayActivity(dk);
+    if (events.length) { activeDays++; totalActions += events.length; }
+    events.forEach(e => { if (e.xp) { totalXP += e.xp; skillXP[e.skill] = (skillXP[e.skill]||0) + e.xp; } });
+    if (i < 7) last7.push(events.length > 0);
+  }
+
+  const consistencyPct = Math.round((activeDays / 30) * 100);
+  const last7Active = last7.filter(Boolean).length;
+
+  // Per-skill totals all time (from current XP)
+  const skillTotals = { ...state.skills };
+  const maxSkill = Math.max(1, ...Object.values(skillTotals));
+
+  // Build skill breakdown bars
+  const skillBars = ['strength','nutrition','discipline','recovery','mind'].map(s => {
+    const pct = Math.round((skillTotals[s] / maxSkill) * 100);
+    const name = s.charAt(0).toUpperCase() + s.slice(1);
+    return `<div class="stat-bar-row">
+      <div class="stat-bar-top">
+        <div class="stat-bar-name" style="color:${SKILL_COLOR_MAP[s]}">${name}</div>
+        <div class="stat-bar-val">${skillTotals[s].toLocaleString()} XP · Lvl ${getLevel(skillTotals[s]).level}</div>
+      </div>
+      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%;background:${SKILL_COLOR_MAP[s]};box-shadow:0 0 8px ${SKILL_COLOR_MAP[s]}"></div></div>
+    </div>`;
+  }).join('');
+
+  // Insights — what's going well, what needs work
+  const insights = [];
+
+  // Find strongest and weakest skill by 30-day XP
+  const sorted = Object.entries(skillXP).sort((a,b)=>b[1]-a[1]);
+  const strongest = sorted[0];
+  const weakest = sorted[sorted.length - 1];
+
+  if (strongest[1] > 0) {
+    insights.push({ type:'good', icon:'🔥', title:`${cap(strongest[0])} is your strength`,
+      text:`You've earned ${strongest[1]} XP in ${cap(strongest[0])} over the last 30 days. This is your most active area — keep the momentum.` });
+  }
+
+  // Decaying skills
+  const decaying = ['strength','nutrition','discipline','recovery','mind'].filter(s => isSkillDecaying(s));
+  if (decaying.length) {
+    insights.push({ type:'bad', icon:'⚠', title:`${decaying.map(cap).join(', ')} ${decaying.length>1?'are':'is'} decaying`,
+      text:`You haven't trained ${decaying.length>1?'these':'this'} in over a week and ${decaying.length>1?'they\'re':'it\'s'} losing XP daily. Log something today to stop the bleed.` });
+  } else if (weakest[1] === 0) {
+    insights.push({ type:'bad', icon:'📉', title:`${cap(weakest[0])} needs attention`,
+      text:`No ${cap(weakest[0])} activity in the last 30 days. Tap the ${cap(weakest[0])} skill on your profile to see quick ways to earn XP.` });
+  }
+
+  // Consistency insight
+  if (consistencyPct >= 70) {
+    insights.push({ type:'good', icon:'💪', title:'Strong consistency',
+      text:`You've been active ${activeDays} of the last 30 days (${consistencyPct}%). This is what real progress looks like.` });
+  } else if (consistencyPct >= 40) {
+    insights.push({ type:'neutral', icon:'📊', title:'Building the habit',
+      text:`Active ${activeDays} of 30 days (${consistencyPct}%). You're getting there — aim for at least one action every day, even a small one.` });
+  } else {
+    insights.push({ type:'bad', icon:'🎯', title:'Consistency needs work',
+      text:`Only active ${activeDays} of the last 30 days. The biggest gains come from showing up daily. Even one tap keeps your streak alive.` });
+  }
+
+  // Creatine streak insight
+  if (state.creatineStreak >= 7) {
+    insights.push({ type:'good', icon:'🧬', title:`${state.creatineStreak}-day creatine streak`,
+      text:`Rock solid. Consistency on the small daily things is exactly the discipline that carries over to everything else.` });
+  }
+
+  const insightHTML = insights.map(i => `
+    <div class="stat-insight ${i.type}">
+      <div class="stat-insight-icon">${i.icon}</div>
+      <div>
+        <div class="stat-insight-title">${i.title}</div>
+        <div class="stat-insight-text">${i.text}</div>
+      </div>
+    </div>`).join('');
+
+  wrap.innerHTML = `
+    <div class="stat-block">
+      <div class="stat-block-title">Last 30 Days</div>
+      <div class="stat-big-row">
+        <div class="stat-big"><div class="stat-big-num">${activeDays}</div><div class="stat-big-label">Active Days</div></div>
+        <div class="stat-big"><div class="stat-big-num">${totalXP.toLocaleString()}</div><div class="stat-big-label">XP Earned</div></div>
+        <div class="stat-big"><div class="stat-big-num">${consistencyPct}%</div><div class="stat-big-label">Consistency</div></div>
+      </div>
+      <div class="stat-big-row">
+        <div class="stat-big"><div class="stat-big-num">${state.totalWorkouts}</div><div class="stat-big-label">Workouts</div></div>
+        <div class="stat-big"><div class="stat-big-num">${last7Active}/7</div><div class="stat-big-label">This Week</div></div>
+        <div class="stat-big"><div class="stat-big-num">${state.creatineStreak}</div><div class="stat-big-label">Creatine 🔥</div></div>
+      </div>
+    </div>
+
+    <div class="stat-block">
+      <div class="stat-block-title">Skill Balance (All Time)</div>
+      ${skillBars}
+    </div>
+
+    <div class="stat-block">
+      <div class="stat-block-title">What The Data Says</div>
+      ${insightHTML}
+    </div>
+  `;
+}
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
 
 function showDetail(id) {
   const w = state.history.find(x => x.id === id);
   if (!w) return;
-  document.getElementById('historyList').style.display = 'none';
+  document.getElementById('histCalendarView').style.display = 'none';
+  document.getElementById('histStatsView').style.display = 'none';
   const detail = document.getElementById('historyDetail');
   detail.style.display = 'block';
   const d = new Date(w.date);
@@ -3547,7 +4048,7 @@ function buildTodayTasks() {
   });
 
   tasks.push({ id:'hydrate', cls:'habit-task', kicker:'Daily', title:'Hydrate', sub:'+10 Discipline', action: () => quickLogFromTask('discipline',10,'Hydrated','💧') });
-  tasks.push({ id:'read', cls:'habit-task', kicker:'Daily', title:'Read a Chapter', sub:'+25 Mind', action: () => { state.chaptersRead++; saveState(state); addXP('mind',25); updateChapterCount(); registerAction('Chapter read',{mind:25},()=>{state.chaptersRead=Math.max(0,state.chaptersRead-1);}); showXP(25,'Mind','📖 Chapter'); } });
+  tasks.push({ id:'read', cls:'habit-task', kicker:'Daily', title:'Read a Chapter', sub:'+25 Mind', action: () => { state.chaptersRead++; saveState(state); addXP('mind',25,'Read a chapter'); updateChapterCount(); registerAction('Chapter read',{mind:25},()=>{state.chaptersRead=Math.max(0,state.chaptersRead-1);}); showXP(25,'Mind','📖 Chapter'); } });
 
   return tasks.filter(t => !isTaskDone(t.id));
 }
@@ -3561,7 +4062,7 @@ function logCreatine() {
   const dk = dateKey();
 
   // Daily XP
-  addXP('discipline', 3);
+  addXP('discipline', 3, 'Creatine 5g');
   addXP('strength', 1);
   addXP('recovery', 1);
 
@@ -3619,7 +4120,7 @@ function logCreatine() {
 }
 
 function quickLogFromTask(skill, xp, label, icon) {
-  addXP(skill, xp);
+  addXP(skill, xp, label);
   registerAction(label, { [skill]: xp });
   showXP(xp, skill, `${icon} ${label}`);
 }
@@ -3849,7 +4350,7 @@ function logAction(skill, xp, label, icon, ev, dailyKey) {
   } else {
     registerAction(label, { [skill]: xp });
   }
-  addXP(skill, xp);
+  addXP(skill, xp, label);
   if (ev && ev.currentTarget) flashCard(ev.currentTarget);
   showXP(xp, skill, `${icon} ${label}`);
 }
@@ -3864,8 +4365,8 @@ function logBonus(ev) {
   markDoneToday('cold_shower');
   state.coldShowers++;
   saveState(state);
-  addXP('discipline', 25);
-  addXP('recovery', 15);
+  addXP('discipline', 25, 'Cold shower');
+  addXP('recovery', 15, 'Cold shower');
   updateColdShowerCount();
   if (ev && ev.currentTarget) flashCard(ev.currentTarget);
   registerAction('Cold shower', { discipline: 25, recovery: 15 }, () => {
@@ -3954,10 +4455,10 @@ function logSleep() {
   if (state.wakeHistory.length > 7) state.wakeHistory.shift();
   saveState(state);
 
-  addXP('recovery', xp);
+  const h = Math.floor(hours), m = Math.round((hours - h) * 60);
+  addXP('recovery', xp, `Sleep ${h}h ${m}m`);
   updateSleepDisplay();
 
-  const h = Math.floor(hours), m = Math.round((hours - h) * 60);
   registerAction(`Sleep ${h}h ${m}m`, { recovery: xp }, () => {
     state.wakeHistory.pop();
   });
@@ -3987,12 +4488,12 @@ function updateSleepDisplay() {
 }
 
 // ===================== PRODUCTIVITY =====================
-function todayKey() { return new Date().toISOString().slice(0,10); }
+function todayKey() { return dateKey(); }
 
 function logChapter(ev) {
   state.chaptersRead++;
   saveState(state);
-  addXP('mind', 25);
+  addXP('mind', 25, 'Read a chapter');
   updateChapterCount();
   if (ev && ev.currentTarget) flashCard(ev.currentTarget);
   registerAction('Chapter read', { mind: 25 }, () => { state.chaptersRead = Math.max(0, state.chaptersRead - 1); });
@@ -4332,6 +4833,7 @@ refreshDailyWinStates();
 refreshUndoButton();
 updateFloatUndo();
 checkSkillUnlocks();
+runDecayCheck();
 // Build this week's schedule and show Today first
 buildSchedule();
 renderToday();
