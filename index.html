@@ -780,6 +780,183 @@
   .detail-notes { font-size: 12px; color: var(--muted); margin-top: 8px; font-style: italic; }
 
   /* ===================== TEMPLATES PAGE ===================== */
+  .fighter-header { text-align: center; padding: 8px 0 20px; }
+  .fighter-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .fighter-sub { font-size: 10px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
+
+  .fighter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .fighter-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transition: transform 0.15s, box-shadow 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fighter-tile:active { transform: scale(0.94); }
+  .fighter-tile.selected { border-color: var(--tile-color); box-shadow: 0 0 0 2px var(--tile-color), 0 0 30px var(--tile-glow); }
+
+  /* Glowing top bar */
+  .fighter-tile::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--tile-color);
+    box-shadow: 0 0 16px var(--tile-color);
+  }
+
+  /* Background gradient */
+  .fighter-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+  }
+
+  .fighter-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -58%);
+    width: 56px;
+    height: 56px;
+    opacity: 0.18;
+    z-index: 1;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .fighter-tile.selected .fighter-icon,
+  .fighter-tile:active .fighter-icon { opacity: 0.35; transform: translate(-50%, -62%) scale(1.08); }
+
+  .fighter-icon-fg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -58%);
+    width: 56px;
+    height: 56px;
+    z-index: 2;
+    transition: transform 0.2s;
+    filter: drop-shadow(0 0 12px var(--tile-color));
+  }
+  .fighter-tile.selected .fighter-icon-fg { transform: translate(-50%, -62%) scale(1.08); }
+
+  .fighter-info {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding: 8px 10px 10px;
+    text-align: center;
+  }
+  .fighter-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .fighter-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  /* Detail panel that slides up when a tile is selected */
+  .fighter-detail {
+    margin-top: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    overflow: hidden;
+    animation: slideUp 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .fighter-detail-inner { padding: 18px; }
+  .fd-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .fd-exercises {
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fd-exercise {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 11px;
+    background: var(--bg);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .fd-ex-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    min-width: 16px;
+    padding-top: 1px;
+  }
+  .fd-ex-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .fd-ex-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .fd-start {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 4px;
+  }
+  .fd-start:active { transform: scale(0.97); }
+
   .template-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -1956,10 +2133,16 @@
   <div id="historyDetail" style="display:none"></div>
 </div>
 
-<!-- TEMPLATES PAGE -->
+<!-- TEMPLATES PAGE — FIGHTER SELECT -->
 <div class="page" id="page-templates">
-  <div class="section-label">Quick Start Templates</div>
-  <div id="templateList"></div>
+  <div class="fighter-header">
+    <div class="fighter-title">SELECT YOUR WORKOUT</div>
+    <div class="fighter-sub mono">Choose your session — tap to lock in</div>
+  </div>
+  <div class="fighter-grid" id="templateList"></div>
+  <div class="fighter-detail" id="fighterDetail" style="display:none">
+    <div class="fighter-detail-inner" id="fighterDetailInner"></div>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -2213,17 +2396,51 @@ function getXPMultiplier(skill) {
 
 
 const TEMPLATES = [
-  { name: 'Ab Session', exercises: [
-    { name: 'Dead Bug', note: 'Press lower back into bench. Extend opposite arm/leg slowly. Do NOT let your back arch.' },
-    { name: 'Weighted Crunch', note: 'Hold dumbbell at chest — NOT behind head. Curl spine, chin to chest. Squeeze at top for 1 sec.' },
-    { name: 'Russian Twist', note: 'Lean back 45°, feet off floor. Rotate from your torso, not your arms. Touch weight to floor each side.' },
-    { name: 'Reverse Crunch', note: 'Hands gripping bench edge behind head. Bring knees to chest, then tilt pelvis up. Lower slowly.' },
-    { name: 'Plank Hold', note: 'Log time as reps (e.g. 30 = 30 seconds). Hips level, squeeze glutes and abs. No sagging.' },
+  { name: 'Ab Session', tag: 'CORE', color: '#e8854a',
+    exercises: [
+      { name: 'Dead Bug', note: 'Press lower back into bench. Extend opposite arm/leg slowly. Do NOT let your back arch.' },
+      { name: 'Weighted Crunch', note: 'Hold dumbbell at chest — NOT behind head. Curl spine, chin to chest. Squeeze at top for 1 sec.' },
+      { name: 'Russian Twist', note: 'Lean back 45°, feet off floor. Rotate from your torso, not your arms. Touch weight to floor each side.' },
+      { name: 'Reverse Crunch', note: 'Hands gripping bench edge behind head. Bring knees to chest, then tilt pelvis up. Lower slowly.' },
+      { name: 'Plank Hold', note: 'Log time as reps (e.g. 30 = 30 seconds). Hips level, squeeze glutes and abs. No sagging.' },
   ]},
-  { name: 'Chest & Triceps', exercises: ['Bench Press', 'Push-Ups', 'Dumbbell Fly', 'Tricep Dips', 'Skull Crushers'] },
-  { name: 'Back & Biceps', exercises: ['Pull-Ups', 'Dumbbell Row', 'Dumbbell Curl', 'Hammer Curl'] },
-  { name: 'Shoulders', exercises: ['Overhead Press', 'Lateral Raise', 'Front Raise', 'Arnold Press'] },
-  { name: 'Legs', exercises: ['Bulgarian Split Squat', 'Leg Extension', 'Glute Bridge', 'Jump Squat'] }
+  { name: 'Arms', tag: 'BI + TRI', color: '#ff5e5e',
+    exercises: [
+      { name: 'Dumbbell Curl', note: 'Standing, elbows pinned to sides. Full extension at bottom, squeeze hard at top. No swinging.' },
+      { name: 'Hammer Curl', note: 'Standing, neutral grip (thumbs up). Hits the brachialis — adds thickness and pushes your bicep peak up.' },
+      { name: 'Preacher Curl', note: 'Sit upright, arms on the pad, palms up. Lower all the way down slowly — that stretch is the whole point. Squeeze at top.' },
+      { name: 'Overhead Tricep Extension', note: 'Both hands on one dumbbell. Lower behind head slowly, elbows pointing forward. Full stretch at bottom.' },
+      { name: 'Push-Up', note: 'Hands shoulder width. Core tight, full range of motion. Go to failure on the last set.' },
+  ]},
+  { name: 'Chest & Triceps', tag: 'PUSH', color: '#f5c842',
+    exercises: [
+      { name: 'Bench Press', note: 'Arch slightly, feet flat. Lower to mid-chest, drive up. Keep wrists stacked over elbows.' },
+      { name: 'Push-Up', note: 'Hands slightly wider than shoulders. Core tight, full range. Log to failure.' },
+      { name: 'Dumbbell Fly', note: 'Slight bend in elbows. Open wide, feel the chest stretch, bring together at top.' },
+      { name: 'Tricep Dip', note: 'Use bench edge. Elbows track straight back. Lower until 90°, press up through triceps.' },
+      { name: 'Skull Crusher', note: 'Lie on bench. Lower dumbbell to forehead slowly, press straight up. Keep elbows tucked.' },
+  ]},
+  { name: 'Back & Biceps', tag: 'PULL', color: '#4ecb8d',
+    exercises: [
+      { name: 'Pull-Up', note: 'Dead hang to chin over bar. Squeeze shoulder blades together at top. No kipping.' },
+      { name: 'Dumbbell Row', note: 'Brace on bench. Pull elbow back to hip, not up to shoulder. Squeeze at top for 1 sec.' },
+      { name: 'Dumbbell Curl', note: 'Elbows pinned to sides. Full extension at bottom, squeeze hard at top.' },
+      { name: 'Hammer Curl', note: 'Neutral grip. Hits the brachialis — adds thickness and peak to the arm.' },
+  ]},
+  { name: 'Shoulders', tag: 'DELTS', color: '#a78bfa',
+    exercises: [
+      { name: 'Overhead Press', note: 'Press straight up, not forward. Lock out at top, lower to chin level. Core braced.' },
+      { name: 'Lateral Raise', note: 'Slight bend in elbows. Lead with elbows, not hands. Stop at shoulder height.' },
+      { name: 'Front Raise', note: 'Alternate arms. Thumb up, lift to eye level. Controlled lowering.' },
+      { name: 'Arnold Press', note: 'Start palms facing you, rotate out as you press. Full rotation = full delt activation.' },
+  ]},
+  { name: 'Legs', tag: 'LOWER', color: '#4ecb8d',
+    exercises: [
+      { name: 'Bulgarian Split Squat', note: 'Rear foot elevated on bench. Front foot far enough forward. Drop straight down, drive up.' },
+      { name: 'Leg Extension', note: 'Use the bench leg attachment. Controlled extension and slow lowering. Full range.' },
+      { name: 'Glute Bridge', note: 'Shoulders on bench, feet flat. Drive hips up, squeeze glutes hard at top for 2 sec.' },
+      { name: 'Jump Squat', note: 'Bodyweight. Squat to parallel, explode up. Land soft. Do last — finisher.' },
+  ]},
 ];
 
 function loadState() {
@@ -2278,7 +2495,7 @@ let exercises = [];
 let openCards = new Set();
 
 // Focus rotation pool — maps to TEMPLATES by name
-const FOCUS_ROTATION = ['Ab Session', 'Chest & Triceps', 'Back & Biceps', 'Legs', 'Shoulders'];
+const FOCUS_ROTATION = ['Ab Session', 'Arms', 'Chest & Triceps', 'Back & Biceps', 'Legs', 'Shoulders'];
 
 // ===================== SCHEDULING ENGINE =====================
 function weekId(d = new Date()) {
@@ -2955,18 +3172,164 @@ function confirmDeleteWorkout(id) {
 }
 
 // ===================== TEMPLATES =====================
+// ===================== WORKOUT ICONS (custom SVG per template) =====================
+const WORKOUT_ICONS = {
+  'Ab Session': `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Spine column -->
+    <line x1="24" y1="4" x2="24" y2="44"/>
+    <!-- Vertebrae / tension lines -->
+    <line x1="24" y1="10" x2="16" y2="14"/><line x1="24" y1="10" x2="32" y2="14"/>
+    <line x1="24" y1="18" x2="14" y2="22"/><line x1="24" y1="18" x2="34" y2="22"/>
+    <line x1="24" y1="26" x2="14" y2="30"/><line x1="24" y1="26" x2="34" y2="30"/>
+    <line x1="24" y1="34" x2="16" y2="38"/><line x1="24" y1="34" x2="32" y2="38"/>
+  </svg>`,
+
+  'Arms': `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left dumbbell -->
+    <line x1="6" y1="18" x2="20" y2="30"/>
+    <rect x="3" y="14" width="6" height="8" rx="1.5" transform="rotate(-45 6 18)"/>
+    <rect x="17" y="26" width="6" height="8" rx="1.5" transform="rotate(-45 20 30)"/>
+    <!-- Right dumbbell (mirrored) -->
+    <line x1="42" y1="18" x2="28" y2="30"/>
+    <rect x="39" y="14" width="6" height="8" rx="1.5" transform="rotate(45 42 18)"/>
+    <rect x="25" y="26" width="6" height="8" rx="1.5" transform="rotate(45 28 30)"/>
+    <!-- Center cross point -->
+    <circle cx="24" cy="24" r="2.5" fill="currentColor"/>
+  </svg>`,
+
+  'Chest & Triceps': `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Shield shape -->
+    <path d="M24 4 L40 12 L40 28 Q40 38 24 44 Q8 38 8 28 L8 12 Z"/>
+    <!-- Inner chest line -->
+    <line x1="24" y1="10" x2="24" y2="38"/>
+    <!-- Cross bar -->
+    <line x1="12" y1="20" x2="36" y2="20"/>
+    <!-- Pec curves -->
+    <path d="M12 20 Q16 28 24 28"/>
+    <path d="M36 20 Q32 28 24 28"/>
+  </svg>`,
+
+  'Back & Biceps': `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Pull-up bar -->
+    <line x1="6" y1="8" x2="42" y2="8"/>
+    <!-- Bar supports -->
+    <line x1="10" y1="4" x2="10" y2="12"/>
+    <line x1="38" y1="4" x2="38" y2="12"/>
+    <!-- Figure hanging — arms -->
+    <line x1="24" y1="8" x2="18" y2="18"/>
+    <line x1="24" y1="8" x2="30" y2="18"/>
+    <!-- Body -->
+    <line x1="18" y1="18" x2="24" y2="30"/>
+    <line x1="30" y1="18" x2="24" y2="30"/>
+    <!-- Head -->
+    <circle cx="24" cy="36" r="5"/>
+    <!-- Muscle peak / bicep arc -->
+    <path d="M14 22 Q10 16 18 14" stroke-width="1.5"/>
+    <path d="M34 22 Q38 16 30 14" stroke-width="1.5"/>
+  </svg>`,
+
+  'Shoulders': `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Deltoid arc — wide shoulder silhouette -->
+    <path d="M6 32 Q6 12 24 10 Q42 12 42 32"/>
+    <!-- Center vertical (spine/neck) -->
+    <line x1="24" y1="10" x2="24" y2="44"/>
+    <!-- Left delt muscle lines -->
+    <path d="M6 32 Q12 20 24 18"/>
+    <!-- Right delt muscle lines -->
+    <path d="M42 32 Q36 20 24 18"/>
+    <!-- Weight at ends -->
+    <rect x="2" y="30" width="8" height="6" rx="2"/>
+    <rect x="38" y="30" width="8" height="6" rx="2"/>
+  </svg>`,
+
+  'Legs': `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left leg -->
+    <line x1="16" y1="4" x2="16" y2="26"/>
+    <!-- Left knee bend -->
+    <path d="M16 26 Q14 32 18 40"/>
+    <!-- Left foot -->
+    <line x1="18" y1="40" x2="10" y2="44"/>
+    <!-- Right leg -->
+    <line x1="32" y1="4" x2="32" y2="26"/>
+    <!-- Right knee bend -->
+    <path d="M32 26 Q34 32 30 40"/>
+    <!-- Right foot -->
+    <line x1="30" y1="40" x2="38" y2="44"/>
+    <!-- Hip bar -->
+    <line x1="16" y1="4" x2="32" y2="4"/>
+    <!-- Quad lines -->
+    <path d="M16 10 Q12 18 16 26" stroke-width="1.2"/>
+    <path d="M32 10 Q36 18 32 26" stroke-width="1.2"/>
+  </svg>`,
+};
+
+let selectedTemplateIdx = null;
+
 function renderTemplates() {
-  document.getElementById('templateList').innerHTML = TEMPLATES.map((t,i) => {
-    const exNames = t.exercises.map(ex => typeof ex === 'string' ? ex : ex.name).join(' · ');
+  const grid = document.getElementById('templateList');
+  grid.innerHTML = TEMPLATES.map((t, i) => {
+    const icon = WORKOUT_ICONS[t.name] || '';
+    const color = t.color || 'var(--accent)';
+    const glow = color.startsWith('#') ? color + '40' : 'rgba(232,133,74,0.25)';
     return `
-    <div class="template-card">
+      <div class="fighter-tile" id="ftile-${i}"
+        style="--tile-color:${color};--tile-glow:${glow}"
+        onclick="selectFighter(${i})">
+        <!-- BG icon (large, faded) -->
+        <div class="fighter-icon" style="color:${color}">${icon}</div>
+        <!-- FG icon (smaller, glowing) -->
+        <div class="fighter-icon-fg" style="color:${color}">${icon}</div>
+        <div class="fighter-info">
+          <div class="fighter-tag" style="color:${color}">${t.tag || ''}</div>
+          <div class="fighter-name">${t.name}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('fighterDetail').style.display = 'none';
+  selectedTemplateIdx = null;
+}
+
+function selectFighter(i) {
+  // Deselect all
+  document.querySelectorAll('.fighter-tile').forEach(t => t.classList.remove('selected'));
+  // Select this one
+  const tile = document.getElementById(`ftile-${i}`);
+  if (tile) tile.classList.add('selected');
+
+  // If tapping the already-selected one a second time, load it
+  if (selectedTemplateIdx === i) {
+    loadTemplate(i);
+    return;
+  }
+  selectedTemplateIdx = i;
+
+  // Show detail panel
+  const t = TEMPLATES[i];
+  const color = t.color || 'var(--accent)';
+  const exList = t.exercises.map((ex, j) => {
+    const name = typeof ex === 'string' ? ex : ex.name;
+    const note = typeof ex === 'object' ? ex.note : '';
+    return `<div class="fd-exercise">
+      <div class="fd-ex-num">${j+1}</div>
       <div>
-        <div class="template-name">${t.name}</div>
-        <div class="template-sub">${exNames}</div>
+        <div class="fd-ex-name">${name}</div>
+        ${note ? `<div class="fd-ex-note">${note}</div>` : ''}
       </div>
-      <button class="btn btn-accent" onclick="loadTemplate(${i})">Load</button>
     </div>`;
   }).join('');
+
+  const detail = document.getElementById('fighterDetail');
+  document.getElementById('fighterDetailInner').innerHTML = `
+    <div class="fd-name" style="color:${color}">${t.name}</div>
+    <div class="fighter-tag" style="color:${color};font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px">${t.tag} · ${t.exercises.length} exercises</div>
+    <div class="fd-exercises">${exList}</div>
+    <button class="fd-start" style="background:${color};color:#0e0e12" onclick="loadTemplate(${i})">
+      ▶ START SESSION
+    </button>
+  `;
+  detail.style.display = 'block';
+  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function loadTemplate(i, fromSchedule) {
@@ -3060,6 +3423,7 @@ function showPage(name, btn) {
   if (name === 'history') renderHistory();
   else if (name === 'today') renderToday();
   else if (name === 'tune') renderTune();
+  else if (name === 'templates') renderTemplates();
   
   // Use requestAnimationFrame to avoid jank from scroll
   requestAnimationFrame(() => window.scrollTo(0, 0));
