@@ -1657,6 +1657,130 @@
   .stat-insight-title { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; }
   .stat-insight-text { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ink-soft); margin-top: 3px; line-height: 1.5; }
 
+  /* ===================== WORKOUT PAGE REDESIGN ===================== */
+  .wk-name-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+  .wk-name-bar input {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--ink);
+    font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600;
+    padding: 12px 14px; outline: none; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .wk-name-bar input:focus { border-color: var(--accent); }
+  .wk-template-btn {
+    width: 48px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--accent); font-size: 20px; cursor: pointer;
+  }
+  .wk-template-btn:active { background: var(--surface2); }
+
+  .wk-empty { text-align: center; padding: 40px 20px; }
+  .wk-empty-icon { font-size: 38px; margin-bottom: 12px; opacity: 0.5; }
+  .wk-empty-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; color: var(--ink); }
+  .wk-empty-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 8px; line-height: 1.6; max-width: 280px; margin-left: auto; margin-right: auto; }
+
+  .wk-add-btn {
+    width: 100%; padding: 15px; margin-top: 8px;
+    background: var(--accent-dim); border: 1.5px dashed var(--accent);
+    border-radius: var(--radius); color: var(--accent);
+    font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s;
+  }
+  .wk-add-btn:active { transform: scale(0.98); background: rgba(232,133,74,0.2); }
+
+  /* EXERCISE BROWSER */
+  .ex-browser, .ex-detail {
+    position: fixed; inset: 0; background: var(--bg);
+    z-index: 6000; overflow-y: auto;
+    padding: calc(12px + env(safe-area-inset-top, 34px)) 12px calc(40px + env(safe-area-inset-bottom, 0px));
+    animation: fadeIn 0.2s ease-out;
+  }
+  .ex-browser-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .ex-browser-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .ex-back {
+    display: flex; align-items: center; gap: 5px; background: none; border: none;
+    color: var(--accent); font-family: 'Space Mono', monospace; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; padding: 0;
+  }
+
+  .ex-search-wrap { margin-bottom: 12px; }
+  .ex-search {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--ink); font-family: 'Sora', sans-serif;
+    font-size: 15px; padding: 13px 14px; outline: none;
+  }
+  .ex-search:focus { border-color: var(--accent); }
+
+  .ex-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; }
+  .ex-filters::-webkit-scrollbar { display: none; }
+  .ex-filter {
+    flex-shrink: 0; padding: 8px 13px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 50px; color: var(--muted);
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    white-space: nowrap; cursor: pointer; transition: all 0.15s;
+  }
+  .ex-filter.active { background: var(--accent); color: #0e0e12; border-color: var(--accent); }
+
+  .ex-loading { text-align: center; padding: 40px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+
+  .ex-card {
+    display: flex; align-items: center; gap: 12px; padding: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
+  }
+  .ex-card:active { transform: scale(0.99); border-color: var(--accent); }
+  .ex-card-img {
+    width: 60px; height: 60px; border-radius: 8px; flex-shrink: 0;
+    background: var(--surface2); object-fit: cover;
+  }
+  .ex-card-body { flex: 1; min-width: 0; }
+  .ex-card-name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; text-transform: uppercase; color: var(--ink); line-height: 1.1; }
+  .ex-card-meta { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ex-card-freq { font-family: 'Space Mono', monospace; font-size: 8px; color: var(--accent); margin-top: 2px; }
+  .ex-card-add {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: var(--accent-dim); border: 1px solid var(--accent); color: var(--accent);
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+  }
+
+  .ex-section-label {
+    font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent);
+    letter-spacing: 1.5px; text-transform: uppercase; margin: 8px 0 10px;
+  }
+
+  /* EXERCISE DETAIL */
+  .exd-img-wrap {
+    width: 100%; aspect-ratio: 1; max-height: 320px; border-radius: 12px;
+    overflow: hidden; background: var(--surface); margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .exd-img { width: 100%; height: 100%; object-fit: cover; }
+  .exd-name { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; margin-bottom: 6px; }
+  .exd-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .exd-tag {
+    font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700;
+    padding: 4px 9px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px;
+    background: var(--surface); border: 1px solid var(--border); color: var(--ink-soft);
+  }
+  .exd-tag.primary { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .exd-section { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin: 18px 0 10px; }
+  .exd-step { display: flex; gap: 11px; margin-bottom: 11px; }
+  .exd-step-num {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    background: var(--accent-dim); border: 1px solid var(--accent); color: var(--accent);
+    font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .exd-step-text { flex: 1; font-family: 'Sora', sans-serif; font-size: 13px; line-height: 1.5; color: var(--ink-soft); padding-top: 1px; }
+  .exd-add-btn {
+    position: sticky; bottom: 12px; width: 100%; padding: 16px; margin-top: 20px;
+    background: var(--accent); color: #0e0e12; border: none; border-radius: 10px;
+    font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(232,133,74,0.3);
+  }
+  .exd-add-btn:active { transform: scale(0.98); }
+
   /* TOAST */
   .toast {
     position: fixed;
@@ -2017,20 +2141,67 @@
 
 <!-- WORKOUT PAGE -->
 <div class="page" id="page-workout">
-  <div class="section-label">Today's Workout</div>
-  <div class="name-editor">
-    <input type="text" id="workoutName" placeholder="Workout name..." value="Ab Session">
+  <div class="wk-name-bar">
+    <input type="text" id="workoutName" placeholder="Name this session..." value="">
+    <button class="wk-template-btn" onclick="showPage('templates', null)" title="Load a template">⊞</button>
   </div>
+
   <div id="exerciseList"></div>
-  <div class="add-exercise-section">
-    <input class="exercise-input" type="text" id="newExerciseName" placeholder="Add exercise...">
-    <button class="btn btn-accent" onclick="addExercise()">Add</button>
+
+  <div id="wkEmpty" class="wk-empty">
+    <div class="wk-empty-icon">🏋</div>
+    <div class="wk-empty-title">No exercises yet</div>
+    <div class="wk-empty-sub">Add from your library or browse 800+ exercises with form guides</div>
   </div>
-  <div class="save-bar">
-    <button class="btn btn-accent" style="flex:1;padding:14px;font-size:15px" onclick="saveWorkout()">Save Workout</button>
+
+  <button class="wk-add-btn" onclick="openExerciseBrowser()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add Exercise
+  </button>
+
+  <div class="save-bar" id="wkSaveBar" style="display:none">
+    <button class="btn btn-accent" style="flex:1;padding:14px;font-size:15px" onclick="saveWorkout()">Finish & Save</button>
     <button class="btn btn-ghost" onclick="clearWorkout()">Clear</button>
   </div>
-  <button class="setup-link mono" onclick="showPage('templates', null)">⊞ Browse workout templates</button>
+</div>
+
+<!-- EXERCISE BROWSER OVERLAY -->
+<div class="ex-browser" id="exBrowser" style="display:none">
+  <div class="ex-browser-head">
+    <button class="ex-back" onclick="closeExerciseBrowser()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>
+      Done
+    </button>
+    <div class="ex-browser-title">Add Exercise</div>
+    <div style="width:50px"></div>
+  </div>
+
+  <div class="ex-search-wrap">
+    <input type="text" id="exSearch" class="ex-search" placeholder="🔍 Search 800+ exercises..." oninput="onExSearch()">
+  </div>
+
+  <div class="ex-filters" id="exFilters">
+    <button class="ex-filter active" data-f="frequent" onclick="setExFilter('frequent')">★ Frequent</button>
+    <button class="ex-filter" data-f="all" onclick="setExFilter('all')">All</button>
+    <button class="ex-filter" data-f="dumbbell" onclick="setExFilter('dumbbell')">Dumbbell</button>
+    <button class="ex-filter" data-f="body only" onclick="setExFilter('body only')">Bodyweight</button>
+    <button class="ex-filter" data-f="abdominals" onclick="setExFilter('abdominals')">Abs</button>
+    <button class="ex-filter" data-f="biceps" onclick="setExFilter('biceps')">Biceps</button>
+    <button class="ex-filter" data-f="triceps" onclick="setExFilter('triceps')">Triceps</button>
+    <button class="ex-filter" data-f="chest" onclick="setExFilter('chest')">Chest</button>
+    <button class="ex-filter" data-f="shoulders" onclick="setExFilter('shoulders')">Shoulders</button>
+    <button class="ex-filter" data-f="quadriceps" onclick="setExFilter('quadriceps')">Legs</button>
+    <button class="ex-filter" data-f="lats" onclick="setExFilter('lats')">Back</button>
+  </div>
+
+  <div class="ex-results" id="exResults">
+    <div class="ex-loading">Loading exercise database…</div>
+  </div>
+</div>
+
+<!-- EXERCISE DETAIL OVERLAY -->
+<div class="ex-detail" id="exDetail" style="display:none">
+  <div id="exDetailInner"></div>
 </div>
 
 <!-- LOG PAGE -->
@@ -2636,9 +2807,10 @@ function loadState() {
     creatineTotalDays: 0,           // all-time days logged
     skillLastActive: {},            // { skill: 'YYYY-MM-DD' } — last day each skill earned XP
     decayLastChecked: null,         // last date we ran the decay check
-    activityLog: {}                 // { 'YYYY-MM-DD': [{type, label, xp, skill, time}] }
+    activityLog: {},                // { 'YYYY-MM-DD': [{type, label, xp, skill, time}] }
+    exerciseUsage: {}               // { exerciseName: useCount } — for frequent sorting
   }));
-  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null, creatineStreak:0, creatineLastDate:null, creatineWeeksCompleted:0, creatineTotalDays:0, skillLastActive:{}, decayLastChecked:null, activityLog:{} };
+  const defaults = { setupDone:false, availDays:[1,2,3,4,5], workoutsPerWeek:3, timeWindow:'afternoon', schedule:{}, scheduleWeek:null, progression:{}, completedTasks:{}, remindersOn:false, unlockedSkills:{}, lastCoachNote:null, creatineStreak:0, creatineLastDate:null, creatineWeeksCompleted:0, creatineTotalDays:0, skillLastActive:{}, decayLastChecked:null, activityLog:{}, exerciseUsage:{} };
   for (const k in defaults) if (s[k] === undefined) s[k] = defaults[k];
   return s;
 }
@@ -3215,16 +3387,257 @@ function checkPR(exerciseName, reps, weight) {
 // ===================== WORKOUT =====================
 function generateId() { return Date.now() + Math.random().toString(36).slice(2); }
 
-function addExercise(name) {
-  const input = document.getElementById('newExerciseName');
-  const exName = name || input.value.trim();
+function addExercise(name, dbEntry) {
+  const exName = name && name.trim();
   if (!exName) return;
-  exercises.push({ id: generateId(), name: exName, sets: [{ reps: '', weight: '' }], notes: '' });
-  input.value = '';
+  const newEx = { id: generateId(), name: exName, sets: [{ reps: '', weight: '' }], notes: '' };
+  // Attach form guide data if from DB
+  if (dbEntry) {
+    newEx.dbId = dbEntry.id;
+    newEx.instructions = dbEntry.ins;
+    newEx.images = dbEntry.img;
+    if (dbEntry.note) newEx.notes = dbEntry.note;
+  }
+  exercises.push(newEx);
+  // Track usage frequency
+  state.exerciseUsage[exName] = (state.exerciseUsage[exName] || 0) + 1;
+  saveState(state);
   renderExercises();
+  updateWorkoutChrome();
 }
 
-function removeExercise(id) { exercises = exercises.filter(e => e.id !== id); renderExercises(); }
+// ===================== EXERCISE DATABASE =====================
+let EXERCISE_DB = null;
+let exDbLoading = false;
+let currentExFilter = 'frequent';
+
+const IMG_BASE = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
+// Multiple sources tried in order — if one is blocked/down, fall through to the next
+const DB_URLS = [
+  'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json',
+  'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/dist/exercises.json',
+  'https://cdn.statically.io/gh/yuhonas/free-exercise-db/main/dist/exercises.json'
+];
+
+async function loadExerciseDB() {
+  if (EXERCISE_DB) return EXERCISE_DB;
+  // Try localStorage cache first
+  try {
+    const cached = localStorage.getItem('arcline_exdb');
+    if (cached) {
+      EXERCISE_DB = JSON.parse(cached);
+      return EXERCISE_DB;
+    }
+  } catch(e) {}
+
+  if (exDbLoading) return null;
+  exDbLoading = true;
+
+  // Try each source URL until one works
+  for (const url of DB_URLS) {
+    try {
+      const res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) continue;
+      const raw = await res.json();
+      if (!Array.isArray(raw) || raw.length === 0) continue;
+      EXERCISE_DB = raw.map(e => ({
+        id: e.id, name: e.name, cat: e.category, eq: e.equipment, lvl: e.level,
+        pm: e.primaryMuscles || [], sm: e.secondaryMuscles || [],
+        ins: e.instructions || [], img: e.images || []
+      }));
+      try { localStorage.setItem('arcline_exdb', JSON.stringify(EXERCISE_DB)); } catch(e) {}
+      exDbLoading = false;
+      return EXERCISE_DB;
+    } catch (e) {
+      // Try next URL
+      continue;
+    }
+  }
+
+  exDbLoading = false;
+  return null; // all sources failed
+}
+
+function retryExDb() {
+  EXERCISE_DB = null;
+  exDbLoading = false;
+  document.getElementById('exResults').innerHTML = '<div class="ex-loading">Loading exercise database…</div>';
+  renderExResults();
+}
+
+function openExerciseBrowser() {
+  document.getElementById('exBrowser').style.display = 'block';
+  document.getElementById('exSearch').value = '';
+  currentExFilter = 'frequent';
+  document.querySelectorAll('.ex-filter').forEach(f => f.classList.toggle('active', f.dataset.f === 'frequent'));
+  renderExResults();
+}
+
+function closeExerciseBrowser() {
+  document.getElementById('exBrowser').style.display = 'none';
+}
+
+function setExFilter(f) {
+  currentExFilter = f;
+  document.querySelectorAll('.ex-filter').forEach(el => el.classList.toggle('active', el.dataset.f === f));
+  document.getElementById('exSearch').value = '';
+  renderExResults();
+}
+
+let exSearchTimer;
+function onExSearch() {
+  clearTimeout(exSearchTimer);
+  exSearchTimer = setTimeout(renderExResults, 200);
+}
+
+async function renderExResults() {
+  const wrap = document.getElementById('exResults');
+  const query = document.getElementById('exSearch').value.trim().toLowerCase();
+
+  const db = await loadExerciseDB();
+  if (!db) {
+    wrap.innerHTML = `<div class="ex-loading">
+      Couldn't load the exercise library.<br>This usually means no internet connection.<br><br>
+      <button class="btn btn-accent" style="padding:10px 20px" onclick="retryExDb()">↻ Try Again</button>
+    </div>`;
+    return;
+  }
+
+  let results = [];
+  let sectionLabel = '';
+
+  if (query) {
+    results = db.filter(e => e.name.toLowerCase().includes(query) ||
+      e.pm.some(m => m.includes(query)) || (e.eq && e.eq.includes(query)));
+    sectionLabel = `${results.length} result${results.length!==1?'s':''} for "${query}"`;
+  } else if (currentExFilter === 'frequent') {
+    // Sort by usage count
+    const used = Object.entries(state.exerciseUsage).sort((a,b) => b[1]-a[1]);
+    results = used.map(([name]) => db.find(e => e.name === name) || { name, id:null, pm:[], eq:null, ins:[], img:[] }).filter(Boolean);
+    sectionLabel = results.length ? 'Your Most Used' : '';
+    if (results.length === 0) {
+      wrap.innerHTML = `<div class="ex-loading">No frequent exercises yet.<br><br>Add exercises from <b>All</b> or search, and the ones you use most will show up here for quick access.</div>`;
+      return;
+    }
+  } else if (['dumbbell','body only'].includes(currentExFilter)) {
+    results = db.filter(e => e.eq === currentExFilter);
+    sectionLabel = currentExFilter === 'body only' ? 'Bodyweight Exercises' : 'Dumbbell Exercises';
+  } else {
+    // Muscle filter
+    results = db.filter(e => e.pm.includes(currentExFilter));
+    sectionLabel = currentExFilter.charAt(0).toUpperCase() + currentExFilter.slice(1) + ' Exercises';
+  }
+
+  // Limit for performance
+  const limited = results.slice(0, 80);
+
+  let html = sectionLabel ? `<div class="ex-section-label">${sectionLabel}</div>` : '';
+  html += limited.map(e => {
+    const img = e.img && e.img[0] ? IMG_BASE + e.img[0] : '';
+    const muscle = e.pm[0] ? e.pm[0] : '';
+    const eq = e.eq || 'bodyweight';
+    const useCount = state.exerciseUsage[e.name] || 0;
+    return `<div class="ex-card" onclick='showExerciseDetail(${JSON.stringify(e.id || e.name)})'>
+      ${img ? `<img class="ex-card-img" src="${img}" loading="lazy" onerror="this.style.opacity=0">` : `<div class="ex-card-img"></div>`}
+      <div class="ex-card-body">
+        <div class="ex-card-name">${e.name}</div>
+        <div class="ex-card-meta">${muscle}${muscle&&eq?' · ':''}${eq}</div>
+        ${useCount > 0 ? `<div class="ex-card-freq">★ Used ${useCount}×</div>` : ''}
+      </div>
+      <div class="ex-card-add">+</div>
+    </div>`;
+  }).join('');
+
+  if (results.length > 80) {
+    html += `<div class="ex-loading">Showing first 80. Search to narrow down.</div>`;
+  }
+
+  wrap.innerHTML = html;
+}
+
+let exDetailAnimTimer = null;
+async function showExerciseDetail(idOrName) {
+  const db = await loadExerciseDB();
+  if (!db) return;
+  const e = db.find(x => x.id === idOrName) || db.find(x => x.name === idOrName);
+  if (!e) {
+    // Custom exercise with no DB entry — just add it
+    addExercise(idOrName);
+    closeExerciseBrowser();
+    showToast(`${idOrName} added`);
+    return;
+  }
+
+  const detail = document.getElementById('exDetail');
+  const imgs = (e.img || []).map(p => IMG_BASE + p);
+
+  const tags = [];
+  e.pm.forEach(m => tags.push(`<span class="exd-tag primary">${m}</span>`));
+  e.sm.forEach(m => tags.push(`<span class="exd-tag">${m}</span>`));
+  if (e.eq) tags.push(`<span class="exd-tag">${e.eq}</span>`);
+  if (e.lvl) tags.push(`<span class="exd-tag">${e.lvl}</span>`);
+
+  const steps = (e.ins || []).map((s, i) =>
+    `<div class="exd-step"><div class="exd-step-num">${i+1}</div><div class="exd-step-text">${s}</div></div>`
+  ).join('');
+
+  document.getElementById('exDetailInner').innerHTML = `
+    <div class="ex-browser-head">
+      <button class="ex-back" onclick="closeExerciseDetail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div style="width:50px"></div>
+    </div>
+    ${imgs.length ? `<div class="exd-img-wrap"><img class="exd-img" id="exdAnimImg" src="${imgs[0]}" onerror="this.parentElement.style.display='none'"></div>` : ''}
+    <div class="exd-name">${e.name}</div>
+    <div class="exd-tags">${tags.join('')}</div>
+    ${steps ? `<div class="exd-section">How To Perform</div>${steps}` : '<div class="ex-loading">No instructions available for this exercise.</div>'}
+    <button class="exd-add-btn" onclick='addFromDetail(${JSON.stringify(e.id || e.name)})'>+ Add To Workout</button>
+  `;
+  detail.style.display = 'block';
+
+  // Animate between the two form images (start/end position)
+  if (imgs.length > 1) {
+    let frame = 0;
+    clearInterval(exDetailAnimTimer);
+    exDetailAnimTimer = setInterval(() => {
+      frame = frame === 0 ? 1 : 0;
+      const img = document.getElementById('exdAnimImg');
+      if (img) img.src = imgs[frame];
+      else clearInterval(exDetailAnimTimer);
+    }, 900);
+  }
+}
+
+function closeExerciseDetail() {
+  clearInterval(exDetailAnimTimer);
+  document.getElementById('exDetail').style.display = 'none';
+}
+
+async function addFromDetail(idOrName) {
+  const db = await loadExerciseDB();
+  const e = db ? (db.find(x => x.id === idOrName) || db.find(x => x.name === idOrName)) : null;
+  if (e) {
+    addExercise(e.name, e);
+  } else {
+    addExercise(idOrName);
+  }
+  clearInterval(exDetailAnimTimer);
+  closeExerciseDetail();
+  closeExerciseBrowser();
+  showToast(`${e ? e.name : idOrName} added`);
+}
+
+function updateWorkoutChrome() {
+  // Show/hide empty state and save bar based on whether exercises exist
+  const empty = document.getElementById('wkEmpty');
+  const saveBar = document.getElementById('wkSaveBar');
+  if (empty) empty.style.display = exercises.length ? 'none' : 'block';
+  if (saveBar) saveBar.style.display = exercises.length ? 'flex' : 'none';
+}
+
+function removeExercise(id) { exercises = exercises.filter(e => e.id !== id); renderExercises(); updateWorkoutChrome(); }
 
 function addSet(id) {
   const ex = exercises.find(e => e.id === id);
@@ -3655,6 +4068,7 @@ function editWorkout(id) {
   document.getElementById('workoutName').value = w.name;
   openCards.clear();
   renderExercises();
+  updateWorkoutChrome();
   
   // Remove from history so it can be saved as a new entry
   state.history = state.history.filter(x => x.id !== id);
@@ -3852,7 +4266,14 @@ function loadTemplate(i, fromSchedule) {
   });
   document.getElementById('workoutName').value = t.name;
   openCards.clear();
+  // Track usage for each template exercise
+  t.exercises.forEach(ex => {
+    const exName = typeof ex === 'string' ? ex : ex.name;
+    state.exerciseUsage[exName] = (state.exerciseUsage[exName] || 0) + 1;
+  });
+  saveState(state);
   renderExercises();
+  updateWorkoutChrome();
   if (!fromSchedule) {
     showPage('workout', null);
     showToast(`${t.name} loaded`);
@@ -4835,8 +5256,6 @@ function showModal(title, sub, cb) {
 function closeModal() { document.getElementById('modal').classList.remove('show'); }
 document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
-document.getElementById('newExerciseName').addEventListener('keydown', e => { if (e.key === 'Enter') addExercise(); });
-
 // ===================== INIT =====================
 document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
 updateProfile();
@@ -4855,6 +5274,9 @@ runDecayCheck();
 // Build this week's schedule and show Today first
 buildSchedule();
 renderToday();
+renderExercises();
+updateWorkoutChrome();
+// Note: exercise DB loads lazily when the browser is first opened, not on startup
 if (state.remindersOn && ('Notification' in window) && Notification.permission === 'granted') scheduleReminders();
 </script>
 </body>
