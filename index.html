@@ -2043,6 +2043,7 @@
     <button class="setup-link mono" style="margin-top:24px;max-width:200px;margin-left:auto;margin-right:auto" onclick="resetTodayTasks()">↺ Reset today's tasks</button>
   </div>
   <button class="setup-link mono" id="setupLink" onclick="showPage('tune', null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" style="vertical-align:middle"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg> Tune my schedule</button>
+  <button class="setup-link mono" style="margin-top:8px;font-size:9px;opacity:0.6" onclick="resetTodayTasks()">↺ Reset today's tasks</button>
 </div>
 
 <!-- TUNE PAGE -->
@@ -2283,7 +2284,7 @@
   <!-- CHIPOTLE -->
   <div class="section-label" style="margin-top:20px">Chipotle</div>
   <div class="log-actions">
-    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle default bowl', '', event, 'lunch')">
+    <div class="log-action" onclick="logAction('nutrition', 15, 'Chipotle bowl', '', event)">
       <div class="log-action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M5 19L19 5"/><path d="M5 19c-1-3 1-6 4-7M19 5c1 3-1 6-4 7"/></svg></div>
       <div class="log-action-text">
         <div class="log-action-title">Default Bowl</div>
@@ -4436,10 +4437,20 @@ function quickLogMeal(type, mealName) {
   const xpMap = { default: 15, chipotle: 15, skip: 5 };
   const labels = { default: 'Default meal', chipotle: 'Chipotle bowl', skip: 'Skipped meal' };
   const xp = xpMap[type];
-  addXP('nutrition', xp);
-  registerAction(`${mealName}: ${labels[type]}`, { nutrition: xp });
+  const taskId = mealName.toLowerCase(); // 'lunch' or 'dinner'
+
+  addXP('nutrition', xp, `${mealName}: ${labels[type]}`);
+  markTaskDone(taskId);
+  // Undo must reverse BOTH the XP and the task-done flag so the task reappears
+  registerAction(`${mealName}: ${labels[type]}`, { nutrition: xp }, () => {
+    const dk = dateKey();
+    if (state.completedTasks[dk]) {
+      state.completedTasks[dk] = state.completedTasks[dk].filter(x => x !== taskId);
+    }
+    saveState(state);
+    renderToday();
+  });
   showXP(xp, 'Nutrition', `${mealName} logged`);
-  markTaskDone(mealName.toLowerCase());
   closeMealModal();
   renderToday();
 }
@@ -4851,13 +4862,15 @@ function logAction(skill, xp, label, icon, ev, dailyKey) {
       return;
     }
     markDoneToday(dailyKey);
-    registerAction(label, { [skill]: xp }, () => { unmarkDoneToday(dailyKey); });
+    registerAction(label, { [skill]: xp }, () => { unmarkDoneToday(dailyKey); renderToday(); });
   } else {
     registerAction(label, { [skill]: xp });
   }
   addXP(skill, xp, label);
   if (ev && ev.currentTarget) flashCard(ev.currentTarget);
   showXP(xp, skill, `${icon ? icon + " " : ""}${label}`);
+  // Keep the Today checklist in sync (meal/habit tasks disappear when logged here)
+  renderToday();
 }
 
 function logBonus(ev) {
