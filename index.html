@@ -2044,6 +2044,7 @@
   </div>
   <button class="setup-link mono" id="setupLink" onclick="showPage('tune', null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" style="vertical-align:middle"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg> Tune my schedule</button>
   <button class="setup-link mono" style="margin-top:8px;font-size:9px;opacity:0.6" onclick="resetTodayTasks()">↺ Reset today's tasks</button>
+  <div style="text-align:center;font-family:'Space Mono',monospace;font-size:8px;color:var(--faint);opacity:0.4;margin-top:14px;letter-spacing:1px">BUILD 2026.06.15-b</div>
 </div>
 
 <!-- TUNE PAGE -->
@@ -3030,8 +3031,8 @@ function runDecayCheck() {
 let undoStack = [];
 let xpPopTimer1 = null, xpPopTimer2 = null;
 
-function registerAction(label, xpMap, undoSideEffects) {
-  undoStack.push({ label, xp: xpMap, side: undoSideEffects || null });
+function registerAction(label, xpMap, undoSideEffects, originSkill) {
+  undoStack.push({ label, xp: xpMap, side: undoSideEffects || null, origin: originSkill || null });
   if (undoStack.length > 10) undoStack.shift();
   refreshUndoButton();
 }
@@ -3056,6 +3057,7 @@ function undoLast() {
   Object.entries(action.xp).forEach(([skill, amt]) => {
     state.skills[skill] = Math.max(0, state.skills[skill] - amt);
   });
+  levelCache = {};
   // Reverse side effects
   if (typeof action.side === 'function') action.side();
   saveState(state);
@@ -3067,6 +3069,13 @@ function undoLast() {
   hideXPPop();
   refreshUndoButton();
   updateFloatUndo();
+  // If a skill detail page is open, repaint it so its checklist/checkmarks refresh
+  const sd = document.getElementById('skillDetail');
+  if (sd && sd.style.display !== 'none' && openSkillDetailFor) {
+    showSkillDetail(openSkillDetailFor);
+  }
+  // Keep the Today checklist in sync too
+  renderToday();
   showToast(`Undone: ${action.label}`);
 }
 
@@ -3161,7 +3170,9 @@ function getOverallLevel() {
 
 // ===================== PROFILE =====================
 // ===================== SKILL DETAIL PAGE =====================
+let openSkillDetailFor = null;
 function showSkillDetail(skill) {
+  openSkillDetailFor = skill;
   const tree = SKILL_TREES[skill];
   const xp = state.skills[skill];
   const lvl = getLevel(xp);
@@ -3216,8 +3227,8 @@ function showSkillDetail(skill) {
   }).join('');
 
   const detail = document.getElementById('skillDetail');
-  // Find last undo action for this skill
-  const lastAction = [...undoStack].reverse().find(a => a.xp && a.xp[skill]);
+  // Find last undo action for this skill (by origin page or XP target)
+  const lastAction = [...undoStack].reverse().find(a => (a.origin === skill) || (a.xp && a.xp[skill]));
   document.getElementById('skillDetailInner').innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <button class="sd-back" onclick="closeSkillDetail()" style="margin-bottom:0">
@@ -3279,8 +3290,9 @@ function showSkillDetail(skill) {
 }
 
 function undoSkillAction(skill) {
-  // Find and remove the last undo action that affected this skill
-  const idx = [...undoStack].reverse().findIndex(a => a.xp && a.xp[skill]);
+  // Match actions that either originated from this skill's page OR gave XP to this skill
+  const matches = a => (a.origin === skill) || (a.xp && a.xp[skill]);
+  const idx = [...undoStack].reverse().findIndex(matches);
   if (idx === -1) { showToast('Nothing to undo for this skill'); return; }
   const realIdx = undoStack.length - 1 - idx;
   const action = undoStack.splice(realIdx, 1)[0];
@@ -3296,12 +3308,13 @@ function undoSkillAction(skill) {
   updateProfile();
   refreshUndoButton();
   updateFloatUndo();
-  showToast(`↶ Undone: ${action.label}`);
+  showToast(`Undone: ${action.label}`);
   // Re-render skill detail to reflect new XP
   showSkillDetail(skill);
 }
 
 function closeSkillDetail() {
+  openSkillDetailFor = null;
   document.getElementById('skillDetail').style.display = 'none';
 }
 
@@ -3313,9 +3326,11 @@ function quickLogSkillAction(skill, actionId, xp, xpSkill, label) {
 
   addXP(xpSkill, xp, label);
   state.completedTasks[dk].push(key);
+  // Tag with the origin skill page so undoSkillAction can always find it,
+  // even when the XP goes to a different skill than the page shown.
   registerAction(label, { [xpSkill]: xp }, () => {
     state.completedTasks[dk] = state.completedTasks[dk].filter(x => x !== key);
-  });
+  }, skill);
   showXP(xp, xpSkill, `${label}`);
   saveState(state);
   showSkillDetail(skill); // re-render to show done state
