@@ -4433,11 +4433,17 @@ function closeMealModal() {
   modal.style.display = 'none';
 }
 
-function quickLogMeal(type, mealName) {
+function quickLogMeal(type, mealNameArg) {
   const xpMap = { default: 15, chipotle: 15, skip: 5 };
   const labels = { default: 'Default meal', chipotle: 'Chipotle bowl', skip: 'Skipped meal' };
   const xp = xpMap[type];
-  const taskId = mealName.toLowerCase(); // 'lunch' or 'dinner'
+
+  // IMPORTANT: read the real meal from the modal (lunch vs dinner), not the
+  // hardcoded button argument — the buttons always pass 'Lunch'.
+  const modal = document.getElementById('mealModal');
+  const meal = (modal && modal.dataset.meal) ? modal.dataset.meal : (mealNameArg || 'lunch').toLowerCase();
+  const taskId = meal; // 'lunch' or 'dinner'
+  const mealName = meal.charAt(0).toUpperCase() + meal.slice(1);
 
   addXP('nutrition', xp, `${mealName}: ${labels[type]}`);
   markTaskDone(taskId);
