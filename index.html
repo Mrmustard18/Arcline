@@ -1169,20 +1169,21 @@
   --skill-mind: #7b68ee;
 
   /* ===================== MEAL QUICK LOG MODAL ===================== */
-  .modal { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: flex-end; }
+  #mealModal.modal { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: center; justify-content: center; padding: 20px; background: none; border-radius: 0; }
   .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
-  .modal-content {
+  #mealModal .modal-content {
     position: relative;
     background: var(--bg2);
     border: 1px solid var(--border-bright);
-    border-bottom: none;
-    border-radius: var(--radius) var(--radius) 0 0;
+    border-radius: var(--radius);
     width: 100%;
-    max-width: 412px;
+    max-width: 380px;
     margin: 0 auto;
-    animation: slideUp 0.18s cubic-bezier(0.34,1.56,0.64,1);
-    will-change: transform;
+    padding: 0;
+    animation: popIn 0.18s cubic-bezier(0.34,1.56,0.64,1);
+    will-change: transform, opacity;
   }
+  @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
   /* GPU OPTIMIZATION */
@@ -1536,6 +1537,14 @@
 
   .sd-actions-title { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
   .sd-log-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+  .backup-zone { margin-top: 28px; padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .backup-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .backup-sub { font-family: 'Sora', sans-serif; font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+  .backup-btns { display: flex; gap: 8px; }
+  .backup-btn { flex: 1; padding: 11px 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; color: var(--ink-soft); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .backup-btn.primary { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .backup-btn:active { transform: scale(0.97); }
+  .backup-last { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--faint); margin-top: 12px; text-align: center; }
   .sd-log-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
   .sd-log-info { min-width: 0; flex: 1; }
   .sd-log-label { font-family: 'Sora', sans-serif; font-size: 13px; color: var(--ink); font-weight: 500; line-height: 1.2; }
@@ -2159,6 +2168,18 @@
     <div class="undo-zone-label">— Correction —</div>
     <button class="undo-tucked" id="undoTucked" onclick="undoLast()" disabled>↶ Nothing to undo</button>
   </div>
+
+  <div class="backup-zone">
+    <div class="backup-label">Data Backup</div>
+    <div class="backup-sub">Your progress lives in this browser. Export a backup file regularly so a cache wipe or new phone can never erase it.</div>
+    <div class="backup-btns">
+      <button class="backup-btn primary" onclick="exportData()">↓ Export Backup</button>
+      <button class="backup-btn" onclick="document.getElementById('importFile').click()">↑ Restore</button>
+      <button class="backup-btn" onclick="copyData()">⧉ Copy</button>
+    </div>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(event)">
+    <div class="backup-last" id="backupLast"></div>
+  </div>
 </div>
 
 <!-- WORKOUT PAGE -->
@@ -2541,6 +2562,11 @@
         <div class="meal-name">Default</div>
         <div class="meal-xp">+15 XP</div>
       </button>
+      <button class="meal-option" onclick="quickLogMeal('leftovers', 'Lunch')">
+        <div class="meal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" style="vertical-align:middle"><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M4 11h16M9 8V6a3 3 0 016 0v2"/></svg></div>
+        <div class="meal-name">Leftovers</div>
+        <div class="meal-xp">+8 XP</div>
+      </button>
       <button class="meal-option" onclick="quickLogMeal('chipotle', 'Lunch')">
         <div class="meal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" style="vertical-align:middle"><path d="M5 19L19 5"/><path d="M5 19c-1-3 1-6 4-7M19 5c1 3-1 6-4 7"/></svg></div>
         <div class="meal-name">Chipotle</div>
@@ -2756,9 +2782,9 @@ const TEMPLATES = [
   ]},
   { name: 'Arms', tag: 'BI + TRI', color: '#ff5e5e',
     exercises: [
-      { name: 'Dumbbell Curl', note: 'Standing, elbows pinned to sides. Full extension at bottom, squeeze hard at top. No swinging.' },
+      { name: 'Dumbbell Curl', note: 'Standing, elbows pinned to sides. Full extension at bottom, squeeze hard at top. No swinging. Stop 1-2 reps before failure — leave a little in the tank to protect the elbow.' },
       { name: 'Hammer Curl', note: 'Standing, neutral grip (thumbs up). Hits the brachialis — adds thickness and pushes your bicep peak up.' },
-      { name: 'Preacher Curl', note: 'Sit upright, arms on the pad, palms up. Lower all the way down slowly — that stretch is the whole point. Squeeze at top.' },
+      { name: 'Preacher Curl', note: 'COMING BACK FROM ELBOW STRAIN: restart light — try ~40lb, not 65. Lower SLOWLY and control the bottom; do NOT snap to a dead-straight lockout under load. Stop 1-2 reps before failure — never grind a forced last rep. Build weight back up over weeks, not days. Tendons heal slower than muscle.' },
       { name: 'Overhead Tricep Extension', note: 'Both hands on one dumbbell. Lower behind head slowly, elbows pointing forward. Full stretch at bottom.' },
       { name: 'Push-Up', note: 'Hands shoulder width. Core tight, full range of motion. Go to failure on the last set.' },
   ]},
@@ -2842,6 +2868,64 @@ function saveState(s) {
   window.saveStateTimeout = setTimeout(() => {
     localStorage.setItem('arcline_state', JSON.stringify(s));
   }, 300);
+}
+
+// ===================== DATA BACKUP =====================
+function exportData() {
+  try {
+    const payload = JSON.stringify({ app: 'arcline', version: 1, exported: new Date().toISOString(), state }, null, 2);
+    const blob = new Blob([payload], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url; a.download = `arcline-backup-${stamp}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    localStorage.setItem('arcline_lastBackup', new Date().toISOString());
+    updateBackupLabel();
+    showToast('Backup downloaded — keep it safe');
+  } catch (e) { showToast('Export failed'); }
+}
+
+function copyData() {
+  try {
+    const payload = JSON.stringify({ app: 'arcline', version: 1, exported: new Date().toISOString(), state });
+    navigator.clipboard.writeText(payload).then(() => {
+      localStorage.setItem('arcline_lastBackup', new Date().toISOString());
+      updateBackupLabel();
+      showToast('Copied — paste into a note or email to yourself');
+    }, () => showToast('Copy failed'));
+  } catch (e) { showToast('Copy failed'); }
+}
+
+function importData(ev) {
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const incoming = parsed.state || parsed; // accept raw state too
+      if (!incoming || typeof incoming.skills !== 'object') { showToast('That file is not a valid Arcline backup'); return; }
+      if (!confirm('Restore this backup? It will replace your current data on this device.')) return;
+      state = incoming;
+      localStorage.setItem('arcline_state', JSON.stringify(state));
+      showToast('Backup restored');
+      setTimeout(() => location.reload(), 800);
+    } catch (e) { showToast('Could not read that file'); }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
+}
+
+function updateBackupLabel() {
+  const el = document.getElementById('backupLast');
+  if (!el) return;
+  const last = localStorage.getItem('arcline_lastBackup');
+  if (!last) { el.textContent = 'No backup yet — export one now'; el.style.color = 'var(--accent)'; return; }
+  const days = Math.floor((Date.now() - new Date(last).getTime()) / 86400000);
+  el.style.color = days >= 7 ? 'var(--accent)' : 'var(--faint)';
+  el.textContent = days === 0 ? 'Last backup: today' : `Last backup: ${days} day${days>1?'s':''} ago${days>=7?' — time for a new one' : ''}`;
 }
 
 let state = loadState();
@@ -4506,7 +4590,12 @@ function openMealModal(meal) {
   const title = document.getElementById('mealModalTitle');
   title.textContent = meal === 'lunch' ? 'Log Lunch' : 'Log Dinner';
   modal.dataset.meal = meal;
-  modal.style.display = 'flex';
+  // Force centered overlay positioning inline (beats any conflicting stylesheet rule)
+  modal.style.cssText = 'display:flex;position:fixed;inset:0;z-index:10002;align-items:center;justify-content:center;padding:20px;';
+  const content = modal.querySelector('.modal-content');
+  if (content) {
+    content.style.cssText = 'position:relative;background:var(--bg2);border:1px solid var(--border-bright);border-radius:var(--radius);width:100%;max-width:380px;margin:0 auto;animation:popIn 0.18s cubic-bezier(0.34,1.56,0.64,1);';
+  }
 }
 
 function closeMealModal() {
@@ -4515,8 +4604,8 @@ function closeMealModal() {
 }
 
 function quickLogMeal(type, mealNameArg) {
-  const xpMap = { default: 15, chipotle: 15, skip: 5 };
-  const labels = { default: 'Default meal', chipotle: 'Chipotle bowl', skip: 'Skipped meal' };
+  const xpMap = { default: 15, leftovers: 8, chipotle: 15, skip: 5 };
+  const labels = { default: 'Default meal', leftovers: 'Leftovers', chipotle: 'Chipotle bowl', skip: 'Skipped meal' };
   const xp = xpMap[type];
 
   // IMPORTANT: read the real meal from the modal (lunch vs dinner), not the
@@ -5442,6 +5531,7 @@ buildSchedule();
 renderToday();
 renderExercises();
 updateWorkoutChrome();
+updateBackupLabel();
 // Note: exercise DB loads lazily when the browser is first opened, not on startup
 if (state.remindersOn && ('Notification' in window) && Notification.permission === 'granted') scheduleReminders();
 </script>
